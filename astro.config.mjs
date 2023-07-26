@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'karan-rajbhar.github.io',
+    site: 'https://karan-rajbhar.github.io',
     base : '/blog'
-
 });
