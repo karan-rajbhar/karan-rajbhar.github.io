@@ -10,5 +10,5 @@ const pageTitle = "Articles";
 <BaseLayout pageTitle={pageTitle}>
   <p>This is where I will post about my journey learning Astro.</p>
   
-    {allPosts.map((post) => <ArticlesOverview url={'/posts/'+ post.slug} title={post.data.title} />)}
+    {allPosts.map((post) => <ArticlesOverview url={'/posts/'+ post.slug} title={post.data.title}  pubDate ={post.data.pubDate} />)}
 </BaseLayout>
