@@ -15,14 +15,11 @@ function getRandomHobby() {
 	return identity.hobbies[Math.floor(Math.random()*identity.hobbies.length)]
 }
 
-const happy = true
-const finished = true;
+
 const goal = 3
-const skillColor = "navy";
-const fontWeight = "bold";
-const textCase = "uppercase";
 ---
 <BaseLayout pageTitle={pageTitle}>
+	<h1>About</h1>
 	<p>Here are a few facts about me:</p>
 	<ul>
 	  <li>My name is {identity.firstName}.</li>
@@ -36,9 +33,4 @@ const textCase = "uppercase";
 	<ul>
 	  {skills.map((skill) => <li>{skill}</li>)}
 	</ul>  
-	{happy && <p>I am happy to be learning Astro!</p>}
-
-	{finished && <p>I finished this tutorial!</p>}
-	
-	{goal === 3 ? <p>My goal is to finish in 3 days.</p> : <p>My goal is not 3 days.</p>}
 </BaseLayout>
