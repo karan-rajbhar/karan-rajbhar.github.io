@@ -1,9 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Greeting from '../components/Greeting.jsx';
-const pageTitle = "Home Page";
+import LatestArticle from '../components/LatestArticle.astro';
+const pageTitle = "Home";
 ---
 <BaseLayout pageTitle={pageTitle}>
-  <h2>My awesome blog subtitle</h2>
-  <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+  <h1>Hi I'm Karan</h1>
+
+  <p>I'm a software developer. I mostly try to make some cool stuff on the internet. currently i am working at Treety</p>
+
+  <LatestArticle />
 </BaseLayout>

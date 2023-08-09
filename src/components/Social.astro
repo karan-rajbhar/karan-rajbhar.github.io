@@ -1,13 +1,16 @@
 ---
 const { platform, username } = Astro.props;
+const iconMap:any={
+  github:'images/git-hub.svg',
+  twitter:'images/twitter.svg'
+}
 ---
-<a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+<a href={`https://www.${platform}.com/${username}`} target="_blank" ><img src={iconMap[platform]}></a>
+
 
 <style>
     a {
-      padding: 0.5rem 1rem;
-      color: white;
-      background-color: #4c1d95;
       text-decoration: none;
+
     }
   </style>

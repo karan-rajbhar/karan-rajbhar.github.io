@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import ArticlesOverview from "./ArticleOverview.astro";
+const allPosts = await getCollection("posts");
+
+const recent = allPosts
+  .sort(function (a, b) {
+    return a.data.pubDate.getTime() - b.data.pubDate.getTime();
+  })
+  .slice(0, 5);
+---
+
+<div class="latest-header">
+  <p>Latest Articles</p>
+  <a href="/articles" class="route-links">All articles <img src="images/chevrons-right-1.svg" /> </a>
+</div>
+
+{
+  recent.map((post) => (
+    <ArticlesOverview
+      url={"/posts/" + post.slug}
+      title={post.data.title}
+      pubDate={post.data.pubDate}
+    />
+  ))
+}
+
+
+<style>
+    .route-links{
+        display: flex;
+        align-items: flex-end;
+        text-decoration:none;
+        font-family: Jost*;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        color: inherit;
+    }
+
+    .latest-header{
+       display: flex;
+       flex-direction:row;
+       justify-content: space-between;
+    align-items: baseline;
+
+    }
+</style>
