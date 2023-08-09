@@ -2,18 +2,34 @@
 import Social from "./Social.astro";
 const platform = "github";
 const username = "karan-rajbhar";
-
 ---
 
 <footer>
-  <p>Learn more about my projects on <a href={`https://www.${platform}.com/${username}`}>{platform}</a>!</p>
-  <Social platform=twitter username=karanrajbhr />
+  <div class="footer-text">
+    <p>Developer by Karan Rabhar.</p>
+    <p>Build with Astro Hosted on Github Pages.</p>
+  </div>
+  <div class="social-buttons">
+    <Social platform="twitter" username="karanrajbhr" />
+    <Social platform="github" username="karan-rajbhar" />
+  </div>
 </footer>
 
 <style>
-    footer {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-  </style>
+  footer {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    background: var(
+      --rw-gradient,
+      linear-gradient(134deg, #1c2a34 0%, #111a20 100%, #111a20 100%)
+    );
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .social-buttons{
+    display: flex;
+    gap:15px;
+  }
+</style>

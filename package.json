@@ -13,6 +13,10 @@
     "@astrojs/preact": "^2.2.1",
     "@astrojs/rss": "^2.4.3",
     "astro": "^2.10.3",
+    "luxon": "^3.4.0",
     "preact": "^10.16.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.3.1"
   }
 }
