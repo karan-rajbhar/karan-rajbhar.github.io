@@ -1,4 +1,5 @@
 ---
+import '@fontsource/jost'
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "About Me"
 const identity = {
@@ -20,7 +21,15 @@ const goal = 3
 ---
 <BaseLayout pageTitle={pageTitle}>
 	<h1>About</h1>
-	<p>Here are a few facts about me:</p>
+	<p>I specialize in rapidly building software companies and web applications.
+		
+		I primerly know JavaScript, Python and Java, but I have experience working in a wide range of technologies including Node & Express, MongoDB, PostgreSQL, Vue,  REST API design, CircleCI, 3rd party APIs (Stripe, Discord, Slack), AWS (S3, CloudFront, Route53), and many more.
+	<h1>Personal</h1>
+	<p>I’ve been a gamer my entire life. I play valorant and CS.
+		I live in {identity.country} and I work as a {identity.occupation}.
+		Two of my hobbies are: {getRandomHobby} and {getRandomHobby}
+		I i love to cricket , and I’m learning to record my own songs.
+		</p>
 	<ul>
 	  <li>My name is {identity.firstName}.</li>
 	  <li>I live in {identity.country} and I work as a {identity.occupation}.</li>
@@ -29,8 +38,25 @@ const goal = 3
 	  }
 	</ul>
 
-	<p>My skills are:</p>
-	<ul>
-	  {skills.map((skill) => <li>{skill}</li>)}
-	</ul>  
 </BaseLayout>
+
+<style>
+h1{
+	color: var(--rw-text-10, #ECF8FF);
+/* Desktop/h1 */
+font-family: Jost;
+font-size: 48px;
+font-style: normal;
+font-weight: 700;
+line-height: 142%; /* 68.16px */
+}
+p{
+	color: var(--rw-text-10, #ECF8FF);
+font-family: Jost;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+</style>

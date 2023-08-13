@@ -1,4 +1,5 @@
 ---
+import '@fontsource/jost'
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticlesOverview from '../components/ArticleOverview.astro';
@@ -8,7 +9,22 @@ const pageTitle = "Articles";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <p>This is where I will post about my journey learning Astro.</p>
+  <p>Articles So Far</p>
   
     {allPosts.map((post) => <ArticlesOverview url={'/posts/'+ post.slug} title={post.data.title}  pubDate ={post.data.pubDate} />)}
 </BaseLayout>
+
+<style>
+
+p{
+  color: var(--rw-text-10, #ECF8FF);
+
+/* Desktop/h3 */
+font-family: Jost;
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+
+  </style>

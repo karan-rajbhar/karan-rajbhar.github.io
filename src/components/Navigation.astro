@@ -1,11 +1,55 @@
 ---
+import '@fontsource/jost'
 import ThemeIcon from './ThemeIcon.astro';
 ---
 <div class="nav-links">
+    <div class="home-page">
     <ThemeIcon />
     <a href="/">Karan Rajbhar</a>
+    </div>
+    <div class="nav-tabs">
     <a href="/articles/">Articles</a>
     <a href="/tags/">Tags</a>
     <a href="/about/">About</a>
-    <a href="/contact">Contact</a>
+    </div>
 </div>
+
+<style>
+    .nav-links{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 60px 263px 102px 249px;
+    } 
+    .home-page{
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .nav-tabs{
+        display:flex;
+        flex-direction: row;
+        gap: 30px;   
+    }
+
+    a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--rw-text-10, #ECF8FF);
+        font-family: Jost;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        text-decoration: none;
+        padding: 5px;
+    }
+
+    a:hover{
+        border-radius: 6px;
+        border: 2px solid rgba(124, 201, 255, 0.41);
+    }
+</style>

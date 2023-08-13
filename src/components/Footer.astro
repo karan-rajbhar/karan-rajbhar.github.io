@@ -1,7 +1,6 @@
 ---
+import "@fontsource/jost";
 import Social from "./Social.astro";
-const platform = "github";
-const username = "karan-rajbhar";
 ---
 
 <footer>
@@ -10,7 +9,7 @@ const username = "karan-rajbhar";
     <p>Build with Astro Hosted on Github Pages.</p>
   </div>
   <div class="social-buttons">
-    <Social platform="twitter" username="karanrajbhr" />
+    <Social platform="twitter" username="karan_rajbhr" />
     <Social platform="github" username="karan-rajbhar" />
   </div>
 </footer>
@@ -20,16 +19,18 @@ const username = "karan-rajbhar";
     width: 100%;
     display: flex;
     gap: 1rem;
-    background: var(
-      --rw-gradient,
-      linear-gradient(134deg, #1c2a34 0%, #111a20 100%, #111a20 100%)
-    );
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    color: #b8c1c7;
+    font-family: Jost;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 180% !important; /* 28.8px */
   }
-  .social-buttons{
+  .social-buttons {
     display: flex;
-    gap:15px;
+    gap: 15px;
   }
 </style>
