@@ -4,9 +4,9 @@ import Social from "./Social.astro";
 ---
 
 <footer>
-  <div class="footer-text">
-    <p>Developer by Karan Rabhar.</p>
-    <p>Build with Astro Hosted on Github Pages.</p>
+  <div >
+    <p class="footer-text">Developer by Karan Rabhar.</p>
+    <p class="footer-text">Build with Astro Hosted on Github Pages.</p>
   </div>
   <div class="social-buttons">
     <Social platform="twitter" username="karan_rajbhr" />
@@ -22,12 +22,16 @@ import Social from "./Social.astro";
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    color: #b8c1c7;
+  }
+
+  .footer-text{
+    color: #b8c1c7 !important;
     font-family: Jost;
     font-size: 16px !important;
     font-style: normal;
     font-weight: 400 !important;
     line-height: 180% !important; /* 28.8px */
+
   }
   .social-buttons {
     display: flex;

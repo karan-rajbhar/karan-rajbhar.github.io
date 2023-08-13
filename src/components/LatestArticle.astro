@@ -12,7 +12,9 @@ const recent = allPosts
 
 <div class="latest-header">
   <p>Latest Articles</p>
-  <a href="/articles" class="route-links">All articles <img src="images/chevrons-right-1.svg" /> </a>
+  <a href="/articles" class="route-links"
+    >All articles <img src="images/chevrons-right-1.svg" />
+  </a>
 </div>
 
 {
@@ -25,34 +27,32 @@ const recent = allPosts
   ))
 }
 
-
 <style>
-    .route-links{
-        display: flex;
-        align-items: flex-end;
-        text-decoration:none;
-        font-family: Jost*;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        color: inherit;
-    }
+  .route-links {
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    font-family: Jost *;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: inherit;
+  }
 
-    .latest-header{
-       display: flex;
-       flex-direction:row;
-       justify-content: space-between;
+  .latest-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: baseline;
-    color: var(--rw-text-10, #ECF8FF);
-    color: var(--rw-text-10, #ECF8FF);
+    color: var(--rw-text-10, #ecf8ff);
+    color: var(--rw-text-10, #ecf8ff);
 
-/* Desktop/h3 */
-font-family: Jost;
-font-size: 24px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-
-    }
+    /* Desktop/h3 */
+    font-family: Jost;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
 </style>
