@@ -1,14 +1,16 @@
 ---
 import { DateTime } from "luxon";
-const { title, url, pubDate } = Astro.props;
+const { title, url, pubDate, description } = Astro.props;
 
 const publishDateFormatted = DateTime.fromJSDate(pubDate).toFormat('MMMM dd, yyyy')
 
 ---
 
 <div class="article-overview">
-    <a href={url} class="article-title">{title}</a>
     <span class="article-date">{publishDateFormatted}</span>
+    <a href={url} class="article-title">{title}</a>
+    <p class="description">{description}</p>
+    <a class="read-more" href={url}>Read more...</a>
 <div>
 
 
@@ -18,14 +20,16 @@ const publishDateFormatted = DateTime.fromJSDate(pubDate).toFormat('MMMM dd, yyy
     flex-direction:column;
     flex-shrink: 0;
     justify-content:space-evenly;
-    gap:8px;
+    gap:10px;
     color: var(--rw-text-10, #ECF8FF);
+    width: 633px;
+    margin-bottom:70px;
 
 }
 .article-title{
 
 font-family: Jost;
-font-size: 18px;
+font-size: 20px;
 font-style: normal;
 font-weight: 500;
 line-height: normal;
@@ -42,5 +46,25 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
 
+}
+
+.read-more{
+    color: #7AB6D9;
+font-family: Jost;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-decoration:none;
+}
+
+
+.description{
+    color: var(--rw-text-10, #ECF8FF);
+font-family: Jost*;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
 }
 </style>
