@@ -23,7 +23,7 @@ const recent = allPosts
       url={"/posts/" + post.slug}
       title={post.data.title}
       pubDate={post.data.pubDate}
-      description = {post.data.description}
+      description={post.data.description}
     />
   ))
 }
@@ -46,9 +46,6 @@ const recent = allPosts
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-    color: var(--rw-text-10, #ecf8ff);
-    color: var(--rw-text-10, #ecf8ff);
-
     /* Desktop/h3 */
     font-family: Jost;
     font-size: 24px !important;
@@ -57,15 +54,12 @@ const recent = allPosts
     line-height: normal;
   }
 
-
-  .latest-header-text{
-    color: var(--rw-text-10, #ECF8FF);
-
-/* Desktop/h3 */
-font-family: Jost*;
-font-size: 24px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+  .latest-header-text {
+    /* Desktop/h3 */
+    font-family: Jost *;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 </style>
