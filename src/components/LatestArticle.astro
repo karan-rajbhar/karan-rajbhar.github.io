@@ -11,7 +11,7 @@ const recent = allPosts
 ---
 
 <div class="latest-header">
-  <p>Latest Articles</p>
+  <p class="latest-header-text">Latest Articles</p>
   <a href="/articles" class="route-links"
     >All articles <img src="images/chevrons-right-1.svg" />
   </a>
@@ -51,9 +51,21 @@ const recent = allPosts
 
     /* Desktop/h3 */
     font-family: Jost;
-    font-size: 24px;
+    font-size: 24px !important;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+  }
+
+
+  .latest-header-text{
+    color: var(--rw-text-10, #ECF8FF);
+
+/* Desktop/h3 */
+font-family: Jost*;
+font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
   }
 </style>

@@ -55,3 +55,18 @@ html.dark {
 .dark .nav-links a {
   color: #fff;
 }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.tag {
+  margin: 0.25em;
+  border: solid 1px #7AB6D9;
+  border-radius: 20em;
+  padding: .5em 1em;
+  font-size: 1.15em;
+  background-color: #F8FCFD;
+}
