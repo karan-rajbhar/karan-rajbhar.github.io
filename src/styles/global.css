@@ -49,7 +49,8 @@ h1 {
   font-weight: 700;
   line-height: 142%;
   /* 68.16px */
-  background: linear-gradient(180deg, #B0FBBC 0%, #82F9A1 100%);
+  background: linear-gradient(180deg, #323339 0%, #28238b 100%);
+  
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -62,6 +63,20 @@ html.dark {
 
 .dark .nav-links a {
   color: var(--rw-text-10, #ECF8FF);
+}
+
+.dark h1{
+  text-shadow: 0px 0px 76px rgba(188, 251, 195, 0.30);
+  background: linear-gradient(180deg, #B0FBBC 0%, #82F9A1 100%);
+  font-family: Jost;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 142%;  
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 }
 
 .tags {
