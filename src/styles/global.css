@@ -19,10 +19,10 @@ p {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  
+
 }
 
-a{
+a {
   font-family: Jost;
   font-size: 16px;
   font-style: normal;
@@ -62,7 +62,7 @@ html.dark {
 }
 
 .dark .nav-links a {
-  color: var(--rw-text-10, #ECF8FF) ;
+  color: var(--rw-text-10, #ECF8FF);
 }
 
 .tags {
@@ -78,4 +78,26 @@ html.dark {
   padding: .5em 1em;
   font-size: 1.15em;
   background-color: #F8FCFD;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 262px;
+  margin-right: 249px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px;
+
+  }
+  html{
+    width: 100vh;
+  }
+
 }

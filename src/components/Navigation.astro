@@ -1,42 +1,42 @@
 ---
-import '@fontsource/jost'
-import ThemeIcon from './ThemeIcon.astro';
+import "@fontsource/jost";
+import ThemeIcon from "./ThemeIcon.astro";
 ---
+
 <div class="nav-links">
-    <div class="home-page">
+  <div class="home-page">
     <ThemeIcon />
     <a href="/">Karan Rajbhar</a>
-    </div>
-    <div class="nav-tabs">
+  </div>
+  <div class="nav-tabs">
     <a href="/articles/">Articles</a>
     <a href="/tags/">Tags</a>
     <a href="/about/">About</a>
-    </div>
+  </div>
 </div>
 
 <style>
-    .nav-links{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin: 60px 263px 102px 249px;
-    } 
-    .home-page{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 60px 263px 102px 249px;
+  }
+  .home-page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 
-    .nav-tabs{
-        display:flex;
-        flex-direction: row;
-        gap: 30px;   
-    }
+  .nav-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
 
-
-    a:hover{
-        border-radius: 6px;
-        border: 2px solid rgba(124, 201, 255, 0.41);
-    }
+  a:hover {
+    border-radius: 6px;
+    border: 2px solid rgba(124, 201, 255, 0.41);
+  }
 </style>
