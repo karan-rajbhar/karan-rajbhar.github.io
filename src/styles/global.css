@@ -1,5 +1,5 @@
 html {
-  background: #8fb1c4;
+  background: #eceff1;
   height: auto;
   color: #080404;
 }
@@ -30,8 +30,7 @@ a{
   line-height: normal;
   text-decoration: none;
   padding: 5px;
-  color: var(--rw-text-10, #ECF8FF) ;
-
+  color: inherit;
 }
 
 h2 {
