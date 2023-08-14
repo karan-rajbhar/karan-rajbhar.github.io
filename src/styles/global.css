@@ -100,4 +100,8 @@ html.dark {
     width: 100vh;
   }
 
+
+  .nav-links {
+    margin: 60px 20px 102px 20px;
+}
 }
