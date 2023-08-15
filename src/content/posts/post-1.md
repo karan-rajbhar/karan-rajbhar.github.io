@@ -23,12 +23,6 @@ Think about really smart computers that do lots of cool tricks and funny picture
 
 We're also going to explore coding, which is like the language that computers understand. Coders use it to make all the apps and websites we use. It's like magic words that make things happen on our screens.
 
-## *Discovering Engineering Magic:*
-
-Now, let's learn about engineering. Engineers are like problem solvers – they design and build amazing stuff, from cool gadgets to big structures. We'll see how their work makes our world better.
-
-## *Connecting with Tech and Memes:*
-
 In a world full of phones and social media, we'll see how technology and memes help people connect and share ideas. It's like a digital conversation that everyone joins, and we'll find out how it brings people closer.
 
 ## *Wrapping Up:*
