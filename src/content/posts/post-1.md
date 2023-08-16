@@ -9,7 +9,7 @@ author: 'Karan Rajbhar'
 tags: ["Article", "First Blog"]
 ---
 
-# Title: "Exploring the Mix of Technology, Memes, Coding, and Engineering"**
+# Title: "Exploring the Mix of Technology, Memes, Coding, and Engineering"
 
 ## **Introduction:**
 
