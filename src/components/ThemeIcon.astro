@@ -21,7 +21,8 @@
   </style>
 
 <script is:inline>
-    const theme = (() => {
+    
+    var theme = (() => {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
         return localStorage.getItem('theme');
       }
@@ -39,7 +40,7 @@
   
     window.localStorage.setItem('theme', theme);
   
-    const handleToggleClick = () => {
+    var handleToggleClick = () => {
       const element = document.documentElement;
       element.classList.toggle("dark");
   
