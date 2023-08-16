@@ -1,7 +1,11 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
 import '../styles/global.css';
+
 const { pageTitle } = Astro.props;
 ---
 <html lang="en" class="dark">
@@ -10,6 +14,7 @@ const { pageTitle } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/icon.ico" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <ViewTransitions />
     <title>{pageTitle}</title>
   </head>
   <body>

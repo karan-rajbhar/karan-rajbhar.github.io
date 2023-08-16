@@ -6,5 +6,8 @@ import preact from "@astrojs/preact";
 export default defineConfig({
   site: 'https://karan-rajbhar.github.io/',
   base: '/',
-  integrations: [preact()]
+  integrations: [preact()],
+  experimental : {
+    viewTransitions :true
+  }
 });
