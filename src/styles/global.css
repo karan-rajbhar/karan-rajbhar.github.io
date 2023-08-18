@@ -123,3 +123,30 @@ html.dark {
 .treety-link{
  color: #A8CF54
 }
+
+footer {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer-text{
+  color: #27292b !important;
+  font-family: Jost;
+  font-size: 16px !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 180% !important; /* 28.8px */
+
+}
+
+.dark .footer-text{
+  color: #b8c1c7 !important;
+}
+.social-buttons {
+  display: flex;
+  gap: 15px;
+}
