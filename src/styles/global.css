@@ -150,3 +150,8 @@ footer {
   display: flex;
   gap: 15px;
 }
+
+.dark img{
+  -webkit-filter: invert(100%);
+    filter: invert(100%);
+}
