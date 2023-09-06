@@ -7,7 +7,4 @@ export default defineConfig({
   site: 'https://karan-rajbhar.github.io/',
   base: '/',
   integrations: [preact()],
-  experimental : {
-    viewTransitions :true
-  }
 });

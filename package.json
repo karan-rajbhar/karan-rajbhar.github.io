@@ -13,7 +13,7 @@
     "@astrojs/preact": "^2.2.1",
     "@astrojs/rss": "^2.4.3",
     "@fontsource/jost": "^5.0.8",
-    "astro": "^2.10.3",
+    "astro": "^3.0.8",
     "luxon": "^3.4.0",
     "preact": "^10.16.0"
   },
