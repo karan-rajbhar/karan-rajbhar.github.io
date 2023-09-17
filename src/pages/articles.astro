@@ -3,7 +3,11 @@ import "@fontsource/jost";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticlesOverview from "../components/ArticleOverview.astro";
-const allPosts = await getCollection("posts");
+let allPosts = await getCollection("posts");
+
+allPosts= allPosts.sort(function (a, b) {
+    return b.data.pubDate.getTime() - a.data.pubDate.getTime();
+  })
 
 const pageTitle = "Articles";
 ---
