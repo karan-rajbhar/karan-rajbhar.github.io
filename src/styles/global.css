@@ -150,7 +150,11 @@ footer {
   display: flex;
   gap: 15px;
 }
-.dark img{
+.dark .social-buttons{
   -webkit-filter: invert(100%);
     filter: invert(100%);
+}
+
+li{
+  font-family: Jost;
 }
