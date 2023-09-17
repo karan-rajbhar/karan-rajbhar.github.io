@@ -53,7 +53,13 @@ The guide for upgrading to Astro v3 was straightforward and made the whole proce
 
 The upgraded platform not only provides a smoother browsing experience but also enables me to incorporate more interactive elements into my blog. Astro v3 offers enhanced performance and introduces new features that align perfectly with my vision of delivering top-notch content and user experience.
 
+Additionally, during the upgrade process, one minor adjustment I had to make was updating the version of Node.js. if I was using GitHub Actions to build and deploy my site. it is located at: ``` .github/workflows/astro.yml``` .if node version is node updated the build will fail.
+
+This step ensured seamless integration with the latest version of Astro v3 and ensured compatibility with my chosen platform, GitHub Pages.
+
 Embracing change and staying at the forefront of technological advancements is essential in the fast-paced world of web development. This upgrade not only ensures that my blog remains technologically current but also allows me to explore new possibilities for content delivery and interaction.
+
+
 
 
 ## Wrapping UP:
