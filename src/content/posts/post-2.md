@@ -33,7 +33,7 @@ My colleague, Abbas, looked puzzled and asked, "Wait, is the mastermind behind t
 The room erupted in laughter, imagining the renowned actor utilizing his unique talents to crack coding conundrums. It was a humorous moment, reminding us that even the most intricate problems can be lightened with a touch of humor.
 
 If you're curious about the problems I've tackled,feel free to explore my [GitHub page](https://github.com/karan-rajbhar/leetcode-questions). I've shared my solutions there to help others learn.
-You can also see my progress on [LeetCode](https://leetcode.com/karan7411/). I believe in sharing my journey with you, whether it's a success or a struggle.
+You can also see my progress on [LeetCode](https://leetcode.com/karan_rajbhar/). I believe in sharing my journey with you, whether it's a success or a struggle.
 
 ## A Visual Transformation: View Transitions API:
 
