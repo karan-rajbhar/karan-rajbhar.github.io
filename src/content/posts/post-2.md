@@ -73,8 +73,3 @@ Oh, and by the way, I'm using ChatGPT for content writing. It's like having a he
 - Fix Theme Change Problem.
 - Improve Links in Markdown Pages.
 
-
-<div class="post-footer">
-    <section id="isso-thread"></section>
-    <script data-isso="https://141.148.211.248/comments/" src="https://141.148.211.248/comments/js/embed.min.js/"></script>
-</div>
