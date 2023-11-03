@@ -45,6 +45,6 @@ If you're eager to dive into coding challenges, here are some of the top website
 To sum it up, coding challenges can turn your coding journey into a thrilling adventure filled with opportunities for learning and growth. Whether you're a coding enthusiast or preparing for job interviews, these platforms provide you with a competitive edge. Dive in, start solving those coding puzzles, and enjoy the exciting journey to coding excellence!
 
 <div class="post-footer">
-    <section id="isso-thread"></section>
+    <section id="3"></section>
     <script data-isso="https://141.148.211.248/comments/" src="https://141.148.211.248/comments/js/embed.min.js/"></script>
 </div>
