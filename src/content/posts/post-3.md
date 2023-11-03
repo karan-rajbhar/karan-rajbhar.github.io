@@ -46,5 +46,5 @@ To sum it up, coding challenges can turn your coding journey into a thrilling ad
 
 <div class="post-footer">
     <section id="isso-thread"></section>
-    <script data-isso="http://141.148.211.248/comments/" src="http://141.148.211.248/comments/js/embed.min.js/"></script>
+    <script data-isso="https://141.148.211.248/comments/" src="https://141.148.211.248/comments/js/embed.min.js/"></script>
 </div>
