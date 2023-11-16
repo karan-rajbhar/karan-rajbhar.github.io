@@ -3,7 +3,7 @@ title: "Cracking the Code: Boosting Your Skills with Coding Challenges"
 pubDate: 2023-10-23
 description: "In today's tech-savvy world, keeping your coding skills sharp is essential. But who says learning can't be exciting? Let's explore how diving into coding challenges can turn your coding journey into a thrilling adventure."
 image:
-    url: "/images/coding-challenges.png"
+    url: "/images/bp3_image.webp"
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
 tags: ["coding challenges", "Leetcode" ,"programming skills" ,"interview preparation","problem-solving"]
