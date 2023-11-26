@@ -448,11 +448,10 @@ If you are using Astro just create a astro file like this and add to all the pag
 
 ### Step 5: Verify Integration
 
-Visit a page on your static site where you added the Isso script tag. You should now see the Isso comments section rendered on the page.
+Visit a page on your static site where you added the Isso script tag. You should now see the Isso comments section rendered on the page. Like this
+<img src="/images/post-4/isso-comment.png" style="object-fit: cover;" width="800px"/>
 
 Congratulations! You have successfully integrated Isso with your static site's frontend. Adjust the styling and placement of the comments section as needed based on your site's design.
-
-
 
 
 
