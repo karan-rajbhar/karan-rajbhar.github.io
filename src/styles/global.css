@@ -158,3 +158,54 @@ footer {
 li{
   font-family: Jost;
 }
+
+h2{
+  font-family: Jost;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: #799bc7;
+}
+
+h3{
+  font-family: Jost;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+code{
+  display: block;
+  padding: 20px 24px;
+  width: fit-content;
+}
+
+/* .copy-code {
+  position: absolute;
+  top: 15px;
+  right: 0;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold; 
+  color: black; 
+  text-transform: uppercase; 
+} */
+
+pre .copy {
+  visibility: hidden;
+  display: flex;
+  gap: 0.25rem;
+  flex-direction: row;
+  position: absolute;
+  top: 20px; /* Position at the top */
+  right:5px ; /* Position at the left */
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+pre:hover .copy {
+  visibility: visible; 
+}
+

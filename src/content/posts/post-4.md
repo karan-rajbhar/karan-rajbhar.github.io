@@ -9,31 +9,30 @@ author: 'Karan Rajbhar'
 tags: ["Oracle Cloud", "Comments" ,"static Site" ,"nginx" , "isso"]
 ---
 
-# Adding Comment To Static Site
 
-# Chapter 1: The Challenge of No Comments on My GitHub Page
+## Chapter 1: The Challenge of No Comments on My GitHub Page
 
 My static site, hosted on GitHub Pages, is simple and easy to manage. But there's a catch – it doesn't support user comments. You see, static sites, like mine, are straightforward – they show information but don't let users say anything back.
 
-## Why Can't We Comment?
+### Why Can't We Comment?
 
 GitHub Pages, where I host my site, doesn't allow for fancy stuff happening in the background. No dynamic features or server magic, which means no comments. Comments are like a suggestion box – a way for visitors to speak up, ask questions, or share thoughts. Without them, my site feels a bit like a one-way street.
 
-## Why Does It Matter?
+### Why Does It Matter?
 
 Imagine going to a party, but you can only listen to others; you can't chime in with your thoughts. That's how my static site felt – missing the fun conversations. Comments are the heart of community building, and without them, my site wasn't as lively as I wanted it to be.
 
-## Making Our Site Talk Back
+### Making Our Site Talk Back
 
 In the next chapters, I'll spill the beans on how I tackled this. It's about finding clever ways to add a touch of interactivity to our otherwise straightforward static site. Let's turn our silent static pages into a place where people can join the conversation!
 
 
 
-# Chapter 2: Exploring Commenting Solutions
+## Chapter 2: Exploring Commenting Solutions
 
 So, I had this itch to make my GitHub Pages-hosted static site a bit more interactive. The challenge? GitHub Pages doesn't play nice with dynamic features like comments. Time to explore some solutions!
 
-## The Quest for Commenting Solutions
+### The Quest for Commenting Solutions
 
 I dove into the vast sea of options to find a commenting solution that suits a static site hosted on GitHub Pages. Here's what I found:
 
@@ -108,13 +107,13 @@ I dove into the vast sea of options to find a commenting solution that suits a s
 - **Time-Consuming:** Building your own solution takes time. It's not like buying a ready-made rod; you're weaving the fishing net from scratch.
 - **Development Challenges:** If you're not a coding pro, this might be a steep learning curve. Bugs and maintenance become your responsibility.
 
-## Decision Time
+### Decision Time
 
 After weighing these options, I decided to go with a self-hosted solution. In the next chapter, I'll share the ins and outs of setting it up and how it transformed my static site into an interactive space!
 
 
 
-# Chapter 3: The Right Solution
+## Chapter 3: The Right Solution
 
 After exploring various commenting solutions, I considered a few options for a self-hosted system for my GitHub Pages static site. Here are the options:
 
@@ -153,7 +152,7 @@ When opting for a self-hosted solution, it's crucial to select the right cloud p
 
 
 
-## Cloud Provider Options
+### Cloud Provider Options
 
 Choosing the right cloud provider is crucial for hosting your self-hosted solution. Here's why I chose Oracle Cloud:
 
@@ -169,7 +168,7 @@ Choosing the right cloud provider is crucial for hosting your self-hosted soluti
 
 
 
-# Chapter 4: Taming the Cloud for Commenting Bliss
+## Chapter 4: Taming the Cloud for Commenting Bliss
 
 Now that the clouds have settled (figuratively speaking), it's time to delve into the nitty-gritty of implementing and managing our chosen self-hosted commenting solution, Isso, on the Oracle Cloud. This chapter will guide you through the essential steps of setting up your Oracle Cloud instance, deploying Isso, and configuring the frontend to seamlessly integrate it with your static site.
 
@@ -177,13 +176,13 @@ Now that the clouds have settled (figuratively speaking), it's time to delve int
 <img src="/images/post-4/meme2.jpg" style="object-fit: contain;"/>
 
 
-## Creating an Oracle Cloud Instance
+### Creating an Oracle Cloud Instance
 
 1. **Creating an Oracle Cloud Instance:** A step-by-step guide to creating your Oracle Cloud instance, ensuring it meets the requirements for hosting Isso. Check the official [Creating an Instance](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/launchinginstance.htm#creating) for the most up-to-date instructions.
 
 
 
-## Setting Up Isso with Nginx on Oracle Cloud
+### Setting Up Isso with Nginx on Oracle Cloud
 
 ### Step 1: Connect to Your Oracle Cloud Instance
 
@@ -279,6 +278,7 @@ sudo vi /lib/systemd/system/isso.service
 
 Paste the following content:
 
+
 ```ini
 [Unit]
 Description=isso commenting system
@@ -295,8 +295,6 @@ LimitNOFILE=16384
 LimitNPROC=16384
 LimitLOCKS=16384
 
-# ensures that the service process and all its children can never gain new
-# privileges.
 NoNewPrivileges=true
 
 [Install]
@@ -407,7 +405,7 @@ By following these steps, you'll have successfully set up Isso with Nginx on you
 
 
 
-## Configuring the Frontend with Isso
+### Configuring the Frontend with Isso
 
 3. **Configuring the Frontend with Isso:** Learn how to integrate Isso with your static site frontend. This includes updating your site's HTML to include Isso comments and configuring Isso to communicate effectively with your site.
 

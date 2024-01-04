@@ -7,4 +7,11 @@ export default defineConfig({
   site: 'https://karan-rajbhar.github.io/',
   base: '/',
   integrations: [preact()],
+  markdown: {
+    shikiConfig: {
+      theme: 'dracula',
+      langs: [],
+      wrap: true,
+    },
+  },
 });
