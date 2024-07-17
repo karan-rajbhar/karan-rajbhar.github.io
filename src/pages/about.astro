@@ -12,8 +12,16 @@ const identity = {
 const skills = ["HTML", "CSS", "JavaScript", "Vue", "Python", "Java" ]
 
 
-function getRandomHobby() {
-	return identity.hobbies[Math.floor(Math.random()*identity.hobbies.length)]
+function getTwoRandomHobby() {
+	const randomIndex1 = Math.floor(Math.random() * identity.hobbies.length);
+	let randomIndex2 ;
+
+	do {
+		randomIndex2 = Math.floor(Math.random() * identity.hobbies.length);
+	} while(randomIndex1 === randomIndex2);
+
+	return `${identity.hobbies[randomIndex1]} and ${identity.hobbies[randomIndex2]}`;
+
 }
 
 
@@ -26,7 +34,7 @@ function getRandomHobby() {
 	<h1>Personal</h1>
 		<p>I’ve been a gamer my entire life. I play valorant and CS.
 		I live in {identity.country} and I work as a {identity.occupation} at <a class="treety-link" href="https://www.treety.co/" target="_blank"> Treety </a>.
-		Two of my hobbies are: {getRandomHobby} and {getRandomHobby}
+		Two of my hobbies are: {getTwoRandomHobby}
 		and I love to play Cricket .
 		</p>
 </BaseLayout>
