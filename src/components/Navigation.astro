@@ -1,46 +1,223 @@
 ---
 import "@fontsource/jost";
 import ThemeIcon from "./ThemeIcon.astro";
+import Search from "./Search.astro";
 ---
 
-<div class="nav-links">
-  <div class="home-page">
-    <ThemeIcon />
-    <a href="/">Karan Rajbhar</a>
+<nav class="nav-container">
+  <div class="nav-links">
+    <div class="nav-left">
+      <ThemeIcon />
+      <a href="/" class="home-link">Karan Rajbhar</a>
+    </div>
+
+    <button class="mobile-menu-button" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <div class="nav-right">
+      <Search />
+      <div class="nav-tabs">
+        <a href="/articles/">Articles</a>
+        <a href="/tags/">Tags</a>
+        <a href="/about/">About</a>
+      </div>
+    </div>
   </div>
-  <div class="nav-tabs">
-    <a href="/articles/">Articles</a>
-    <a href="/tags/">Tags</a>
-    <a href="/about/">About</a>
-  </div>
-</div>
+</nav>
 
 <style>
+  .nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--bg-color, #eceff1);
+    border-bottom: 1px solid rgba(124, 201, 255, 0.1);
+    backdrop-filter: blur(10px);
+    height: var(--header-height);
+  }
+
   .nav-links {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 60px 263px 102px 249px;
+    padding: 0 var(--container-padding-desktop);
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
   }
-  .home-page {
+
+  .nav-left {
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .home-link {
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
   }
 
   .nav-tabs {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    gap: var(--spacing-md);
   }
 
   a:hover {
     border-radius: 6px;
     border: 2px solid rgba(124, 201, 255, 0.41);
   }
-  a{
+
+  a {
     padding: 5px !important;
     border: 2px solid transparent;
   }
+
+  .mobile-menu-button {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    position: absolute;
+    right: var(--container-padding-mobile);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .bar {
+    display: block;
+    width: 25px;
+    height: 2px;
+    margin: 6px 0;
+    background-color: currentColor;
+    transition: all 0.3s ease-in-out;
+  }
+
+  @media (max-width: 600px) {
+    .nav-container {
+      position: fixed;
+      width: 100%;
+    }
+
+    .nav-links {
+      padding: var(--spacing-sm) var(--container-padding-mobile);
+    }
+
+    .mobile-menu-button {
+      display: block;
+      z-index: 100;
+    }
+
+    .nav-right {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 85%;
+      height: 100vh;
+      background: var(--bg-color, #eceff1);
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: var(--spacing-xl);
+      transition: all 0.3s ease-in-out;
+      padding: calc(var(--spacing-xl) * 2) var(--spacing-lg);
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-right.active {
+      right: 0;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-lg);
+      width: 100%;
+    }
+
+    .nav-tabs a {
+      font-size: 20px;
+      width: 100%;
+      padding: var(--spacing-sm) !important;
+    }
+
+    /* Hamburger animation */
+    .mobile-menu-button.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-button.active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .mobile-menu-button.active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Add overlay when menu is open */
+    .nav-right.active::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+  }
+
+  /* Dark mode styles */
+  :global(.dark) .nav-container {
+    background: var(--rw-gradient, linear-gradient(134deg, #1C2A34 0%, #111A20 100%, #111A20 100%));
+    border-bottom-color: rgba(124, 201, 255, 0.05);
+  }
+
+  :global(.dark) .nav-right {
+    background: var(--rw-gradient, linear-gradient(134deg, #1C2A34 0%, #111A20 100%, #111A20 100%));
+  }
 </style>
+
+<script>
+  const mobileMenuButton = document.querySelector('.mobile-menu-button');
+  const navRight = document.querySelector('.nav-right');
+
+  mobileMenuButton?.addEventListener('click', () => {
+    mobileMenuButton.classList.toggle('active');
+    navRight?.classList.toggle('active');
+    document.body.style.overflow = navRight?.classList.contains('active') ? 'hidden' : '';
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.nav-right') && !target.closest('.mobile-menu-button') && navRight?.classList.contains('active')) {
+      mobileMenuButton?.classList.remove('active');
+      navRight.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close menu when pressing Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navRight?.classList.contains('active')) {
+      mobileMenuButton?.classList.remove('active');
+      navRight.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+</script>

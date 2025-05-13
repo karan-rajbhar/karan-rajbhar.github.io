@@ -1,24 +1,67 @@
 ---
 const { platform, username } = Astro.props;
-const iconMap: any = {
-  github: {
-    url: "/images/github.svg",
-  },
-  twitter: {
-    url: "/images/twitter_x.svg",
-  },
+
+// Define SVG icons inline for better theme control
+const icons = {
+  github: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+  </svg>`,
+  twitter: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+  </svg>`
 };
 ---
 
-<a href={`https://www.${platform}.com/${username}`} target="_blank"
-  ><img src={iconMap[platform].url} /></a
->
+<a
+  href={`https://www.${platform}.com/${username}`}
+  target="_blank"
+  class="social-link"
+  aria-label={`${platform} Profile`}
+  set:html={icons[platform]}
+/>
 
 <style>
-  a {
-    text-decoration: none;
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    border-radius: 50%;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.8;
   }
-  img{
-  height: 18px;
-}
+
+  .social-link:hover {
+    transform: translateY(-2px);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--background-color);
+    opacity: 1;
+  }
+
+  /* Dark mode adjustments */
+  :global(.dark) .social-link {
+    background: var(--background-color);
+    color: var(--text-color);
+  }
+
+  :global(.dark) .social-link:hover {
+    background: var(--accent-color);
+    color: var(--background-color);
+  }
+
+  @media (max-width: 600px) {
+    .social-link {
+      padding: var(--spacing-md);
+    }
+
+    :global(svg) {
+      width: 24px;
+      height: 24px;
+    }
+  }
 </style>

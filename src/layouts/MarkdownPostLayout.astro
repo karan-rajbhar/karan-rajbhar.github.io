@@ -1,69 +1,296 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from './BaseLayout.astro';
+import { parseCodeBlock, getLanguageFromFilename } from '../utils/code';
+import CodeBlock from '../components/CodeBlock.astro';
+
 const { frontmatter } = Astro.props;
+
+// Process code blocks in the content
+const content = await Astro.slots.render('default');
+const processedContent = content.replace(
+  /```(\w+)?\n([\s\S]*?)```/g,
+  (match, lang, code) => {
+    const language = lang || 'plaintext';
+    const cleanCode = code.trim();
+    const isTerminal = language === 'bash' || language === 'shell' || /^\$\s|^sudo\s/.test(cleanCode);
+    
+    return `<div class="code-block-wrapper ${isTerminal ? 'terminal' : ''}">
+      <pre class="${isTerminal ? 'terminal-output' : `language-${language} line-numbers`}">
+        ${isTerminal ? cleanCode.split('\n').map((line: string) => {
+          const isCommand = line.trim().startsWith('$') || line.trim().startsWith('sudo');
+          return `<div class="${isCommand ? 'command-line' : 'output-line'}">
+            ${isCommand ? '<span class="prompt">$</span>' : ''}
+            <code>${isCommand ? line.trim().replace(/^\$\s*/, '') : line}</code>
+          </div>`;
+        }).join('\n') : `<code class="language-${language}">${cleanCode}</code>`}
+      </pre>
+      <button class="copy-button" aria-label="Copy code" title="Copy code">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span class="copy-text">Copy</span>
+      </button>
+    </div>`;
+  }
+);
 ---
 
-<script>
-  let copyButtonLabel = "Copy Code";
-  let codeBlocks = Array.from(document.querySelectorAll("pre"));
-
-  for (let codeBlock of codeBlocks) {
-    let wrapper = document.createElement("div");
-    wrapper.style.position = "relative";
-
-    let copyButton = document.createElement("button");
-    copyButton.className = "copy";
-    copyButton.innerHTML = copyButtonLabel;
-
-    codeBlock.setAttribute("tabindex", "0");
-    codeBlock.appendChild(copyButton);
-    // wrap codebock with relative parent element
-    codeBlock.parentNode.insertBefore(wrapper, codeBlock);
-    wrapper.appendChild(codeBlock);
-
-    copyButton.addEventListener("click", async () => {
-      await copyCode(codeBlock, copyButton);
-    });
-  }
-
-  async function copyCode(block, button) {
-    let code = block.querySelector("code");
-    let text = code.innerText;
-
-    await navigator.clipboard.writeText(text);
-
-    // visual feedback that task is completed
-    button.innerText = "Code Copied";
-
-    setTimeout(() => {
-      button.innerText = copyButtonLabel;
-    }, 700);
-  }
-  
-</script>
-
-
 <BaseLayout pageTitle={frontmatter.title}>
-  <h1>{frontmatter.title}</h1>
-  <p>{frontmatter.pubDate.toDateString()}</p>
-  <p><em>{frontmatter.description}</em></p>
-
-  <p>Written by: {frontmatter.author}</p>
-  
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-  <div class="tags">
-    {frontmatter.tags.map((tag:Text) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-    ))}
-  </div>
-  <slot />
+  <article>
+    <div class="title-container">
+      <h1>{frontmatter.title}</h1>
+      <div class="post-meta">
+        <p class="post-date">Published on {new Date(frontmatter.pubDate).toLocaleDateString()}</p>
+        {frontmatter.tags && (
+          <div class="tags">
+            {frontmatter.tags.map((tag: string) => (
+              <a class="tag" href={`/tags/${tag}`}>{tag}</a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+    <div class="content" set:html={processedContent} />
+  </article>
 </BaseLayout>
 
+<script>
+  // Initialize Prism
+  import * as Prism from 'prismjs';
+  import 'prismjs/components/prism-bash';
+  import 'prismjs/components/prism-ini';
+  import 'prismjs/plugins/line-numbers/prism-line-numbers';
+
+  // Highlight all code blocks
+  document.addEventListener('DOMContentLoaded', () => {
+    Prism.highlightAll();
+
+    // Add copy functionality
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', async () => {
+        const pre = button.previousElementSibling;
+        if (!pre) return;
+
+        try {
+          const code = pre.textContent || '';
+          await navigator.clipboard.writeText(code);
+
+          const span = button.querySelector('.copy-text');
+          if (!span) return;
+
+          const originalText = span.textContent;
+          span.textContent = 'Copied!';
+          const htmlButton = button as HTMLElement;
+          htmlButton.style.color = 'var(--success-color)';
+          htmlButton.style.borderColor = 'var(--success-color)';
+
+          setTimeout(() => {
+            span.textContent = originalText;
+            htmlButton.style.color = '';
+            htmlButton.style.borderColor = '';
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  });
+</script>
 
 <style>
-    a {
-      color: #00539F !important;
-      text-decoration: none !important;
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .title-container {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .post-meta {
+    margin-top: var(--spacing-md);
+  }
+
+  .post-date {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .content {
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Code block styling */
+  .content :global(.code-block-wrapper) {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .content :global(.copy-button) {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--code-border);
+    border-radius: 6px;
+    background: var(--code-bg);
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    opacity: 0.9;
+    z-index: 10;
+  }
+
+  .content :global(.copy-button:hover) {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--bg-secondary);
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  .content :global(.copy-button svg) {
+    width: 14px;
+    height: 14px;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .content :global(.copy-button:hover svg) {
+    transform: scale(1.1);
+    color: var(--bg-secondary);
+  }
+
+  .content :global(pre) {
+    margin: 0 !important;
+    padding: var(--spacing-md) !important;
+    padding-top: calc(var(--spacing-md) + 40px) !important; /* Add extra padding for copy button */
+    background: var(--code-bg) !important;
+    font-family: var(--font-mono) !important;
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.7 !important;
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .content :global(code) {
+    font-family: var(--font-mono) !important;
+    font-size: var(--font-size-sm) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: var(--code-text) !important;
+  }
+
+  .content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: var(--spacing-lg) 0;
+  }
+
+  .content :global(h2) {
+    margin-top: var(--spacing-xl);
+  }
+
+  .content :global(h3) {
+    margin-top: var(--spacing-lg);
+    color: var(--text-primary);
+  }
+
+  .content :global(ul), .content :global(ol) {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-xl);
+  }
+
+  .content :global(li) {
+    margin: var(--spacing-xs) 0;
+  }
+
+  .content :global(blockquote) {
+    border-left: 4px solid var(--accent-primary);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .content :global(blockquote p) {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    article {
+      padding: 0 var(--spacing-md);
     }
-    
-  </style>
+
+    .title-container {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .content :global(img) {
+      margin: var(--spacing-md) 0;
+    }
+
+    .content :global(h2) {
+      margin-top: var(--spacing-lg);
+    }
+
+    .content :global(h3) {
+      margin-top: var(--spacing-md);
+    }
+
+    .content :global(pre) {
+      margin: var(--spacing-md) 0;
+      font-size: var(--font-size-xs);
+    }
+  }
+
+  /* Terminal styling */
+  .content :global(.terminal) {
+    background-color: var(--code-bg);
+  }
+
+  .content :global(.terminal-output) {
+    margin: 0 !important;
+    padding: var(--spacing-md) !important;
+    font-family: var(--font-mono) !important;
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.6 !important;
+    color: var(--terminal-command) !important;
+    background: var(--code-bg) !important;
+  }
+
+  .content :global(.command-line) {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.25em 0 !important;
+  }
+
+  .content :global(.output-line) {
+    padding: 0.25em 0 !important;
+    padding-left: 1.5em !important;
+    color: var(--terminal-output) !important;
+  }
+
+  .content :global(.prompt) {
+    color: var(--terminal-prompt) !important;
+    margin-right: 0.75em !important;
+    user-select: none !important;
+  }
+</style>

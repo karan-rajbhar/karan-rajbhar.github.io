@@ -3,27 +3,38 @@ import "@fontsource/jost";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ArticlesOverview from "../components/ArticleOverview.astro";
-let allPosts = await getCollection("posts");
 
-allPosts= allPosts.sort(function (a, b) {
-    return b.data.pubDate.getTime() - a.data.pubDate.getTime();
-  })
+let allPosts = await getCollection("posts");
+allPosts = allPosts.sort(function (a, b) {
+  return b.data.pubDate.getTime() - a.data.pubDate.getTime();
+});
 
 const pageTitle = "Articles";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <p>Articles So Far</p>
-  <ul>
-  {
-    allPosts.map((post) => (
+  <div class="articles-list">
+    {allPosts.map((post) => (
       <ArticlesOverview
         url={"/posts/" + post.slug}
         title={post.data.title}
         pubDate={post.data.pubDate}
-        description = {post.data.description}
+        description={post.data.description}
       />
-    ))
-  }
-  </ul>
+    ))}
+  </div>
 </BaseLayout>
+
+<style>
+  .articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  @media (max-width: 600px) {
+    .articles-list {
+      gap: var(--spacing-md);
+    }
+  }
+</style>

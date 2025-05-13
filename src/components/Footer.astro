@@ -4,13 +4,94 @@ import Social from "./Social.astro";
 ---
 
 <footer>
-  <div >
-    <p class="footer-text">Made by Karan Rajbhar.</p>
-    <p class="footer-text">Build with Astro Hosted on Github Pages.</p>
-  </div>
-  <div class="social-buttons">
-    <Social platform="twitter" username="karan_rajbhr" />
-    <Social platform="github" username="karan-rajbhar" />
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-text-container">
+        <p class="footer-text">Made with ❤️ by Karan Rajbhar</p>
+        <p class="footer-text">Built with <a href="https://astro.build" target="_blank" class="footer-link">Astro</a> • Hosted on <a href="https://pages.github.com" target="_blank" class="footer-link">GitHub Pages</a></p>
+      </div>
+      <div class="social-buttons">
+        <Social platform="twitter" username="karan_rajbhr" />
+        <Social platform="github" username="karan-rajbhar" />
+      </div>
+    </div>
   </div>
 </footer>
+
+<style>
+  footer {
+    width: 100%;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-xl) 0;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding-desktop);
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .footer-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .footer-text {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+  }
+
+  .footer-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all var(--transition-speed) ease;
+  }
+
+  .footer-link:hover {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+  }
+
+  .social-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+  }
+
+  @media (max-width: 600px) {
+    footer {
+      padding: var(--spacing-lg) 0;
+    }
+
+    .footer-container {
+      padding: 0 var(--container-padding-mobile);
+    }
+
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--spacing-md);
+    }
+
+    .footer-text {
+      font-size: var(--font-size-xs);
+    }
+
+    .social-buttons {
+      gap: var(--spacing-lg);
+    }
+  }
+</style>
 

@@ -1,0 +1,121 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+const pathname = new URL(Astro.request.url).pathname;
+const isSearchPage = pathname === "/search";
+
+// Don't render if we're on the search page
+if (isSearchPage) return null;
+---
+
+<button class={`search-trigger ${className}`} aria-label="Search articles">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+  <span class="search-text">Search</span>
+  <kbd class="search-shortcut">⌘K</kbd>
+</button>
+
+<script>
+  const initSearchTrigger = () => {
+    const searchTrigger = document.querySelector('.search-trigger');
+    if (!searchTrigger) return;
+
+    const handleClick = () => {
+      window.location.href = '/search';
+    };
+
+    const handleKeydown = (e: KeyboardEvent) => {
+      // Don't handle shortcuts if we're already on the search page
+      if (window.location.pathname === '/search') return;
+      
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        window.location.href = '/search';
+      }
+    };
+
+    searchTrigger.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleKeydown);
+
+    // Cleanup event listeners on page transitions
+    return () => {
+      searchTrigger.removeEventListener('click', handleClick);
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  };
+
+  // Initialize on page load and view transitions
+  document.addEventListener('DOMContentLoaded', initSearchTrigger);
+  document.addEventListener('astro:page-load', initSearchTrigger);
+</script>
+
+<style>
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(74, 92, 107, 0.15);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .search-trigger:hover {
+    background: rgba(130, 249, 161, 0.1);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+  }
+
+  .search-trigger svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-color);
+    opacity: 0.8;
+  }
+
+  .search-text {
+    display: none;
+  }
+
+  .search-shortcut {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    background: rgba(74, 92, 107, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    opacity: 0.8;
+  }
+
+  @media (min-width: 768px) {
+    .search-text {
+      display: inline;
+    }
+    
+    .search-trigger {
+      padding: 0.5rem 1.25rem;
+    }
+  }
+
+  /* Dark mode enhancements */
+  :global(.dark) .search-trigger {
+    background: rgba(28, 42, 52, 0.6);
+    backdrop-filter: blur(8px);
+  }
+
+  :global(.dark) .search-trigger:hover {
+    background: rgba(130, 249, 161, 0.1);
+    border-color: var(--accent-color);
+  }
+</style> 

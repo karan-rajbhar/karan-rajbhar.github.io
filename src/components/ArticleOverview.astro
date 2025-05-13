@@ -18,8 +18,9 @@ const publishDateFormatted =
         flex-direction: column;
         flex-shrink: 0;
         justify-content: space-evenly;  
-        width: 633px;
-        margin-bottom: 70px;
+        width: 100%;
+        max-width: 633px;
+        margin-bottom: var(--spacing-xl);
       }
       .article-title {
         font-family: Jost;
@@ -48,6 +49,10 @@ const publishDateFormatted =
         line-height: normal;
         text-decoration: none;
       }
+
+      @media (max-width: 600px) {
+        .article-overview {
+          margin-bottom: var(--spacing-lg);
     </style>
   </div>
 </div>

@@ -1,9 +1,108 @@
 ---
-import Navigation from './Navigation.astro';
+import ThemeToggle from "./ThemeToggle.astro";
+import SearchTrigger from "./SearchTrigger.astro";
+
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
 ---
 
 <header>
-    <nav>
-        <Navigation />
-    </nav>
+  <nav>
+    <div class="left-nav">
+      <a href="/" class:list={["logo", { active: currentPath === "" }]}>
+        <span class="name">Karan Rajbhar</span>
+      </a>
+    </div>
+
+    <div class="right-nav">
+      <SearchTrigger />
+      <a href="/articles" class:list={["nav-link", { active: currentPath === "articles" }]}>Articles</a>
+      <a href="/tags" class:list={["nav-link", { active: currentPath === "tags" }]}>Tags</a>
+      <a href="/about" class:list={["nav-link", { active: currentPath === "about" }]}>About</a>
+      <ThemeToggle />
+    </div>
+  </nav>
 </header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem;
+    background: var(--background-color);
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .left-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .logo img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .name {
+    font-size: 1.1rem;
+  }
+
+  .right-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--accent-color);
+  }
+
+  .nav-link.active {
+    color: var(--accent-color);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .name {
+      display: none;
+    }
+
+    .right-nav {
+      gap: 1rem;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+    }
+  }
+</style>

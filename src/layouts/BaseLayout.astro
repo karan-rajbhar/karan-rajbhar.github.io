@@ -1,9 +1,6 @@
 ---
-
-
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
 import '../styles/global.css';
 
 const { pageTitle } = Astro.props;
@@ -14,17 +11,45 @@ const { pageTitle } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/icon.ico" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-
     <title>{pageTitle}</title>
   </head>
   <body>
     <Header />
-    <div class="main-content" >
-      <slot />
-    </div>
+    <main class="main-content">
+      <div class="page-header">
+        {pageTitle && <h1>{pageTitle}</h1>}
+      </div>
+      <div class="page-content">
+        <slot />
+      </div>
+    </main>
     <Footer />
     <script>
       import "../scripts/menu.js";
     </script>
   </body>
 </html>
+
+<style>
+  .main-content {
+    padding-top: calc(var(--header-height) + var(--spacing-xl));
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .page-content {
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .main-content {
+      padding-top: calc(var(--header-height) + var(--spacing-md));
+    }
+
+    .page-header {
+      margin-bottom: var(--spacing-md);
+    }
+  }
+</style>
