@@ -37,21 +37,31 @@ const processedContent = content.replace(
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <article>
-    <div class="title-container">
+  <article class="post">
+    <div class="post-header">
       <h1>{frontmatter.title}</h1>
       <div class="post-meta">
-        <p class="post-date">Published on {new Date(frontmatter.pubDate).toLocaleDateString()}</p>
-        {frontmatter.tags && (
-          <div class="tags">
-            {frontmatter.tags.map((tag: string) => (
-              <a class="tag" href={`/tags/${tag}`}>{tag}</a>
-            ))}
-          </div>
-        )}
+        <time datetime={frontmatter.pubDate.toString()}>
+          {new Date(frontmatter.pubDate).toLocaleDateString('en-us', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </time>
+        {frontmatter.author && <span class="author">by {frontmatter.author}</span>}
       </div>
     </div>
-    <div class="content" set:html={processedContent} />
+
+    <div class="post-content">
+      <Fragment set:html={processedContent} />
+    </div>
+
+    <!-- Isso Comments -->
+    <script data-isso="https://issocomment.dionsyus.online/comments/" src="https://issocomment.dionsyus.online/comments/js/embed.min.js"></script>
+    <div class="post-comments">
+      <h2>Comments</h2>
+      <section id="isso-thread"></section>
+    </div>
   </article>
 </BaseLayout>
 
@@ -99,28 +109,48 @@ const processedContent = content.replace(
 </script>
 
 <style>
-  article {
-    max-width: 800px;
+  .post {
+    max-width: var(--content-width);
     margin: 0 auto;
+    padding: var(--spacing-lg) var(--spacing-md);
   }
 
-  .title-container {
+  .post-header {
     margin-bottom: var(--spacing-xl);
+    text-align: center;
   }
 
   .post-meta {
-    margin-top: var(--spacing-md);
-  }
-
-  .post-date {
     color: var(--text-secondary);
     font-size: var(--font-size-sm);
-    margin-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
   }
 
-  .content {
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-relaxed);
+  .author {
+    margin-left: var(--spacing-sm);
+  }
+
+  .post-content {
+    line-height: 1.7;
+  }
+
+  .post-comments {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .post-comments h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .post {
+      padding: var(--spacing-md) var(--spacing-sm);
+    }
   }
 
   /* Code block styling */
