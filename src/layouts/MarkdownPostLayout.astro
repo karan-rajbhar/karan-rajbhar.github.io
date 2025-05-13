@@ -323,4 +323,160 @@ const processedContent = content.replace(
     margin-right: 0.75em !important;
     user-select: none !important;
   }
+
+  /* Isso Comments Styling */
+  :global(#isso-thread) {
+    padding: var(--spacing-md);
+  }
+
+  :global(#isso-thread .isso-comment-header) {
+    background: var(--bg-secondary);
+    padding: var(--spacing-sm);
+    border-radius: 8px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  :global(#isso-thread .isso-comment) {
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    transition: all var(--transition-speed) ease;
+  }
+
+  :global(#isso-thread .isso-comment:hover) {
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  :global(#isso-thread .isso-comment-header .author) {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+  }
+
+  :global(#isso-thread .isso-comment-header .spacer) {
+    color: var(--text-secondary);
+    margin: 0 var(--spacing-xs);
+  }
+
+  :global(#isso-thread .isso-comment-header .permalink) {
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    text-decoration: none;
+  }
+
+  :global(#isso-thread .isso-comment-header .permalink:hover) {
+    color: var(--accent-primary);
+  }
+
+  :global(#isso-thread .isso-comment-text) {
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: var(--spacing-sm) 0;
+  }
+
+  :global(#isso-thread .isso-postbox) {
+    margin-top: var(--spacing-lg);
+  }
+
+  :global(#isso-thread .isso-input-wrapper) {
+    margin-bottom: var(--spacing-md);
+  }
+
+  :global(#isso-thread .isso-input) {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-speed) ease;
+  }
+
+  :global(#isso-thread .isso-input:focus) {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary-alpha);
+  }
+
+  :global(#isso-thread .isso-textarea) {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  :global(#isso-thread .isso-auth-section) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+  }
+
+  :global(#isso-thread .isso-post-action) {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+  }
+
+  :global(#isso-thread .isso-submit) {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: 6px;
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+  }
+
+  :global(#isso-thread .isso-submit:hover) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  :global(#isso-thread .isso-preview) {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+  }
+
+  :global(#isso-thread .isso-preview:hover) {
+    background: var(--bg-secondary);
+    border-color: var(--accent-primary);
+  }
+
+  :global(#isso-thread .isso-notification) {
+    padding: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Responsive adjustments for comments */
+  @media (max-width: 768px) {
+    :global(#isso-thread .isso-auth-section) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(#isso-thread .isso-post-action) {
+      flex-direction: column;
+    }
+
+    :global(#isso-thread .isso-submit),
+    :global(#isso-thread .isso-preview) {
+      width: 100%;
+      text-align: center;
+    }
+  }
 </style>
