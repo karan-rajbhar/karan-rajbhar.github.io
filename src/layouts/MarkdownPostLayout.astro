@@ -56,16 +56,72 @@ const processedContent = content.replace(
       <Fragment set:html={processedContent} />
     </div>
 
-    <!-- Isso Comments -->
-    <script data-isso="https://issocomment.dionsyus.online/comments/" src="https://issocomment.dionsyus.online/comments/js/embed.min.js"></script>
+    <!-- Remark42 Comments -->
     <div class="post-comments">
       <h2>Comments</h2>
-      <section id="isso-thread"></section>
+      <div id="remark42"></div>
     </div>
   </article>
 </BaseLayout>
 
 <script>
+  // Type declaration for REMARK42
+  declare global {
+    interface Window {
+      REMARK42?: {
+        changeTheme: (theme: 'dark' | 'light') => void;
+      };
+    }
+  }
+
+  // Remark42 initialization
+  var remark_config = {
+    host: 'https://comments.dionsyus.online',
+    site_id: 'karan-rajbhar-github-io',  // matches SITE from docker-compose
+    components: ['embed'],
+    max_shown_comments: 10,
+    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    show_email_subscription: false,
+    anonymous_access: true  // enables anonymous comments as per your server config
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' +c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ['embed']);
+
+  // Watch for theme changes
+  document.addEventListener('DOMContentLoaded', () => {
+    // Function to update Remark42 theme
+    const updateRemark42Theme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (window.REMARK42) {
+        window.REMARK42.changeTheme(isDark ? 'dark' : 'light');
+      }
+    };
+
+    // Watch for theme changes using MutationObserver
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          updateRemark42Theme();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    // Initial theme setup
+    updateRemark42Theme();
+  });
+
   // Initialize Prism
   import * as Prism from 'prismjs';
   import 'prismjs/components/prism-bash';
