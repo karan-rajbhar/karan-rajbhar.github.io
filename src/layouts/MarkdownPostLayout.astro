@@ -77,26 +77,20 @@ const processedContent = content.replace(
   // Remark42 initialization
   var remark_config = {
     host: 'https://comments.dionsyus.online',
-    site_id: 'karan-rajbhar-github-io',  // matches SITE from docker-compose
+    site_id: 'karan-rajbhar-github-io',
     components: ['embed'],
     max_shown_comments: 10,
-    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-    show_email_subscription: false,
-    anonymous_access: true  // enables anonymous comments as per your server config
+    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   };
 
-  (function(c) {
-    for(var i = 0; i < c.length; i++){
-      var d = document, s = d.createElement('script');
-      s.src = remark_config.host + '/web/' +c[i] +'.js';
-      s.defer = true;
-      (d.head || d.body).appendChild(s);
-    }
-  })(remark_config.components || ['embed']);
+  // Load Remark42 script
+  const script = document.createElement('script');
+  script.src = remark_config.host + '/web/embed.js';
+  script.defer = true;
+  (document.head || document.body).appendChild(script);
 
   // Watch for theme changes
   document.addEventListener('DOMContentLoaded', () => {
-    // Function to update Remark42 theme
     const updateRemark42Theme = () => {
       const isDark = document.documentElement.classList.contains('dark');
       if (window.REMARK42) {
