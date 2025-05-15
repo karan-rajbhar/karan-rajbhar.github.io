@@ -71,11 +71,18 @@ const processedContent = content.replace(
       REMARK42?: {
         changeTheme: (theme: 'dark' | 'light') => void;
       };
+      remark_config: {
+        host: string;
+        site_id: string;
+        components: string[];
+        max_shown_comments: number;
+        theme: 'dark' | 'light';
+      };
     }
   }
 
-  // Remark42 initialization
-  var remark_config = {
+  // Remark42 initialization - explicitly set as window property
+  window.remark_config = {
     host: 'https://comments.dionsyus.online',
     site_id: 'karan-rajbhar-github-io',
     components: ['embed'],
@@ -85,7 +92,7 @@ const processedContent = content.replace(
 
   // Load Remark42 script
   const script = document.createElement('script');
-  script.src = remark_config.host + '/web/embed.js';
+  script.src = window.remark_config.host + '/web/embed.js';
   script.defer = true;
   (document.head || document.body).appendChild(script);
 
