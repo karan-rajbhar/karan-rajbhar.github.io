@@ -1,16 +1,23 @@
 ---
 import Header from '../components/Header.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
+import SEO from '../components/SEO.astro';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
 }
 
 const { 
   title,
-  description = "Karan Rajbhar's personal website and blog"
+  description = "Karan Rajbhar's personal website and blog. Software developer sharing insights on web development, technology, and coding.",
+  image,
+  noindex = false,
+  type = 'website'
 } = Astro.props;
 ---
 
@@ -18,11 +25,18 @@ const {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    
+    <SEO 
+      title={title}
+      description={description}
+      image={image}
+      noindex={noindex}
+      type={type}
+    />
+    
     <ViewTransitions />
 
     <script is:inline>

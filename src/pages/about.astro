@@ -1,13 +1,62 @@
 ---
 import '@fontsource/jost'
 import BaseLayout from '../layouts/BaseLayout.astro';
-const pageTitle = "About Me"
-
+const pageTitle = 'About Karan Rajbhar';
+const description = 'Learn about Karan Rajbhar, a software developer at Treety who loves building applications, playing cricket, writing, and watching cat videos.';
 ---
-<BaseLayout pageTitle={pageTitle}>
-	<h2>About  💻</h2>
-	<p>I'm a software developer who loves building applications that solve real problems for users. I'm passionate about creating tools and solutions that make people's lives easier and more efficient. Currently, I work as a Software Developer at Treety 🌳, where I focus on building meaningful digital experiences.</p>
-	<h2>Personal 🌟</h2>
-	<p>I'm based in India 🇮🇳 and have a few hobbies that keep me busy outside of work. On weekends, you'll often find me playing cricket 🏏. I also enjoy writing ✍️ in my spare time and love watching cat videos 🐱 (they never get old!). When I want to unwind, I like to game 🎮 and spend time exploring new things that catch my interest.</p>
+
+<BaseLayout
+	pageTitle={pageTitle}
+	description={description}
+	type="website"
+>
+	<article itemscope itemtype="https://schema.org/Person">
+		<div class="about-content">
+			<h1 itemprop="name">About 💻</h1>
+			
+			<p itemprop="description">
+				I'm a software developer who loves building applications that solve real problems for users.
+				I'm passionate about creating tools and solutions that make people's lives easier and more efficient.
+				Currently, I work as a Software Developer at
+				<span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+					<a href="https://www.treety.co/" target="_blank" rel="noopener">
+						<span itemprop="name">Treety</span>
+					</a>
+				</span> 🌳, where I focus on building meaningful digital experiences.
+			</p>
+
+			<p>
+				I'm based in <span itemprop="nationality">India</span> 🇮🇳 and have a few hobbies that keep me busy outside of work.
+				On weekends, you'll often find me playing cricket 🏏. I also enjoy writing ✍️ in my spare time and love watching cat videos 🐱
+				(they never get old!). When I want to unwind, I like to game 🎮 and spend time exploring new things that catch my interest.
+			</p>
+		</div>
+
+		<!-- Hidden structured data -->
+		<meta itemprop="url" content="https://karan-rajbhar.github.io/about" />
+		<meta itemprop="jobTitle" content="Software Developer" />
+		<meta itemprop="givenName" content="Karan" />
+		<meta itemprop="familyName" content="Rajbhar" />
+	</article>
 </BaseLayout>
+
+<style>
+	.about-content {
+		max-width: 65ch;
+		margin: 0 auto;
+	}
+
+	.about-content h1 {
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.about-content h2 {
+		margin-top: var(--spacing-lg);
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.about-content p {
+		margin-bottom: var(--spacing-md);
+	}
+</style>
 

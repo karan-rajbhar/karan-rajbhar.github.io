@@ -2,19 +2,47 @@
 import '@fontsource/jost'
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestArticle from '../components/LatestArticle.astro';
-const pageTitle = "Karan Rajbhar";
+const pageTitle = "Karan Rajbhar - Software Developer & Technical Writer";
+const description = "Welcome to Karan Rajbhar's personal website. Explore articles on web development, programming, technology insights, and coding tutorials.";
 ---
-<BaseLayout pageTitle={pageTitle}>
-  <h1>Hi, I'm Karan</h1>
+<BaseLayout 
+  pageTitle={pageTitle}
+  description={description}
+  type="website"
+>
+  <article itemscope itemtype="https://schema.org/Person">
+    <h1>Hi, I'm <span itemprop="name">Karan</span></h1>
 
-  <p>I'm a software developer who builds things on the internet. Currently working at <a href="https://www.treety.co/" target="_blank" class="treety-link">Treety</a>.</p>
-  
-  <p>Sometimes I share thoughts on <a href="https://www.x.com/karan_rajbhr" target="_blank">Twitter</a> and code on <a href="https://www.github.com/karan-rajbhar" target="_blank">GitHub</a>.</p>
+    <div class="intro-content">
+      <p itemprop="description">
+        I'm a software developer who builds things on the internet. Currently working at 
+        <a href="https://www.treety.co/" target="_blank" class="treety-link" rel="noopener" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+          <span itemprop="name">Treety</span>
+        </a>.
+      </p>
 
-  <LatestArticle />
+      <p>
+        Sometimes I share thoughts on 
+        <a href="https://www.x.com/karan_rajbhr" target="_blank" rel="noopener me" itemprop="sameAs">Twitter</a> 
+        and code on 
+        <a href="https://www.github.com/karan-rajbhar" target="_blank" rel="noopener me" itemprop="sameAs">GitHub</a>.
+      </p>
+    </div>
+
+    <!-- Hidden structured data -->
+    <meta itemprop="url" content="https://karan-rajbhar.github.io" />
+    <meta itemprop="jobTitle" content="Software Developer" />
+
+    <LatestArticle />
+  </article>
 </BaseLayout>
 
 <style>
+  .intro-content {
+    max-width: 65ch;
+    margin-bottom: var(--spacing-xl);
+  }
+
   .treety-link {
     color: var(--accent);
     font-weight: 500;
@@ -23,30 +51,30 @@ const pageTitle = "Karan Rajbhar";
   .dark .treety-link {
     color: var(--accent-dark);
   }
+  
+.x{
+  color: #black;
+font-family: Jost*;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: 180%;
+}
+img{
+  height: 18px;
+  margin-bottom: -3px ;
+}
 
-  .x{
-    color: #black;
-    font-family: Jost*;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 180%;
-  }
-  img{
-    height: 18px;
-    margin-bottom: -3px ;
-  }
+.dark img{
+  filter: invert(100%);
+}
 
-  .dark img{
-    filter: invert(100%);
-  }
-
-  .github{
-    color: #BBC6CC;
-    font-family: Jost*;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 180%;
-  }
+.github{
+  color: #BBC6CC;
+font-family: Jost*;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: 180%;
+}
 </style>

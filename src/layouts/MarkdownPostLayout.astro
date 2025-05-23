@@ -5,8 +5,17 @@ import CodeBlock from '../components/CodeBlock.astro';
 
 const { frontmatter } = Astro.props;
 
+// Calculate reading time (rough estimate: 200 words per minute)
+const calculateReadingTime = (content: string) => {
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / 200);
+  return `PT${minutes}M`; // ISO 8601 duration format for structured data
+};
+
 // Process code blocks in the content
 const content = await Astro.slots.render('default');
+const readingTime = calculateReadingTime(content);
+
 const processedContent = content.replace(
   /```(\w+)?\n([\s\S]*?)```/g,
   (match, lang, code) => {
@@ -36,25 +45,51 @@ const processedContent = content.replace(
 );
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-  <article class="post">
+<BaseLayout 
+  pageTitle={frontmatter.title}
+  description={frontmatter.description}
+  image={frontmatter.image?.url}
+  type="article"
+>
+  <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="post-header">
-      <h1>{frontmatter.title}</h1>
+      <h1 itemprop="headline">{frontmatter.title}</h1>
       <div class="post-meta">
-        <time datetime={frontmatter.pubDate.toString()}>
+        <time datetime={frontmatter.pubDate.toString()} itemprop="datePublished">
           {new Date(frontmatter.pubDate).toLocaleDateString('en-us', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
           })}
         </time>
-        {frontmatter.author && <span class="author">by {frontmatter.author}</span>}
+        {frontmatter.author && (
+          <span class="author">
+            by <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+              <span itemprop="name">{frontmatter.author}</span>
+            </span>
+          </span>
+        )}
+        <span class="reading-time">• {Math.ceil(content.trim().split(/\s+/).length / 200)} min read</span>
       </div>
+      {frontmatter.tags && (
+        <div class="post-tags" itemprop="keywords">
+          {frontmatter.tags.map((tag: string) => (
+            <a href={`/tags/${tag.toLowerCase()}`} class="tag" rel="tag">
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
 
-    <div class="post-content">
+    <div class="post-content" itemprop="articleBody">
       <Fragment set:html={processedContent} />
     </div>
+
+    <!-- Hidden structured data -->
+    <meta itemprop="url" content={Astro.url.href} />
+    <meta itemprop="image" content={frontmatter.image?.url || '/og-default.png'} />
+    <meta itemprop="description" content={frontmatter.description} />
 
     <!-- Remark42 Comments -->
     <div class="post-comments">

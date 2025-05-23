@@ -218,8 +218,8 @@ footer {
   padding: var(--spacing-md) var(--container-padding);
   border-top: 1px solid var(--border);
   text-align: center;
-}
-
+  }
+  
 .footer-text {
   font-size: var(--font-size-sm);
   color: var(--text-light);
@@ -231,18 +231,18 @@ footer {
   justify-content: center;
   gap: var(--spacing-sm);
   margin: var(--spacing-sm) 0;
-}
+  }
 
 /* Lists */
 ol, ul {
   padding-left: var(--spacing-md);
-  margin: var(--spacing-sm) 0;
-}
+    margin: var(--spacing-sm) 0;
+  }
 
 li {
   margin-bottom: 0.3em;
   color: var(--text);
-}
+  }
 
 /* Mobile responsive */
 @media (max-width: 600px) {
@@ -262,7 +262,7 @@ li {
     font-size: 12px;
     padding: 0.25em 0.5em;
   }
-}
+  }
 
 /* Utility classes */
 .treety-link {

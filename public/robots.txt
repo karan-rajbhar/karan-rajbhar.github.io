@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://karan-rajbhar.github.io/sitemap.xml
+
+# Block crawling of internal files
+Disallow: /_astro/
+Disallow: /api/
+Disallow: /.well-known/
+
+# Allow all search engines to crawl
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay (optional)
+Crawl-delay: 1 
