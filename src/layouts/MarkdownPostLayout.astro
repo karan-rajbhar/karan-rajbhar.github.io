@@ -1,7 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { parseCodeBlock, getLanguageFromFilename } from '../utils/code';
-import CodeBlock from '../components/CodeBlock.astro';
 
 const { frontmatter } = Astro.props;
 
@@ -12,35 +10,47 @@ const calculateReadingTime = (content: string) => {
   return `PT${minutes}M`; // ISO 8601 duration format for structured data
 };
 
-// Process code blocks in the content
+// Get the raw content for reading time calculation
 const content = await Astro.slots.render('default');
 const readingTime = calculateReadingTime(content);
 
+// Process code blocks with clean approach
 const processedContent = content.replace(
-  /```(\w+)?\n([\s\S]*?)```/g,
-  (match, lang, code) => {
-    const language = lang || 'plaintext';
+  /```(\w+)?(?:\s+([^\n]+))?\n([\s\S]*?)```/g,
+  (match, lang, possibleFilename, code) => {
+    const language = lang || 'text';
     const cleanCode = code.trim();
-    const isTerminal = language === 'bash' || language === 'shell' || /^\$\s|^sudo\s/.test(cleanCode);
     
-    return `<div class="code-block-wrapper ${isTerminal ? 'terminal' : ''}">
-      <pre class="${isTerminal ? 'terminal-output' : `language-${language} line-numbers`}">
-        ${isTerminal ? cleanCode.split('\n').map((line: string) => {
-          const isCommand = line.trim().startsWith('$') || line.trim().startsWith('sudo');
-          return `<div class="${isCommand ? 'command-line' : 'output-line'}">
-            ${isCommand ? '<span class="prompt">$</span>' : ''}
-            <code>${isCommand ? line.trim().replace(/^\$\s*/, '') : line}</code>
-          </div>`;
-        }).join('\n') : `<code class="language-${language}">${cleanCode}</code>`}
-      </pre>
-      <button class="copy-button" aria-label="Copy code" title="Copy code">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-        <span class="copy-text">Copy</span>
-      </button>
-    </div>`;
+    // Check if second part is a filename
+    const isFilename = possibleFilename && /[./]/.test(possibleFilename);
+    const filename = isFilename ? possibleFilename : undefined;
+    
+    const showHeader = language !== 'text' || filename;
+    const escapedCode = cleanCode
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+    
+    return `
+      <div class="code-block">
+        ${showHeader ? `
+          <div class="code-header">
+            <div class="code-info">
+              ${filename ? `<span class="filename">${filename}</span>` : ''}
+              ${language !== 'text' ? `<span class="language">${language}</span>` : ''}
+            </div>
+            <button class="copy-btn" data-code="${cleanCode}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        ` : ''}
+        <pre><code class="language-${language}">${escapedCode}</code></pre>
+      </div>
+    `;
   }
 );
 ---
@@ -100,6 +110,35 @@ const processedContent = content.replace(
 </BaseLayout>
 
 <script>
+  import hljs from 'highlight.js/lib/core';
+  import 'highlight.js/styles/github.css'; // Light theme
+  import 'highlight.js/styles/github-dark.min.css'; // Dark theme
+  
+  // Import languages
+  import javascript from 'highlight.js/lib/languages/javascript';
+  import typescript from 'highlight.js/lib/languages/typescript';
+  import python from 'highlight.js/lib/languages/python';
+  import bash from 'highlight.js/lib/languages/bash';
+  import json from 'highlight.js/lib/languages/json';
+  import yaml from 'highlight.js/lib/languages/yaml';
+  import css from 'highlight.js/lib/languages/css';
+  import xml from 'highlight.js/lib/languages/xml';
+  import sql from 'highlight.js/lib/languages/sql';
+  import ini from 'highlight.js/lib/languages/ini';
+
+  // Register languages
+  hljs.registerLanguage('javascript', javascript);
+  hljs.registerLanguage('typescript', typescript);
+  hljs.registerLanguage('python', python);
+  hljs.registerLanguage('bash', bash);
+  hljs.registerLanguage('json', json);
+  hljs.registerLanguage('yaml', yaml);
+  hljs.registerLanguage('css', css);
+  hljs.registerLanguage('html', xml);
+  hljs.registerLanguage('xml', xml);
+  hljs.registerLanguage('sql', sql);
+  hljs.registerLanguage('ini', ini);
+
   // Type declaration for REMARK42
   declare global {
     interface Window {
@@ -123,16 +162,50 @@ const processedContent = content.replace(
     }
   }
 
-  // Remark42 initialization - explicitly set as window property
+  // Initialize highlighting and functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    // Apply syntax highlighting
+    hljs.highlightAll();
+
+    // Copy functionality
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const code = (btn as HTMLElement).dataset.code;
+        if (!code) return;
+
+        try {
+          await navigator.clipboard.writeText(code);
+          
+          // Visual feedback
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20,6 9,17 4,12"></polyline>
+            </svg>
+          `;
+          (btn as HTMLElement).style.color = '#10b981';
+          
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            (btn as HTMLElement).style.color = '';
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  });
+
+  // Remark42 initialization
   window.remark_config = {
     host: 'https://comments.dionsyus.online',
     site_id: 'karan-rajbhar-github-io',
     components: ['embed'],
     max_shown_comments: 10,
     theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-    url: window.location.origin + window.location.pathname,  // Ensure correct URL for comments
-    page_title: document.title,  // Use the page title
-    locale: 'en',  // Set locale to English
+    url: window.location.origin + window.location.pathname,
+    page_title: document.title,
+    locale: 'en',
     show_email_subscription: false,
     show_rss_subscription: false,
     simple_view: false,
@@ -170,47 +243,6 @@ const processedContent = content.replace(
 
     // Initial theme setup
     updateRemark42Theme();
-  });
-
-  // Initialize Prism
-  import * as Prism from 'prismjs';
-  import 'prismjs/components/prism-bash';
-  import 'prismjs/components/prism-ini';
-  import 'prismjs/plugins/line-numbers/prism-line-numbers';
-
-  // Highlight all code blocks
-  document.addEventListener('DOMContentLoaded', () => {
-    Prism.highlightAll();
-
-    // Add copy functionality
-    document.querySelectorAll('.copy-button').forEach(button => {
-      button.addEventListener('click', async () => {
-        const pre = button.previousElementSibling;
-        if (!pre) return;
-
-        try {
-          const code = pre.textContent || '';
-          await navigator.clipboard.writeText(code);
-
-          const span = button.querySelector('.copy-text');
-          if (!span) return;
-
-          const originalText = span.textContent;
-          span.textContent = 'Copied!';
-          const htmlButton = button as HTMLElement;
-          htmlButton.style.color = 'var(--success-color)';
-          htmlButton.style.borderColor = 'var(--success-color)';
-
-          setTimeout(() => {
-            span.textContent = originalText;
-            htmlButton.style.color = '';
-            htmlButton.style.borderColor = '';
-          }, 2000);
-        } catch (err) {
-          console.error('Failed to copy:', err);
-        }
-      });
-    });
   });
 </script>
 
@@ -252,6 +284,30 @@ const processedContent = content.replace(
     color: var(--text-primary);
   }
 
+  .post-tags {
+    margin-top: var(--spacing-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    justify-content: center;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: var(--font-size-xs);
+    transition: all var(--transition-speed) ease;
+  }
+
+  .tag:hover {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .post {
@@ -260,104 +316,151 @@ const processedContent = content.replace(
   }
 
   /* Code block styling */
-  .content :global(.code-block-wrapper) {
-    position: relative;
-    margin: var(--spacing-lg) 0;
-    border-radius: 12px;
+  .code-block {
+    margin: 1.5rem 0;
+    border-radius: 8px;
     overflow: hidden;
-    background: var(--code-bg);
-    border: 1px solid var(--code-border);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   }
 
-  .content :global(.copy-button) {
-    position: absolute;
-    top: var(--spacing-sm);
-    right: var(--spacing-sm);
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+  }
+
+  .code-info {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border: 1px solid var(--code-border);
-    border-radius: 6px;
-    background: var(--code-bg);
-    color: var(--text-secondary);
-    font-size: var(--font-size-xs);
+    gap: 0.75rem;
+  }
+
+  .filename {
+    color: #374151;
     font-weight: 500;
+  }
+
+  .language {
+    color: #6b7280;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.5rem;
+    background: #f9fafb;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .copy-btn {
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    color: #6b7280;
     cursor: pointer;
-    transition: all var(--transition-speed) ease;
-    opacity: 0.9;
-    z-index: 10;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .content :global(.copy-button:hover) {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: var(--bg-secondary);
-    opacity: 1;
-    transform: translateY(-1px);
+  .copy-btn:hover {
+    background: #e5e7eb;
+    color: #374151;
   }
 
-  .content :global(.copy-button svg) {
-    width: 14px;
-    height: 14px;
-    transition: all var(--transition-speed) ease;
+  .copy-btn:active {
+    transform: scale(0.95);
   }
 
-  .content :global(.copy-button:hover svg) {
-    transform: scale(1.1);
-    color: var(--bg-secondary);
-  }
-
-  .content :global(pre) {
+  pre {
     margin: 0 !important;
-    padding: var(--spacing-md) !important;
-    padding-top: calc(var(--spacing-md) + 40px) !important; /* Add extra padding for copy button */
-    background: var(--code-bg) !important;
-    font-family: var(--font-mono) !important;
-    font-size: var(--font-size-sm) !important;
-    line-height: 1.7 !important;
+    padding: 1rem !important;
     overflow-x: auto;
-    position: relative;
+    background: #f9fafb !important;
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
   }
 
-  .content :global(code) {
-    font-family: var(--font-mono) !important;
-    font-size: var(--font-size-sm) !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    margin: 0 !important;
+  code {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    background: none !important;
     padding: 0 !important;
-    color: var(--code-text) !important;
+    border: none !important;
   }
 
-  .content :global(img) {
+  /* Dark theme */
+  :global(.dark) .code-block {
+    border-color: #374151;
+    background: #1f2937;
+  }
+
+  :global(.dark) .code-header {
+    background: #111827;
+    border-color: #374151;
+  }
+
+  :global(.dark) .filename {
+    color: #f9fafb;
+  }
+
+  :global(.dark) .language {
+    color: #9ca3af;
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  :global(.dark) .copy-btn {
+    color: #9ca3af;
+  }
+
+  :global(.dark) .copy-btn:hover {
+    background: #374151;
+    color: #f9fafb;
+  }
+
+  :global(.dark) pre {
+    background: #1f2937 !important;
+  }
+
+  /* Content styling */
+  .post-content :global(h1) {
+    display: none; /* Hide h1 in content since we show title in header */
+  }
+
+  .post-content :global(img) {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin: var(--spacing-lg) 0;
   }
 
-  .content :global(h2) {
+  .post-content :global(h2) {
     margin-top: var(--spacing-xl);
   }
 
-  .content :global(h3) {
+  .post-content :global(h3) {
     margin-top: var(--spacing-lg);
     color: var(--text-primary);
   }
 
-  .content :global(ul), .content :global(ol) {
+  .post-content :global(ul), .post-content :global(ol) {
     margin: var(--spacing-md) 0;
     padding-left: var(--spacing-xl);
   }
 
-  .content :global(li) {
+  .post-content :global(li) {
     margin: var(--spacing-xs) 0;
   }
 
-  .content :global(blockquote) {
+  .post-content :global(blockquote) {
     border-left: 4px solid var(--accent-primary);
     margin: var(--spacing-lg) 0;
     padding: var(--spacing-md) var(--spacing-lg);
@@ -365,68 +468,43 @@ const processedContent = content.replace(
     border-radius: 4px;
   }
 
-  .content :global(blockquote p) {
+  .post-content :global(blockquote p) {
     margin: 0;
     color: var(--text-secondary);
   }
 
-  @media (max-width: 600px) {
-    article {
-      padding: 0 var(--spacing-md);
+  /* Mobile responsiveness */
+  @media (max-width: 640px) {
+    .code-block {
+      margin: 1rem -1rem;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
     }
 
-    .title-container {
-      margin-bottom: var(--spacing-lg);
+    .code-header {
+      padding: 0.5rem 1rem;
     }
 
-    .content :global(img) {
+    pre {
+      padding: 0.75rem 1rem !important;
+      font-size: 0.8rem !important;
+    }
+
+    .filename {
+      font-size: 0.8rem;
+    }
+
+    .post-content :global(img) {
       margin: var(--spacing-md) 0;
     }
 
-    .content :global(h2) {
+    .post-content :global(h2) {
       margin-top: var(--spacing-lg);
     }
 
-    .content :global(h3) {
+    .post-content :global(h3) {
       margin-top: var(--spacing-md);
     }
-
-    .content :global(pre) {
-      margin: var(--spacing-md) 0;
-      font-size: var(--font-size-xs);
-    }
-  }
-
-  /* Terminal styling */
-  .content :global(.terminal) {
-    background-color: var(--code-bg);
-  }
-
-  .content :global(.terminal-output) {
-    margin: 0 !important;
-    padding: var(--spacing-md) !important;
-    font-family: var(--font-mono) !important;
-    font-size: var(--font-size-sm) !important;
-    line-height: 1.6 !important;
-    color: var(--terminal-command) !important;
-    background: var(--code-bg) !important;
-  }
-
-  .content :global(.command-line) {
-    display: flex !important;
-    align-items: center !important;
-    padding: 0.25em 0 !important;
-  }
-
-  .content :global(.output-line) {
-    padding: 0.25em 0 !important;
-    padding-left: 1.5em !important;
-    color: var(--terminal-output) !important;
-  }
-
-  .content :global(.prompt) {
-    color: var(--terminal-prompt) !important;
-    margin-right: 0.75em !important;
-    user-select: none !important;
   }
 </style>
