@@ -2,40 +2,12 @@
 import '@fontsource/jost'
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "About Me"
-const identity = {
-	firstName : "Karan",
-	country : "India",
-	occupation : "Software Developer",
-	hobbies : ["Reading", "Writing", "Coding", "Gaming" , "Watching Movies" , "Listening to Music" ]
-}
-
-const skills = ["HTML", "CSS", "JavaScript", "Vue", "Python", "Java" ]
-
-
-function getTwoRandomHobby() {
-	const randomIndex1 = Math.floor(Math.random() * identity.hobbies.length);
-	let randomIndex2 ;
-
-	do {
-		randomIndex2 = Math.floor(Math.random() * identity.hobbies.length);
-	} while(randomIndex1 === randomIndex2);
-
-	return `${identity.hobbies[randomIndex1]} and ${identity.hobbies[randomIndex2]}`;
-
-}
-
 
 ---
 <BaseLayout pageTitle={pageTitle}>
-	<h1>About</h1>
-	<p>I specialize in rapidly building software and web applications.</p>
-		
-		<p>I primerly know JavaScript, Java and Python, but I have experience working in a wide range of technologies.
-	<h1>Personal</h1>
-		<p>I’ve been a gamer my entire life. I play valorant and CS.
-		I live in {identity.country} and I work as a {identity.occupation} at <a class="treety-link" href="https://www.treety.co/" target="_blank"> Treety </a>.
-		Two of my hobbies are: {getTwoRandomHobby}
-		and I love to play Cricket .
-		</p>
+	<h2>About  💻</h2>
+	<p>I'm a software developer who loves building applications that solve real problems for users. I'm passionate about creating tools and solutions that make people's lives easier and more efficient. Currently, I work as a Software Developer at Treety 🌳, where I focus on building meaningful digital experiences.</p>
+	<h2>Personal 🌟</h2>
+	<p>I'm based in India 🇮🇳 and have a few hobbies that keep me busy outside of work. On weekends, you'll often find me playing cricket 🏏. I also enjoy writing ✍️ in my spare time and love watching cat videos 🐱 (they never get old!). When I want to unwind, I like to game 🎮 and spend time exploring new things that catch my interest.</p>
 </BaseLayout>
 
