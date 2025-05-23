@@ -83,7 +83,7 @@ const processedContent = content.replace(
         show_email_subscription?: boolean;
         show_rss_subscription?: boolean;
         simple_view?: boolean;
-        anonymous_access?: boolean;
+        no_footer?: boolean;
       };
     }
   }
@@ -98,10 +98,10 @@ const processedContent = content.replace(
     url: window.location.origin + window.location.pathname,  // Ensure correct URL for comments
     page_title: document.title,  // Use the page title
     locale: 'en',  // Set locale to English
-    show_email_subscription: false,  // Disable email subscriptions as per your config
-    simple_view: false,  // Use full UI
-    show_rss_subscription: false,  // Disable RSS subscription
-    anonymous_access: true  // Enable anonymous comments
+    show_email_subscription: false,
+    show_rss_subscription: false,
+    simple_view: false,
+    no_footer: false
   };
 
   // Load Remark42 script

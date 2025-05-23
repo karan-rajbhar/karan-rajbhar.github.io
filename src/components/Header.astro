@@ -1,6 +1,5 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
-import SearchTrigger from "./SearchTrigger.astro";
 
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1); // remove the first "/"
@@ -15,9 +14,13 @@ const currentPath = pathname.slice(1); // remove the first "/"
     </div>
 
     <div class="right-nav">
-      <SearchTrigger />
+      <button class="search-trigger" aria-label="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+      </button>
       <a href="/articles" class:list={["nav-link", { active: currentPath === "articles" }]}>Articles</a>
-      <a href="/tags" class:list={["nav-link", { active: currentPath === "tags" }]}>Tags</a>
       <a href="/about" class:list={["nav-link", { active: currentPath === "about" }]}>About</a>
       <ThemeToggle />
     </div>
@@ -26,13 +29,10 @@ const currentPath = pathname.slice(1); // remove the first "/"
 
 <style>
   header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    padding: 1rem;
-    background: var(--background-color);
-    border-bottom: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
+    padding: var(--spacing-sm) var(--container-padding);
+    background: var(--bg);
+    color: var(--text);
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
   }
 
   nav {
@@ -46,63 +46,65 @@ const currentPath = pathname.slice(1); // remove the first "/"
   .left-nav {
     display: flex;
     align-items: center;
-    gap: 2rem;
   }
 
   .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-color);
+    color: var(--text);
     text-decoration: none;
     font-weight: 500;
-  }
-
-  .logo img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-  }
-
-  .name {
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
+    transition: color var(--transition-speed) ease;
   }
 
   .right-nav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: var(--spacing-md);
+  }
+
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: color var(--transition-speed) ease;
+  }
+
+  .search-trigger:hover {
+    color: var(--accent);
   }
 
   .nav-link {
-    color: var(--text-color);
+    color: var(--text-light);
     text-decoration: none;
-    font-size: 0.95rem;
-    opacity: 0.8;
-    transition: all 0.3s ease;
+    font-size: var(--font-size-base);
+    transition: color var(--transition-speed) ease;
   }
 
-  .nav-link:hover {
-    opacity: 1;
-    color: var(--accent-color);
-  }
-
+  .nav-link:hover,
   .nav-link.active {
-    color: var(--accent-color);
-    opacity: 1;
+    color: var(--accent);
   }
 
-  @media (max-width: 768px) {
-    .name {
-      display: none;
-    }
-
+  @media (max-width: 600px) {
     .right-nav {
-      gap: 1rem;
+      gap: var(--spacing-sm);
     }
 
     .nav-link {
-      font-size: 0.9rem;
+      font-size: var(--font-size-sm);
+    }
+
+    .logo {
+      font-size: var(--font-size-base);
+    }
+
+    .search-trigger {
+      padding: 0.25rem;
     }
   }
 </style>

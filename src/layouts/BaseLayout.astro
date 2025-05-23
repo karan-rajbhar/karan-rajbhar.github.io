@@ -1,11 +1,12 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SearchOverlay from '../components/SearchOverlay.astro';
 import '../styles/global.css';
 
 const { pageTitle } = Astro.props;
 ---
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.ico" />
@@ -16,14 +17,10 @@ const { pageTitle } = Astro.props;
   <body>
     <Header />
     <main class="main-content">
-      <div class="page-header">
-        {pageTitle && <h1>{pageTitle}</h1>}
-      </div>
-      <div class="page-content">
-        <slot />
-      </div>
+      <slot />
     </main>
     <Footer />
+    <SearchOverlay />
     <script>
       import "../scripts/menu.js";
     </script>
