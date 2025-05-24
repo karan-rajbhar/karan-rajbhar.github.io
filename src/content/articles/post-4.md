@@ -147,7 +147,7 @@ When opting for a self-hosted solution, it's crucial to select the right cloud p
 4. [Oracle Cloud](https://www.oracle.com/cloud/)
 
 
-<img src="/images/post-4/meme1.jpg" style="object-fit: contain;"/>
+![Meme about cloud providers](/images/post-4/meme1.jpg)
 
 
 
@@ -174,7 +174,7 @@ Choosing the right cloud provider is crucial for hosting your self-hosted soluti
 Now that the clouds have settled (figuratively speaking), it's time to delve into the nitty-gritty of implementing and managing our chosen self-hosted commenting solution, Isso, on the Oracle Cloud. This chapter will guide you through the essential steps of setting up your Oracle Cloud instance, deploying Isso, and configuring the frontend to seamlessly integrate it with your static site.
 
 
-<img src="/images/post-4/meme2.jpg" style="object-fit: contain;"/>
+![Meme about cloud setup](/images/post-4/meme2.jpg)
 
 
 ### Creating an Oracle Cloud Instance
@@ -437,7 +437,7 @@ If you are using Astro just create a astro file like this and add to all the pag
 
 Visit a page on your static site where you added the Isso script tag. You should now see the Isso comments section rendered on the page. Like this
 
-<img src="/images/post-4/isso-comment.png" style="object-fit: cover;" width="800px"/>
+![Isso comment system screenshot](/images/post-4/isso-comment.png)
 
 Congratulations! You have successfully integrated Isso with your static site's frontend. Adjust the styling and placement of the comments section as needed based on your site's design.
 

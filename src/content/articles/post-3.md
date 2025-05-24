@@ -14,7 +14,7 @@ slug: "coding-challenges-boost-programming-skills"
 Coding challenges are like digital puzzles that attract tech enthusiasts, budding programmers, and seasoned pros alike. These platforms offer an assortment of problems designed to test your coding mettle, making them an ideal practice ground for improving your programming skills. Moreover, many top-tier tech companies employ similar problems in their job interviews, so it's like preparing for the big leagues.
 
 ## The Perks
-<img src="/images/AI-Art-Generator.png" width="300" height="300">
+![AI Art Generator](/images/AI-Art-Generator.png)
 
 Why are these challenges worth your time? For one, they're a fast track to mastering programming. By tackling a variety of problems spanning different coding areas, from algorithms to data structures, you'll gain a deeper understanding of these concepts. As a bonus, these challenges closely resemble the kind of problems you might encounter in job interviews, providing a significant leg up in your interview preparation.
 

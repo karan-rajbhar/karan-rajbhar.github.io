@@ -19,6 +19,8 @@ export default defineConfig({
       langs: [],
       wrap: true,
     },
+    remarkPlugins: [],
+    rehypePlugins: [],
   },
   image: {
     domains: ["images.unsplash.com", "via.placeholder.com"],
