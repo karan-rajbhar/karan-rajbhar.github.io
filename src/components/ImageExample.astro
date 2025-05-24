@@ -1,0 +1,42 @@
+---
+import OptimizedImage from './OptimizedImage.astro';
+// Example of importing a local image
+// import heroImage from '../assets/hero.jpg';
+---
+
+<!-- Example usage of OptimizedImage component -->
+
+<!-- For external images -->
+<OptimizedImage
+  src="https://images.unsplash.com/photo-1519337265831-281ec6cc8514"
+  alt="Beautiful landscape"
+  width={800}
+  height={600}
+  loading="eager"
+  class="hero-image"
+/>
+
+<!-- For responsive images with custom sizes -->
+<OptimizedImage
+  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+  alt="Computer code on screen"
+  width={600}
+  height={400}
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+  widths={[320, 640, 960]}
+  format="avif"
+  quality={90}
+  class="content-image"
+/>
+
+<style>
+  .hero-image {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content-image {
+    margin: 1rem 0;
+    border-radius: 4px;
+  }
+</style> 

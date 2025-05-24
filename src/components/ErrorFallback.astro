@@ -1,0 +1,141 @@
+---
+export interface Props {
+  title?: string;
+  message?: string;
+  showRefresh?: boolean;
+  class?: string;
+}
+
+const {
+  title = "Something went wrong",
+  message = "We're sorry, but something unexpected happened. Please try refreshing the page.",
+  showRefresh = true,
+  class: className = "error-fallback"
+} = Astro.props;
+---
+
+<div class={className}>
+  <div class="error-content">
+    <div class="error-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+    </div>
+    
+    <h2>{title}</h2>
+    <p>{message}</p>
+    
+    {showRefresh && (
+      <button 
+        class="refresh-button" 
+        onclick="window.location.reload()"
+        type="button"
+      >
+        Refresh Page
+      </button>
+    )}
+    
+    <div class="error-actions">
+      <a href="/" class="home-link">Go to Homepage</a>
+      <a href="/about" class="contact-link">Contact Support</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .error-fallback {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .error-content {
+    text-align: center;
+    max-width: 500px;
+  }
+
+  .error-icon {
+    color: #ef4444;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .error-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .error-content p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .refresh-button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1.5rem;
+  }
+
+  .refresh-button:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .home-link,
+  .contact-link {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+  }
+
+  .home-link:hover,
+  .contact-link:hover {
+    color: #3b82f6;
+  }
+
+  /* Dark mode support */
+  :global(.dark) .error-content h2 {
+    color: #f9fafb;
+  }
+
+  :global(.dark) .error-content p {
+    color: #d1d5db;
+  }
+
+  :global(.dark) .error-icon {
+    color: #f87171;
+  }
+
+  :global(.dark) .home-link,
+  :global(.dark) .contact-link {
+    color: #9ca3af;
+  }
+
+  :global(.dark) .home-link:hover,
+  :global(.dark) .contact-link:hover {
+    color: #60a5fa;
+  }
+</style> 

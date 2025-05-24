@@ -7,11 +7,14 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "lighthouse": "lighthouse http://localhost:4321 --output=html --output-path=./lighthouse-report.html"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.11",
     "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.4.0",
     "@fontsource/jost": "^5.0.16",
     "astro": "^5.7.12",
     "astro-pagefind": "^1.8.3",

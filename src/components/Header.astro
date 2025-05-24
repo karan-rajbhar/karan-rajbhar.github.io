@@ -6,7 +6,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
 ---
 
 <header>
-  <nav>
+  <nav id="navigation" role="navigation" aria-label="Main navigation">
     <div class="left-nav">
       <a href="/" class:list={["logo", { active: currentPath === "" }]}>
         <span class="name">Karan Rajbhar</span>

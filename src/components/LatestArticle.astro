@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import ArticlesOverview from "./ArticleOverview.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 const allArticles = await getCollection("articles");
 
 const recent = allArticles
@@ -15,7 +16,14 @@ const hasMoreArticles = allArticles.length > 8;
 <div class="latest-header">
   <p class="latest-header-text">Latest Articles</p>
   <a href="/articles" class="route-links"
-    >All articles <img src="images/chevrons-right-1.svg" />
+    >All articles <OptimizedImage
+      src="/images/chevrons-right-1.svg"
+      alt="Arrow right"
+      width={16}
+      height={16}
+      loading="eager"
+      class="arrow-icon"
+    />
   </a>
 </div>
 
@@ -52,7 +60,7 @@ const hasMoreArticles = allArticles.length > 8;
     color: inherit;
   }
 
-  .route-links img {
+  .route-links .arrow-icon {
     width: 16px;
     height: 16px;
     vertical-align: middle;

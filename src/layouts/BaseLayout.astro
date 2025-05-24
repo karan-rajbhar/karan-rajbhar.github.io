@@ -3,6 +3,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
 import SEO from '../components/SEO.astro';
+import SkipLinks from '../components/SkipLinks.astro';
+import FocusManager from '../components/FocusManager.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -57,8 +59,10 @@ const {
     </script>
   </head>
   <body>
+    <SkipLinks />
+    <FocusManager />
     <Header />
-    <main class="main-content">
+    <main id="main-content" class="main-content" tabindex="-1">
         <slot />
     </main>
     <Footer />

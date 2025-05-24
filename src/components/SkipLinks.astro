@@ -1,0 +1,80 @@
+---
+// Skip links component for accessibility
+---
+
+<div class="skip-links">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#navigation" class="skip-link">Skip to navigation</a>
+  <a href="#footer" class="skip-link">Skip to footer</a>
+</div>
+
+<style>
+  .skip-links {
+    position: fixed;
+    top: -100px;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 0 0 4px 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    pointer-events: auto;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid #fff;
+  }
+
+  .skip-link:focus {
+    top: 0;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .skip-link:hover,
+  .skip-link:focus {
+    background: #1f2937;
+    outline: none;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .skip-link {
+      background: #000;
+      color: #fff;
+      border: 3px solid #fff;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
+  }
+
+  /* Dark mode support */
+  :global(.dark) .skip-link {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+  }
+
+  :global(.dark) .skip-link:hover,
+  :global(.dark) .skip-link:focus {
+    background: #f3f4f6;
+  }
+</style> 

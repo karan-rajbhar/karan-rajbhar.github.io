@@ -1,0 +1,262 @@
+---
+// Focus management component for better accessibility
+---
+
+<script>
+  class FocusManager {
+    private focusableElements: string;
+    private lastFocusedElement: Element | null;
+
+    constructor() {
+      this.focusableElements = 
+        'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])';
+      this.lastFocusedElement = null;
+      this.init();
+    }
+
+    private init() {
+      this.setupKeyboardNavigation();
+      this.setupFocusIndicators();
+      this.setupModalFocusTrapping();
+      this.setupViewTransitionFocus();
+    }
+
+    private setupKeyboardNavigation() {
+      // Enhanced keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        // Skip links with Tab
+        if (e.key === 'Tab' && !e.shiftKey) {
+          const skipLinks = document.querySelector('.skip-links');
+          if (skipLinks && document.activeElement === document.body) {
+            e.preventDefault();
+            const firstSkipLink = skipLinks.querySelector('.skip-link') as HTMLElement;
+            firstSkipLink?.focus();
+          }
+        }
+
+        // Escape key handling
+        if (e.key === 'Escape') {
+          this.handleEscapeKey();
+        }
+      });
+    }
+
+    private setupFocusIndicators() {
+      // Show focus indicators only for keyboard users
+      let hadKeyboardEvent = false;
+
+      document.addEventListener('keydown', () => {
+        hadKeyboardEvent = true;
+        document.body.classList.add('keyboard-navigation');
+      });
+
+      document.addEventListener('mousedown', () => {
+        hadKeyboardEvent = false;
+        document.body.classList.remove('keyboard-navigation');
+      });
+
+      // Enhanced focus visible support
+      document.addEventListener('focusin', (e) => {
+        if (hadKeyboardEvent) {
+          (e.target as HTMLElement)?.classList.add('focus-visible');
+        }
+      });
+
+      document.addEventListener('focusout', (e) => {
+        (e.target as HTMLElement)?.classList.remove('focus-visible');
+      });
+    }
+
+    private setupModalFocusTrapping() {
+      // Focus trapping for modals and overlays
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          const modal = document.querySelector('[role="dialog"]:not([hidden])') as HTMLElement;
+          if (modal) {
+            this.trapFocus(e, modal);
+          }
+        }
+      });
+    }
+
+    private setupViewTransitionFocus() {
+      // Handle focus during view transitions
+      document.addEventListener('astro:page-load', () => {
+        this.restoreFocus();
+      });
+
+      document.addEventListener('astro:before-preparation', () => {
+        this.saveFocus();
+      });
+    }
+
+    private trapFocus(event: KeyboardEvent, container: HTMLElement) {
+      const focusableElements = container.querySelectorAll(this.focusableElements);
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+      if (event.shiftKey) {
+        if (document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+
+    private handleEscapeKey() {
+      // Close any open modals or overlays
+      const activeModal = document.querySelector('[role="dialog"]:not([hidden])') as HTMLElement;
+      if (activeModal) {
+        const closeButton = activeModal.querySelector('[data-close]') as HTMLElement;
+        closeButton?.click();
+        return;
+      }
+
+      // Close search overlay
+      const searchOverlay = document.querySelector('.search-overlay.active') as HTMLElement;
+      if (searchOverlay) {
+        const closeButton = searchOverlay.querySelector('.search-close') as HTMLElement;
+        closeButton?.click();
+        return;
+      }
+    }
+
+    private saveFocus() {
+      this.lastFocusedElement = document.activeElement;
+    }
+
+    private restoreFocus() {
+      if (this.lastFocusedElement) {
+        // Try to find the same element in the new page
+        const selector = this.getElementSelector(this.lastFocusedElement);
+        const element = document.querySelector(selector) as HTMLElement;
+        
+        if (element) {
+          element.focus();
+        } else {
+          // Fall back to main content
+          const mainContent = document.getElementById('main-content') as HTMLElement;
+          mainContent?.focus();
+        }
+      }
+    }
+
+    private getElementSelector(element: Element): string {
+      if (element.id) {
+        return `#${element.id}`;
+      }
+      
+      if (element.className) {
+        return `.${element.className.split(' ')[0]}`;
+      }
+      
+      return element.tagName.toLowerCase();
+    }
+
+    // Public methods for external use
+    public focusElement(selector: string) {
+      const element = document.querySelector(selector) as HTMLElement;
+      element?.focus();
+    }
+
+    public announceLiveRegion(message: string, priority: 'polite' | 'assertive' = 'polite') {
+      const liveRegion = document.getElementById('live-region');
+      if (liveRegion) {
+        liveRegion.setAttribute('aria-live', priority);
+        liveRegion.textContent = message;
+        
+        // Clear after announcement
+        setTimeout(() => {
+          liveRegion.textContent = '';
+        }, 1000);
+      }
+    }
+  }
+
+  // Initialize focus manager
+  let focusManager: FocusManager;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    focusManager = new FocusManager();
+    
+    // Make it globally available
+    (window as any).focusManager = focusManager;
+  });
+
+  // Reinitialize on view transitions
+  document.addEventListener('astro:page-load', () => {
+    if (!focusManager) {
+      focusManager = new FocusManager();
+      (window as any).focusManager = focusManager;
+    }
+  });
+</script>
+
+<!-- Live region for screen reader announcements -->
+<div id="live-region" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+<style>
+  /* Focus management styles */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Enhanced focus indicators */
+  :global(.keyboard-navigation) *:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  :global(.keyboard-navigation) button:focus,
+  :global(.keyboard-navigation) a:focus,
+  :global(.keyboard-navigation) input:focus,
+  :global(.keyboard-navigation) textarea:focus,
+  :global(.keyboard-navigation) select:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Focus visible enhancement */
+  :global(.focus-visible) {
+    outline: 2px solid #3b82f6 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :global(.keyboard-navigation) *:focus {
+      outline: 3px solid;
+      outline-offset: 2px;
+    }
+  }
+
+  /* Dark mode focus indicators */
+  :global(.dark.keyboard-navigation) *:focus {
+    outline-color: #60a5fa;
+  }
+
+  :global(.dark) :global(.focus-visible) {
+    outline-color: #60a5fa !important;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style> 
