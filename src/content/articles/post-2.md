@@ -7,6 +7,7 @@ image:
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
 tags: ["Article", "Leetcode" ,"View Transition"]
+slug: "progress-growth-leetcode-view-transitions"
 ---
 
 ## Exploring LeetCode Challenges: A Bit of Fun Along the Way:

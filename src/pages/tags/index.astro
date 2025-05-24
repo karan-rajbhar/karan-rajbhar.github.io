@@ -1,29 +1,35 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from "../../layouts/BaseLayout.astro";
-const pageTitle = "Tag Index";
-const allPosts = await getCollection("posts");
-const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+import { getCollection } from "astro:content";
+const allArticles = await getCollection("articles");
+const tags = [...new Set(allArticles.map((article) => article.data.tags).flat())];
+const pageTitle = "Tags";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <div class="tags">
-    {
-      tags.map((tag) => (
-        <p class="tag">
-          <a href={`/tags/${tag}`}>{tag}</a>
-        </p>
-      ))
-    }
+    {tags.map((tag) => (
+      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
+    ))}
   </div>
 </BaseLayout>
 
-
 <style>
-    a {
-      color: #00539F !important;
-      text-decoration: none  !important;;
-    }
-  
-    
-  </style>
+  a {
+    color: #00539F;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    margin: 0.25rem;
+    border: dotted 1px #a1a1a1;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    font-size: 1.15rem;
+    background-color: #F8FCFD;
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import "@fontsource/jost";
+import { getCollection } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticlesOverview from "../../components/ArticleOverview.astro";
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allArticles = await getCollection("articles");
+  const sortedArticles = allArticles.sort(function (a, b) {
+    return b.data.pubDate.getTime() - a.data.pubDate.getTime();
+  });
+
+  return paginate(sortedArticles, { pageSize: 8 });
+};
+
+interface Props {
+  page: Page<CollectionEntry<"articles">>;
+}
+
+const { page }: Props = Astro.props;
+const pageTitle = "Articles";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="articles-list">
+    {page.data.map((article) => (
+      <ArticlesOverview
+        url={"/articles/" + article.slug}
+        title={article.data.title}
+        pubDate={article.data.pubDate}
+        description={article.data.description}
+      />
+    ))}
+  </div>
+
+  {(page.url.prev || page.url.next) && (
+    <nav class="pagination" aria-label="Article pagination">
+      {page.url.prev && (
+        <a href={page.url.prev} class="pagination-link">
+          ← Previous
+        </a>
+      )}
+
+      <span class="pagination-info">
+        {page.currentPage} of {page.lastPage}
+      </span>
+
+      {page.url.next && (
+        <a href={page.url.next} class="pagination-link">
+          Next →
+        </a>
+      )}
+    </nav>
+  )}
+</BaseLayout>
+
+<style>
+  .articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--spacing-lg);
+  }
+
+  .pagination-link {
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+
+  .pagination-link:hover {
+    background-color: var(--surface-secondary);
+  }
+
+  .pagination-info {
+    font-family: Jost;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    .articles-list {
+      gap: var(--spacing-md);
+    }
+
+    .pagination {
+      padding-top: var(--spacing-md);
+      margin-top: var(--spacing-md);
+    }
+
+    .pagination-link {
+      font-size: 14px;
+      padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .pagination-info {
+      font-size: 12px;
+    }
+  }
+</style> 

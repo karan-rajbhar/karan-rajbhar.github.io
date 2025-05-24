@@ -7,6 +7,7 @@ image:
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
 tags: ["Article", "First Blog"]
+slug: "exploring-technology-memes-coding-engineering"
 ---
 
 # Title: "Exploring the Mix of Technology, Memes, Coding, and Engineering"

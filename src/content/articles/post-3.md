@@ -7,6 +7,7 @@ image:
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
 tags: ["coding challenges", "Leetcode" ,"programming skills" ,"interview preparation","problem-solving"]
+slug: "coding-challenges-boost-programming-skills"
 ---
 
 ## What Are Coding Challenges?

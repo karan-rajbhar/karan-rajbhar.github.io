@@ -1,13 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import ArticlesOverview from "./ArticleOverview.astro";
-const allPosts = await getCollection("posts");
+const allArticles = await getCollection("articles");
 
-const recent = allPosts
+const recent = allArticles
   .sort(function (a, b) {
     return b.data.pubDate.getTime() - a.data.pubDate.getTime();
   })
-  .slice(0, 5);
+  .slice(0, 8); // Show 8 articles on homepage
+
+const hasMoreArticles = allArticles.length > 8;
 ---
 
 <div class="latest-header">
@@ -18,20 +20,29 @@ const recent = allPosts
 </div>
 
 {
-  recent.map((post) => (
+  recent.map((article) => (
     <ArticlesOverview
-      url={"/posts/" + post.slug}
-      title={post.data.title}
-      pubDate={post.data.pubDate}
-      description={post.data.description}
+      url={"/articles/" + article.slug}
+      title={article.data.title}
+      pubDate={article.data.pubDate}
+      description={article.data.description}
     />
   ))
 }
 
+{hasMoreArticles && (
+  <div class="view-more">
+    <a href="/articles" class="view-more-link">
+      View all {allArticles.length} articles →
+    </a>
+  </div>
+)}
+
 <style>
   .route-links {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    gap: 4px;
     text-decoration: none;
     font-family: Jost *;
     font-size: 16px;
@@ -39,6 +50,12 @@ const recent = allPosts
     font-weight: 400;
     line-height: normal;
     color: inherit;
+  }
+
+  .route-links img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
   }
 
   .latest-header {
@@ -55,9 +72,38 @@ const recent = allPosts
   }
 
   .latest-header-text {
-
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
+  }
+
+  .view-more {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .view-more-link {
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--accent);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
+
+  .view-more-link:hover {
+    background-color: var(--surface-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .view-more-link {
+      font-size: 14px;
+      padding: var(--spacing-xs) var(--spacing-sm);
+    }
   }
 </style>

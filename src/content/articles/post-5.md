@@ -7,6 +7,7 @@ image:
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
 tags: ["Database", "Connection Pool", "Bug", "Google Cloud Run"]
+slug: "database-connection-pool-bug-demo"
 ---
 
 ## The Sneaky Database Connection Pool Bug That Almost Ruined Our Demo

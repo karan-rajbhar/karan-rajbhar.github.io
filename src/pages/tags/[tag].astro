@@ -1,38 +1,38 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogPost from "../../components/ArticleOverview.astro";
-//Tags Definition
+import ArticlesOverview from "../../components/ArticleOverview.astro";
+import { getCollection } from "astro:content";
+
 export async function getStaticPaths() {
-  const allPosts = await getCollection("posts");
+  const allArticles = await getCollection("articles");
   const uniqueTags = [
-    ...new Set(allPosts.map((post: any) => post.data.tags).flat()),
+    ...new Set(allArticles.map((article: any) => article.data.tags).flat()),
   ];
+
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: any) =>
-      post.data.tags.includes(tag)
+    const filteredArticles = allArticles.filter((article: any) =>
+      article.data.tags.includes(tag)
     );
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { articles: filteredArticles },
     };
   });
 }
 
+const { articles } = Astro.props;
 const { tag } = Astro.params;
-const { posts } = Astro.props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
+  <p>Articles tagged with {tag}</p>
   <ul>
     {
-      posts.map((post: { slug: any; data: { title: any , pubDate: any} }) => (
-        <BlogPost
-          url={"/posts/" + post.slug}
-          title={post.data.title}
-          pubDate={post.data.pubDate}
-          description = {post.data.description}
+      articles.map((article: { slug: any; data: { title: any , pubDate: any} }) => (
+        <ArticlesOverview
+          url={"/articles/" + article.slug}
+          title={article.data.title}
+          pubDate={article.data.pubDate}
         />
       ))
     }
