@@ -1,4 +1,7 @@
 import { defineConfig } from 'astro/config';
+import remarkUnwrapImages from 'remark-unwrap-images';
+import rehypeImgSize from 'rehype-img-size';
+import { rehypeOptimizeImages } from './src/utils/rehype-optimize-images.js';
 
 import preact from "@astrojs/preact";
 import pagefind from "astro-pagefind";
@@ -19,8 +22,13 @@ export default defineConfig({
       langs: [],
       wrap: true,
     },
-    remarkPlugins: [],
-    rehypePlugins: [],
+    remarkPlugins: [
+      remarkUnwrapImages, // Unwrap images from paragraphs for better styling
+    ],
+    rehypePlugins: [
+      [rehypeImgSize, { dir: 'public' }], // Add width/height attributes automatically
+      rehypeOptimizeImages, // Add lazy loading and optimization attributes
+    ],
   },
   image: {
     domains: ["images.unsplash.com", "via.placeholder.com"],

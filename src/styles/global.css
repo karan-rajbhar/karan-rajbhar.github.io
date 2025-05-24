@@ -135,12 +135,17 @@ a:hover {
   padding-bottom: var(--spacing-md);
 }
 
-/* Responsive images */
+/* Responsive images with optimization */
 img {
   max-width: 100%;
   height: auto;
   border-radius: 6px;
   margin: var(--spacing-sm) 0;
+  /* Default loading behavior for all images */
+  loading: lazy;
+  decoding: async;
+  /* Improve layout stability */
+  aspect-ratio: auto;
 }
 
 /* Override any inline width styles that might break responsive behavior */
@@ -154,6 +159,17 @@ img[style*="width"] {
   display: block;
   margin: var(--spacing-md) auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Add smooth transition for loading */
+  transition: opacity 0.3s ease;
+}
+
+/* Images while loading */
+.main-content img[loading="lazy"]:not([src]) {
+  opacity: 0;
+}
+
+.main-content img[loading="lazy"][src] {
+  opacity: 1;
 }
 
 /* For images that should be smaller (like memes or inline images) */
@@ -167,6 +183,13 @@ img[style*="width"] {
 .main-content img[src*="comment"] {
   max-width: 100%;
   margin: var(--spacing-lg) auto;
+}
+
+/* Critical/hero images (first image) should load eagerly */
+.main-content > :first-child img,
+.post-content > :first-child img {
+  loading: eager !important;
+  fetchpriority: high;
 }
 
 /* Minimal code styling */
