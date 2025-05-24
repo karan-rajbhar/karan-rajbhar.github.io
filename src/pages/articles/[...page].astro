@@ -69,7 +69,7 @@ const pageTitle = "Articles";
     justify-content: space-between;
     align-items: center;
     padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
     margin-top: var(--spacing-md);
     margin-bottom: 0;
   }
@@ -79,20 +79,21 @@ const pageTitle = "Articles";
     font-size: 16px;
     font-weight: 500;
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--text);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: 6px;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   .pagination-link:hover {
-    background-color: var(--surface-secondary);
+    background-color: var(--bg-secondary);
+    color: var(--accent);
   }
 
   .pagination-info {
     font-family: Jost;
     font-size: 14px;
-    color: var(--text-muted);
+    color: var(--text-light);
     font-weight: 400;
   }
 

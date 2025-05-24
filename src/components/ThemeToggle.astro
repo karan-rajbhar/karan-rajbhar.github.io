@@ -16,46 +16,35 @@
 </button>
 
 <script>
-  const getTheme = (): 'light' | 'dark' => {
-    if (typeof localStorage !== 'undefined') {
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme === 'light' || storedTheme === 'dark') {
-        return storedTheme;
-      }
-    }
-    
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    return 'light';
-  };
-
-  const theme = getTheme();
-
-  if (theme === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else {
-    document.documentElement.classList.add('dark');
-  }
-
-  window.localStorage.setItem('theme', theme);
+  // Theme initialization is handled by the layout, so we don't need it here
 
   const handleToggleClick = () => {
     const element = document.documentElement;
+    const button = document.querySelector('.theme-toggle') as HTMLElement;
+
+    // Add a brief animation class for the transition
+    button?.classList.add('transitioning');
+
     element.classList.toggle('dark');
 
     const isDark = element.classList.contains('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+    // Remove animation class after transition
+    setTimeout(() => {
+      button?.classList.remove('transitioning');
+    }, 300);
   };
 
   const initThemeToggle = () => {
     const themeToggle = document.querySelector('.theme-toggle');
-    if (themeToggle) {
+    if (themeToggle && !themeToggle.hasAttribute('data-initialized')) {
       themeToggle.addEventListener('click', handleToggleClick);
+      themeToggle.setAttribute('data-initialized', 'true');
     }
   };
 
+  // Only initialize once when the component loads
   document.addEventListener('DOMContentLoaded', initThemeToggle);
   document.addEventListener('astro:page-load', initThemeToggle);
 </script>
@@ -70,12 +59,36 @@
     border: none;
     color: var(--text-light);
     cursor: pointer;
-    transition: color var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .theme-toggle:hover {
     color: var(--accent);
+    background: var(--bg-secondary);
+    transform: scale(1.1);
+  }
+
+  .theme-toggle:active {
+    transform: scale(0.95);
+  }
+
+  .theme-toggle.transitioning {
+    animation: themeTransition 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes themeTransition {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 
   .dark .theme-toggle {
@@ -91,23 +104,27 @@
     width: 20px;
     height: 20px;
     position: absolute;
-    transition: opacity var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .sun-icon {
     opacity: 0;
+    transform: rotate(-90deg) scale(0.8);
   }
 
   :global(.dark) .sun-icon {
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 
   .moon-icon {
     opacity: 1;
+    transform: rotate(0deg) scale(1);
   }
 
   :global(.dark) .moon-icon {
     opacity: 0;
+    transform: rotate(90deg) scale(0.8);
   }
 
   @media (max-width: 600px) {

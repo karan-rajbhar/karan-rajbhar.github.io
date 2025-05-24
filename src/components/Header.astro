@@ -29,10 +29,23 @@ const currentPath = pathname.slice(1); // remove the first "/"
 
 <style>
   header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: var(--header-height);
     padding: var(--spacing-sm) var(--container-padding);
     background: var(--bg);
     color: var(--text);
-    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   nav {
@@ -41,6 +54,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     justify-content: space-between;
     max-width: var(--max-width);
     margin: 0 auto;
+    width: 100%;
   }
 
   .left-nav {
@@ -53,7 +67,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     text-decoration: none;
     font-weight: 500;
     font-size: var(--font-size-lg);
-    transition: color var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .right-nav {
@@ -71,7 +85,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     border: none;
     color: var(--text-light);
     cursor: pointer;
-    transition: color var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .search-trigger:hover {
@@ -82,7 +96,7 @@ const currentPath = pathname.slice(1); // remove the first "/"
     color: var(--text-light);
     text-decoration: none;
     font-size: var(--font-size-base);
-    transition: color var(--transition-speed) ease;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .nav-link:hover,

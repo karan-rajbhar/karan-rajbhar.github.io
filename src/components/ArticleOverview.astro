@@ -23,16 +23,22 @@ const publishDateFormatted =
         margin-bottom: var(--spacing-lg);
       }
       .article-title {
+        color: var(--text);
         font-family: Jost;
         font-size: 26px;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
         text-decoration: none;
+        transition: color var(--transition-speed) ease;
+      }
+
+      .article-title:hover {
+        color: var(--accent);
       }
 
       .article-date {
-        color: var(--rw-blue-50, #5e8ca7);
+        color: var(--text-muted);
         font-family: Jost;
         font-size: 12px;
         font-style: normal;
@@ -41,13 +47,18 @@ const publishDateFormatted =
       }
 
       .read-more {
-        color: #7ab6d9;
+        color: var(--accent);
         font-family: Jost;
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
         text-decoration: none;
+        transition: color var(--transition-speed) ease;
+      }
+
+      .read-more:hover {
+        color: var(--accent-hover);
       }
 
       @media (max-width: 600px) {
