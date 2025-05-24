@@ -337,4 +337,120 @@ sudo systemctl enable isso
 
 Install Nginx on your Oracle Cloud instance.
 
+```bash
+sudo apt install nginx
 ```
+
+### Step 9: Configure Nginx for Isso
+
+Create an Nginx configuration file for Isso.
+
+```bash
+sudo vi /etc/nginx/sites-available/isso
+```
+
+Paste the following Nginx configuration:
+
+```nginx
+server {
+    listen 8080;
+    server_name your-domain.com;  # Replace with your domain
+
+    location / {
+        proxy_pass http://localhost:1927;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Enable the site by creating a symbolic link.
+
+```bash
+sudo ln -s /etc/nginx/sites-available/isso /etc/nginx/sites-enabled
+```
+
+Test Nginx configuration and restart the service.
+
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
+
+### Step 9: Open Port 8080 and Reload Isso
+
+Ensure that port 8080 is open on your Oracle Cloud instance.
+
+```bash
+sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+sudo netfilter-persistent save
+sudo netfilter-persistent reload
+```
+
+Reload the Isso service.
+
+```bash
+sudo systemctl restart isso
+```
+
+### Step 10: Access Isso
+
+Visit your domain or public IP to access Isso through Nginx.
+
+By following these steps, you'll have successfully set up Isso with Nginx on your Oracle Cloud instance. Adjust configurations according to your preferences and site requirements.
+
+### Configuring the Frontend with Isso
+
+3. **Configuring the Frontend with Isso:** Learn how to integrate Isso with your static site frontend. This includes updating your site's HTML to include Isso comments and configuring Isso to communicate effectively with your site.
+
+### Step 1: Locate Your Static Site's HTML
+
+Locate the HTML file of your static site where you want to add the Isso comments section. This is typically the file responsible for rendering your blog post or content.
+
+### Step 2: Insert Isso Script Tag
+
+Within the HTML file, locate the area where you want the comments to appear. Insert the following Isso script tag where you want the comments section to be rendered:
+
+```html
+<div id="isso-thread"></div>
+<script data-isso='{"target": "#isso-thread"}' src="http://your-isso-server:8080/js/embed.min.js"></script>
+```
+
+Replace `"http://your-isso-server:8080"` with the actual URL where your Isso server is running. If you're using the Nginx setup from the previous steps, this would be the domain or IP address of your Oracle Cloud instance.
+
+If you are using Astro just create a astro file like this and add to all the pages
+
+```javascript
+---
+
+---
+
+<script data-isso="https://issocomment.dionsyus.online/comments/" src="https://issocomment.dionsyus.online/comments/js/embed.min.js/"></script>
+<div class="post-footer">
+    <section id="isso-thread"></section>
+</div>
+```
+
+### Step 5: Verify Integration
+
+Visit a page on your static site where you added the Isso script tag. You should now see the Isso comments section rendered on the page. Like this
+
+<img src="/images/post-4/isso-comment.png" style="object-fit: cover;" width="800px"/>
+
+Congratulations! You have successfully integrated Isso with your static site's frontend. Adjust the styling and placement of the comments section as needed based on your site's design.
+
+# Conclusion
+
+You've done it! Your static site is now a lively hub for discussions, thanks to Isso and the cloud. Let's sum it up:
+
+1. **Oracle Cloud Setup:** Created a cloud space for Isso to live.
+2. **Isso with Nginx:** Installed Isso on Oracle Cloud, guarded by Nginx.
+3. **Frontend Harmony:** Integrated Isso seamlessly with your site's frontend.
+
+Now, your site is more than static—it's buzzing with user engagement. Embracing self-hosted solutions like Isso ensures you have control and privacy.
+
+Cheers to fostering meaningful discussions on your site! Any questions or thoughts? Reach out anytime. Happy commenting!
+
+
