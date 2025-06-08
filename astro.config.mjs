@@ -6,12 +6,14 @@ import { rehypeOptimizeImages } from './src/utils/rehype-optimize-images.js';
 import preact from "@astrojs/preact";
 import pagefind from "astro-pagefind";
 import sitemap from "@astrojs/sitemap";
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://karan-rajbhar.github.io/',
   base: '/',
   integrations: [
+    mdx(),
     preact(),
     pagefind(),
     sitemap()

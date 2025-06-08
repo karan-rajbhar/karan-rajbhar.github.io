@@ -12,6 +12,7 @@
     "lighthouse": "lighthouse http://localhost:4321 --output=html --output-path=./lighthouse-report.html"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
     "@astrojs/preact": "^4.0.11",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.4.0",
