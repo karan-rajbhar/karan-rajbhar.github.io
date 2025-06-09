@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
-    "@astrojs/preact": "^4.0.11",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.4.0",
     "@fontsource/jost": "^5.0.16",
@@ -22,7 +21,6 @@
     "highlight.js": "^11.11.1",
     "luxon": "^3.4.4",
     "pagefind": "^1.3.0",
-    "preact": "^10.19.6",
     "rehype-img-size": "^1.0.1",
     "remark-unwrap-images": "^4.0.1",
     "unist-util-visit": "^5.0.0"

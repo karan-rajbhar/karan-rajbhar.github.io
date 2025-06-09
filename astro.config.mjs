@@ -2,8 +2,6 @@ import { defineConfig } from 'astro/config';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import rehypeImgSize from 'rehype-img-size';
 import { rehypeOptimizeImages } from './src/utils/rehype-optimize-images.js';
-
-import preact from "@astrojs/preact";
 import pagefind from "astro-pagefind";
 import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
@@ -14,7 +12,6 @@ export default defineConfig({
   base: '/',
   integrations: [
     mdx(),
-    preact(),
     pagefind(),
     sitemap()
   ],
@@ -38,19 +35,9 @@ export default defineConfig({
   },
   compressHTML: true,
   vite: {
-    ssr: {
-      noExternal: ['@astrojs/preact']
-    },
     build: {
       target: 'esnext',
-      cssMinify: true,
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['preact']
-          }
-        }
-      }
+      cssMinify: true
     }
   }
 });
