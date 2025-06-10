@@ -6,9 +6,49 @@ image:
     url: "/images/post-4/thumbnail.png"
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
-tags: ["Oracle Cloud", "Comments" ,"static Site" ,"nginx" , "isso"]
+tags: ["Oracle Cloud", "Comments" ,"static Site" ,"nginx" , "isso" ,"remark42"]
 slug: "adding-comments-to-static-site"
 ---
+
+> **Update (2025  May)**: Since writing this article, I've switched from Isso to Remark42 for its simpler Docker-based deployment and better maintainability. While the article below describes the Isso setup, I'm now using Remark42 which can be deployed using a simple docker-compose file:
+> ```yaml
+> version: "2"
+> services:
+>   remark42:
+>     image: umputun/remark42:latest
+>     container_name: "remark42"
+>     restart: always
+>     environment:
+>       - REMARK_URL=https://comments.yourdomain.com
+>       - SITE=your-site-id
+>     volumes:
+>       - ./var:/srv/var
+>     ports:
+>       - "8080:8080"
+> ```
+>In frontend the integration is simple just add the script tag to the page and add the div id to the page where you want the comments to appear.
+>```javascript
+>  // Remark42 initialization
+>  window.remark_config = {
+>    host: 'https://comments.yourdomain.com',
+>    site_id: 'your-site-id',
+>    components: ['embed'],
+>    max_shown_comments: 10,
+>    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+>    url: window.location.origin + window.location.pathname,
+>    page_title: document.title,
+>    locale: 'en',
+>    show_email_subscription: false,
+>    show_rss_subscription: false,
+>    simple_view: false,
+>    no_footer: false
+>  };
+>```
+>
+>![Remark42 comment system screenshot](/images/post-4/remark42-comment.png)
+>
+> The switch to Remark42 has significantly simplified the maintenance while providing a better user experience. The original article continues below, documenting my initial journey with Isso.
+
 
 
 ## Chapter 1: The Challenge of No Comments on My GitHub Page
