@@ -1,7 +1,7 @@
 ---
 title: "Building a Simple AI Widget for Article Interactions"
 pubDate: 2025-06-10
-description: "Learn how we created a simple, no-backend widget that helps readers interact with articles using ChatGPT and Claude. Perfect for quick summaries and explanations without the complexity of running your own AI service."
+description: "no-backend widget that helps readers interact with articles using ChatGPT and Claude. Perfect for quick summaries and explanations without the complexity of running your own AI service."
 image:
     url: "/images/ai-widget.png"
     alt: "AI Widget Screenshot"

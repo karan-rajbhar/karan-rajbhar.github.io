@@ -63,8 +63,26 @@ const AI_ACTIONS = [
 <!-- Article Widget -->
 <div class={styles.aiArticleButton} id="articleWidget" style="display: none;">
   <button class={styles.aiArticleTrigger} id="articleTrigger">
-    <span class={styles.triggerEmoji}>✨</span>
-    Ask AI about this article
+    <div class={styles.buttonContent}>
+      <div class={styles.iconWrapper}>
+        <svg
+          class={styles.aiIcon}
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3l1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z"></path>
+          <path d="M5 17l1 2.5L8.5 21l-2.5 1L5 24l-1-2.5L1.5 21l2.5-1L5 17"></path>
+          <path d="M19 17l1 2.5L22.5 21l-2.5 1L19 24l-1-2.5L15.5 21l2.5-1L19 17"></path>
+        </svg>
+      </div>
+      <span class={styles.buttonText}>Ask AI</span>
+    </div>
   </button>
 
   <div class={styles.aiArticleOptions} id="articleOptions" style="display: none;">
@@ -355,5 +373,47 @@ const AI_ACTIONS = [
   :global(body.dark) .aiSelectionWidget,
   :global(body.dark) .aiArticleButton {
     color-scheme: dark;
+  }
+
+  /* New button styles */
+  .buttonContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+
+  .iconWrapper {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pulseRing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .buttonText {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
   }
 </style> 

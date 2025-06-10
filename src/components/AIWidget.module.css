@@ -44,8 +44,10 @@
 }
 
 .triggerEmoji {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
+  opacity: 0.8;
+  transition: opacity var(--transition-speed) ease;
 }
 
 .backBtnEmoji {
@@ -58,29 +60,37 @@
   bottom: 20px;
   right: 20px;
   z-index: 999;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .aiArticleTrigger {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 20px;
+  background: var(--bg-secondary);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
   backdrop-filter: blur(10px);
 }
 
 .aiArticleTrigger:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aiArticleTrigger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .aiArticleOptions {
@@ -284,76 +294,74 @@
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .aiSelectionOptions {
-    background: rgba(30, 30, 30, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
+:global(.dark) .aiSelectionOptions {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
 
-  .aiSelectionOption {
-    color: #ddd;
-  }
+:global(.dark) .aiSelectionOption {
+  color: var(--text);
+}
 
-  .aiSelectionOption:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
+:global(.dark) .aiSelectionOption:hover {
+  background: var(--code-bg);
+}
 
-  .aiArticleTrigger {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  }
+:global(.dark) .aiArticleOptions {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
 
-  .aiArticleOptions {
-    background: rgba(30, 30, 30, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
+:global(.dark) .aiArticleHeader {
+  border-color: var(--border);
+}
 
-  .aiArticleHeader {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
+:global(.dark) .aiArticleHeader span {
+  color: var(--text);
+}
 
-  .aiArticleHeader span {
-    color: #ddd;
-  }
+:global(.dark) .aiArticleClose {
+  color: var(--text-muted);
+}
 
-  .aiArticleClose {
-    color: #999;
-  }
+:global(.dark) .aiArticleClose:hover {
+  background: var(--code-bg);
+  color: var(--text);
+}
 
-  .aiArticleClose:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ddd;
-  }
+:global(.dark) .actionBtn,
+:global(.dark) .serviceBtn {
+  border-color: var(--border);
+  color: var(--text);
+}
 
-  .actionBtn, .serviceBtn {
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #ddd;
-  }
+:global(.dark) .actionBtn:hover,
+:global(.dark) .serviceBtn:hover {
+  background: var(--code-bg);
+  border-color: var(--accent);
+}
 
-  .actionBtn:hover, .serviceBtn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--service-color);
-  }
+:global(.dark) .actionEmoji {
+  background: var(--code-bg);
+}
 
-  .actionEmoji {
-    background: rgba(255, 255, 255, 0.1);
-  }
+:global(.dark) .actionTitle,
+:global(.dark) .serviceName {
+  color: var(--text);
+}
 
-  .actionTitle, .serviceName {
-    color: #ddd;
-  }
+:global(.dark) .actionDesc,
+:global(.dark) .serviceDesc {
+  color: var(--text-muted);
+}
 
-  .actionDesc, .serviceDesc {
-    color: #999;
-  }
+:global(.dark) .backBtn {
+  background: var(--code-bg);
+  color: var(--text);
+}
 
-  .backBtn {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ddd;
-  }
-
-  .backBtn:hover {
-    background: rgba(255, 255, 255, 0.15);
-  }
+:global(.dark) .backBtn:hover {
+  background: var(--bg-secondary);
 }
 
 /* Mobile responsiveness */
@@ -365,7 +373,7 @@
 
   .aiArticleTrigger {
     padding: 10px 16px;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
   }
 
   .aiArticleOptions {
@@ -390,7 +398,17 @@
   .serviceAvatar {
     width: 36px;
     height: 36px;
-    font-size: 14px;
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .aiArticleTrigger,
+  .pulseRing,
+  .aiArticleTrigger::before {
+    transition: none !important;
+    animation: none !important;
   }
 }
 
@@ -435,5 +453,45 @@
 
   .processingText {
     color: #999;
+  }
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aiIcon {
+  transition: transform var(--transition-speed) ease;
+}
+
+.aiArticleTrigger:hover .aiIcon {
+  transform: rotate(45deg);
+}
+
+.buttonText {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
   }
 } 
