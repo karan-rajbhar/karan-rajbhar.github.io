@@ -19,7 +19,7 @@ const AI_SERVICES = [
     shortName: 'CL',
     color: '#6344df',
     textColor: '#ffffff',
-    url: 'https://claude.ai/chat'
+    url: 'https://claude.ai'
   }
 ];
 
@@ -214,15 +214,12 @@ const AI_ACTIONS = [
     const text = isFromSelection ? selectedText.trim() : getArticleContent();
     // Create a clean prompt with the content
     const cleanPrompt = `${action.prompt.trim()}\n\n${text}`.trim();
-    // If it's ChatGPT, use the working URL format
-    if (service.id === 'gpt') {
-      window.open(`${service.url}/?q=${encodeURIComponent(cleanPrompt)}`, '_blank');
-    } else {
-      // For other services like Claude, use the standard format
-      const serviceUrl = new URL(service.url);
-      serviceUrl.searchParams.set('q', cleanPrompt);
-      window.open(serviceUrl.toString(), '_blank');
-    }
+    // Both Claude and ChatGPT use the same URL parameter structure
+    const url = service.id === 'claude'
+      ? `${service.url}/new?q=${encodeURIComponent(cleanPrompt)}`
+      : `${service.url}/?q=${encodeURIComponent(cleanPrompt)}`;
+    window.open(url, '_blank');
+
     // Reset state
     selectedText = '';
     const selectionWidget = document.getElementById('selectionWidget');
