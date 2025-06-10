@@ -1,0 +1,662 @@
+<div class="article-controls">
+  <div class="article-controls-inner">
+    <!-- Font controls -->
+    <div class="control-group font-controls">
+      <button class="control-btn" id="font-options" title="Text options">
+        <span class="icon">Aa</span>
+      </button>
+      <div class="dropdown-panel font-panel" id="font-panel">
+        <div class="panel-section">
+          <h3>Text Size</h3>
+          <div class="size-controls">
+            <button class="size-btn" id="decrease-font" title="Decrease font size">
+              <span>Aa</span>
+            </button>
+            <input type="range" id="font-size" min="1" max="9" value="4" />
+            <button class="size-btn" id="increase-font" title="Increase font size">
+              <span>Aa</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="panel-section">
+          <h3>Font Family</h3>
+          <div class="font-options">
+            <button class="font-btn serif active" data-font="serif">
+              <span>Aa</span>
+              <span>Serif</span>
+            </button>
+            <button class="font-btn sans-serif" data-font="sans-serif">
+              <span>Aa</span>
+              <span>Sans-serif</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Line Height</h3>
+          <div class="line-height-controls">
+            <button class="line-height-btn" data-height="1">
+              <span class="line-1"></span>
+            </button>
+            <button class="line-height-btn" data-height="1.5">
+              <span class="line-2"></span>
+            </button>
+            <button class="line-height-btn active" data-height="2">
+              <span class="line-3"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Content Width</h3>
+          <div class="width-controls">
+            <button class="width-btn" data-width="narrow">
+              <span class="width-1"></span>
+            </button>
+            <button class="width-btn active" data-width="medium">
+              <span class="width-2"></span>
+            </button>
+            <button class="width-btn" data-width="wide">
+              <span class="width-3"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Theme controls -->
+    <div class="control-group theme-controls">
+      <button class="control-btn" id="theme-options" title="Theme options">
+        <span class="icon">🎨</span>
+      </button>
+      <div class="dropdown-panel theme-panel" id="theme-panel">
+        <div class="theme-options">
+          <button class="theme-btn light active" data-theme="light">
+            <span class="theme-preview"></span>
+            <span>Light</span>
+          </button>
+          <button class="theme-btn sepia" data-theme="sepia">
+            <span class="theme-preview"></span>
+            <span>Sepia</span>
+          </button>
+          <button class="theme-btn dark" data-theme="dark">
+            <span class="theme-preview"></span>
+            <span>Dark</span>
+          </button>
+          <button class="theme-btn auto" data-theme="auto">
+            <span class="theme-preview"></span>
+            <span>Auto</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Read aloud -->
+    <div class="control-group voice-controls">
+      <button class="control-btn" id="read-aloud" title="Read aloud">
+        <span class="icon">🔊</span>
+      </button>
+      <div class="voice-controls-panel" id="voice-panel" style="display: none;">
+        <div class="voice-controls-inner">
+          <button id="pause-read" title="Pause">⏸</button>
+          <button id="stop-read" title="Stop">⏹</button>
+          <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1" title="Reading speed" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .article-controls {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-color, #fff);
+    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    padding: 0.5rem;
+    margin: -1rem -1rem 2rem -1rem;
+    transition: all 0.2s ease;
+  }
+
+  .article-controls-inner {
+    max-width: var(--content-width, 680px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .control-group {
+    position: relative;
+  }
+
+  .control-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color, #333);
+    transition: all 0.2s ease;
+  }
+
+  .control-btn:hover {
+    background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+  }
+
+  .control-btn .icon {
+    font-size: 1.2rem;
+  }
+
+  .dropdown-panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--bg-color, #fff);
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    min-width: 240px;
+    display: none;
+    z-index: 1000;
+  }
+
+  .panel-section {
+    margin-bottom: 1rem;
+  }
+
+  .panel-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .panel-section h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color, #333);
+  }
+
+  /* Font controls */
+  .size-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .size-btn {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: var(--text-color, #333);
+  }
+
+  input[type="range"] {
+    flex: 1;
+    height: 4px;
+    background: var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 2px;
+    appearance: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-color, #0060df);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .font-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .font-btn {
+    background: none;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .font-btn.active {
+    background: var(--accent-color, #0060df);
+    color: white;
+    border-color: var(--accent-color, #0060df);
+  }
+
+  /* Line height controls */
+  .line-height-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .line-height-btn {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .line-height-btn span {
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+  }
+
+  .line-height-btn.active {
+    background: var(--accent-color, #0060df);
+    color: white;
+    border-color: var(--accent-color, #0060df);
+  }
+
+  /* Width controls */
+  .width-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .width-btn {
+    flex: 1;
+    background: none;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+  }
+
+  .width-btn span {
+    height: 8px;
+    background: currentColor;
+    border-radius: 4px;
+  }
+
+  .width-btn.active {
+    background: var(--accent-color, #0060df);
+    color: white;
+    border-color: var(--accent-color, #0060df);
+  }
+
+  .width-1 { width: 20px; }
+  .width-2 { width: 30px; }
+  .width-3 { width: 40px; }
+
+  /* Theme controls */
+  .theme-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .theme-btn {
+    background: none;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .theme-btn.active {
+    background: var(--accent-color, #0060df);
+    color: white;
+    border-color: var(--accent-color, #0060df);
+  }
+
+  .theme-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+  }
+
+  .theme-btn.light .theme-preview { background: #fff; }
+  .theme-btn.sepia .theme-preview { background: #f4ecd8; }
+  .theme-btn.dark .theme-preview { background: #2a2a2a; }
+  .theme-btn.auto .theme-preview {
+    background: linear-gradient(to right, #fff 50%, #2a2a2a 50%);
+  }
+
+  /* Voice controls */
+  .voice-controls-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-color, #fff);
+    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    min-width: 200px;
+    z-index: 1000;
+  }
+
+  .voice-controls-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Responsive design */
+  @media (max-width: 640px) {
+    .article-controls-inner {
+      justify-content: center;
+    }
+
+    .dropdown-panel {
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 280px;
+    }
+  }
+
+  /* Theme-specific styles */
+  :global([data-theme="light"]) {
+    --bg-color: #fff;
+    --text-color: #333;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --accent-color: #0060df;
+  }
+
+  :global([data-theme="dark"]) {
+    --bg-color: #2a2a2a;
+    --text-color: #eee;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --hover-bg: rgba(255, 255, 255, 0.05);
+    --accent-color: #0a84ff;
+  }
+
+  :global([data-theme="sepia"]) {
+    --bg-color: #f4ecd8;
+    --text-color: #5b4636;
+    --border-color: rgba(91, 70, 54, 0.1);
+    --hover-bg: rgba(91, 70, 54, 0.05);
+    --accent-color: #a6670e;
+  }
+</style>
+
+<script>
+  class ArticleControls {
+    private article: HTMLElement | null;
+    private speechSynthesis: SpeechSynthesis;
+    private utterance: SpeechSynthesisUtterance | null = null;
+    private speaking = false;
+
+    constructor() {
+      this.article = document.querySelector('article.post');
+      this.speechSynthesis = window.speechSynthesis;
+      this.setupEventListeners();
+      this.loadPreferences();
+    }
+
+    private setupEventListeners() {
+      // Font options panel toggle
+      document.getElementById('font-options')?.addEventListener('click', () => {
+        const panel = document.getElementById('font-panel');
+        const themePanel = document.getElementById('theme-panel');
+        if (panel) {
+          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+          if (themePanel) themePanel.style.display = 'none';
+        }
+      });
+
+      // Theme options panel toggle
+      document.getElementById('theme-options')?.addEventListener('click', () => {
+        const panel = document.getElementById('theme-panel');
+        const fontPanel = document.getElementById('font-panel');
+        if (panel) {
+          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+          if (fontPanel) fontPanel.style.display = 'none';
+        }
+      });
+
+      // Close panels when clicking outside
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!target.closest('.control-group')) {
+          const panels = document.querySelectorAll('.dropdown-panel');
+          panels.forEach(panel => (panel as HTMLElement).style.display = 'none');
+        }
+      });
+
+      // Font size slider
+      const fontSizeSlider = document.getElementById('font-size') as HTMLInputElement;
+      if (fontSizeSlider) {
+        fontSizeSlider.addEventListener('input', () => {
+          const size = 14 + (Number(fontSizeSlider.value) * 2);
+          this.setFontSize(size);
+        });
+      }
+
+      // Font family buttons
+      document.querySelectorAll('.font-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const font = (btn as HTMLElement).dataset.font;
+          if (font) {
+            document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.setFontFamily(font);
+          }
+        });
+      });
+
+      // Line height buttons
+      document.querySelectorAll('.line-height-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const height = (btn as HTMLElement).dataset.height;
+          if (height) {
+            document.querySelectorAll('.line-height-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.setLineHeight(Number(height));
+          }
+        });
+      });
+
+      // Width buttons
+      document.querySelectorAll('.width-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const width = (btn as HTMLElement).dataset.width;
+          if (width) {
+            document.querySelectorAll('.width-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.setContentWidth(width);
+          }
+        });
+      });
+
+      // Theme buttons
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const theme = (btn as HTMLElement).dataset.theme;
+          if (theme) {
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            this.setTheme(theme);
+          }
+        });
+      });
+
+      // Text-to-speech controls
+      document.getElementById('read-aloud')?.addEventListener('click', () => {
+        const panel = document.getElementById('voice-panel');
+        if (panel) {
+          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+        if (!this.speaking) {
+          this.startReading();
+        }
+      });
+
+      document.getElementById('pause-read')?.addEventListener('click', () => this.pauseReading());
+      document.getElementById('stop-read')?.addEventListener('click', () => this.stopReading());
+
+      const speedControl = document.getElementById('voice-speed') as HTMLInputElement;
+      if (speedControl) {
+        speedControl.addEventListener('input', () => {
+          if (this.utterance) {
+            this.utterance.rate = Number(speedControl.value);
+          }
+        });
+      }
+    }
+
+    private setFontSize(size: number) {
+      if (!this.article) return;
+      this.article.style.setProperty('--base-font-size', `${size}px`);
+      this.savePreferences();
+    }
+
+    private setFontFamily(family: string) {
+      if (!this.article) return;
+      this.article.style.setProperty('--font-family', family);
+      this.savePreferences();
+    }
+
+    private setLineHeight(height: number) {
+      if (!this.article) return;
+      this.article.style.setProperty('--line-height', height.toString());
+      this.savePreferences();
+    }
+
+    private setContentWidth(width: string) {
+      if (!this.article) return;
+      const widths = {
+        narrow: '45ch',
+        medium: '65ch',
+        wide: '85ch'
+      };
+      this.article.style.setProperty('--content-width', widths[width as keyof typeof widths]);
+      this.savePreferences();
+    }
+
+    private setTheme(theme: string) {
+      document.documentElement.setAttribute('data-theme', theme);
+      this.savePreferences();
+    }
+
+    private startReading() {
+      if (!this.article || this.speaking) return;
+
+      const text = this.article.textContent || '';
+      this.utterance = new SpeechSynthesisUtterance(text);
+      
+      const speedControl = document.getElementById('voice-speed') as HTMLInputElement;
+      if (speedControl) {
+        this.utterance.rate = Number(speedControl.value);
+      }
+
+      this.utterance.onstart = () => {
+        this.speaking = true;
+        this.updateReadingControls(true);
+      };
+
+      this.utterance.onend = () => {
+        this.speaking = false;
+        this.updateReadingControls(false);
+      };
+
+      this.speechSynthesis.speak(this.utterance);
+    }
+
+    private pauseReading() {
+      if (this.speaking) {
+        this.speechSynthesis.pause();
+      } else {
+        this.speechSynthesis.resume();
+      }
+      this.speaking = !this.speaking;
+    }
+
+    private stopReading() {
+      this.speechSynthesis.cancel();
+      this.speaking = false;
+      this.updateReadingControls(false);
+      const panel = document.getElementById('voice-panel');
+      if (panel) panel.style.display = 'none';
+    }
+
+    private updateReadingControls(isReading: boolean) {
+      const readBtn = document.getElementById('read-aloud');
+      if (readBtn) {
+        readBtn.classList.toggle('active', isReading);
+      }
+    }
+
+    private savePreferences() {
+      if (!this.article) return;
+      const prefs = {
+        fontSize: this.article.style.getPropertyValue('--base-font-size'),
+        fontFamily: this.article.style.getPropertyValue('--font-family'),
+        lineHeight: this.article.style.getPropertyValue('--line-height'),
+        contentWidth: this.article.style.getPropertyValue('--content-width'),
+        theme: document.documentElement.getAttribute('data-theme')
+      };
+      localStorage.setItem('article-prefs', JSON.stringify(prefs));
+    }
+
+    private loadPreferences() {
+      try {
+        const prefs = JSON.parse(localStorage.getItem('article-prefs') || '{}');
+        if (this.article) {
+          if (prefs.fontSize) this.article.style.setProperty('--base-font-size', prefs.fontSize);
+          if (prefs.fontFamily) {
+            this.article.style.setProperty('--font-family', prefs.fontFamily);
+            document.querySelector(`.font-btn[data-font="${prefs.fontFamily}"]`)?.classList.add('active');
+          }
+          if (prefs.lineHeight) {
+            this.article.style.setProperty('--line-height', prefs.lineHeight);
+            document.querySelector(`.line-height-btn[data-height="${prefs.lineHeight}"]`)?.classList.add('active');
+          }
+          if (prefs.contentWidth) {
+            this.article.style.setProperty('--content-width', prefs.contentWidth);
+            const width = Object.entries({
+              '45ch': 'narrow',
+              '65ch': 'medium',
+              '85ch': 'wide'
+            }).find(([value]) => value === prefs.contentWidth)?.[1];
+            if (width) {
+              document.querySelector(`.width-btn[data-width="${width}"]`)?.classList.add('active');
+            }
+          }
+        }
+        if (prefs.theme) {
+          this.setTheme(prefs.theme);
+          document.querySelector(`.theme-btn[data-theme="${prefs.theme}"]`)?.classList.add('active');
+        }
+      } catch (e) {
+        console.error('Failed to load article preferences:', e);
+      }
+    }
+  }
+
+  // Initialize controls when the DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new ArticleControls();
+  });
+</script> 
