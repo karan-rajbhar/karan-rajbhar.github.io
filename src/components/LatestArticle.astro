@@ -14,105 +14,115 @@ const hasMoreArticles = allArticles.length > 8;
 ---
 
 <div class="latest-header">
-  <p class="latest-header-text">Latest Articles</p>
-  <a href="/articles" class="route-links"
-    >All articles <OptimizedImage
-      src="/images/chevrons-right-1.svg"
-      alt="Arrow right"
-      width={16}
-      height={16}
-      loading="eager"
-      class="arrow-icon"
-    />
+  <h2 class="latest-header-text">Latest Articles</h2>
+  <a href="/articles" class="route-links">
+    <span>All articles</span>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
   </a>
 </div>
 
+<div class="articles-list">
+  {
+    recent.map((article) => (
+      <ArticlesOverview
+        url={"/articles/" + article.slug}
+        title={article.data.title}
+        pubDate={article.data.pubDate}
+        description={article.data.description}
+      />
+    ))
+  }
+</div>
+
 {
-  recent.map((article) => (
-    <ArticlesOverview
-      url={"/articles/" + article.slug}
-      title={article.data.title}
-      pubDate={article.data.pubDate}
-      description={article.data.description}
-    />
-  ))
+  hasMoreArticles && (
+    <div class="view-more">
+      <a href="/articles" class="view-more-link">
+        View all {allArticles.length} articles →
+      </a>
+    </div>
+  )
 }
 
-{hasMoreArticles && (
-  <div class="view-more">
-    <a href="/articles" class="view-more-link">
-      View all {allArticles.length} articles →
-    </a>
-  </div>
-)}
-
 <style>
-  .route-links {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    text-decoration: none;
-    font-family: Jost *;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    color: inherit;
-  }
-
-  .route-links .arrow-icon {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-  }
-
   .latest-header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    align-items: baseline;
-    /* Desktop/h3 */
-    font-family: Jost;
-    font-size: 24px !important;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
   }
 
   .latest-header-text {
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
+    font-size: var(--font-size-xl);
+    margin: 0;
+  }
+
+  .route-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color var(--transition-speed) var(--transition-ease);
+  }
+
+  .route-links:hover {
+    color: var(--accent);
+  }
+
+  .route-links svg {
+    transition: transform var(--transition-speed) var(--transition-ease);
+  }
+
+  .route-links:hover svg {
+    transform: translateX(4px);
+  }
+
+  .articles-list {
+    display: flex;
+    flex-direction: column;
   }
 
   .view-more {
     display: flex;
     justify-content: center;
-    margin-top: var(--spacing-md);
-    padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
-    margin-bottom: 0;
+    margin-top: var(--spacing-sm);
   }
 
   .view-more-link {
-    font-family: Jost;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: var(--font-size-base);
+    font-weight: 600;
     text-decoration: none;
     color: var(--accent);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .view-more-link:hover {
-    background-color: var(--surface-secondary);
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
 
   @media (max-width: 600px) {
-    .view-more-link {
-      font-size: 14px;
-      padding: var(--spacing-xs) var(--spacing-sm);
+    .latest-header-text {
+      font-size: var(--font-size-lg);
     }
   }
 </style>

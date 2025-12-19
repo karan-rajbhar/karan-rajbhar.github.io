@@ -1,6 +1,6 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import ReadingProgressBar from '../components/ReadingProgressBar.astro';
+import BaseLayout from "./BaseLayout.astro";
+import ReadingProgressBar from "../components/ReadingProgressBar.astro";
 
 const { frontmatter } = Astro.props;
 
@@ -12,34 +12,36 @@ const calculateReadingTime = (content: string) => {
 };
 
 // Get the raw content for reading time calculation
-const content = await Astro.slots.render('default');
+const content = await Astro.slots.render("default");
 const readingTime = calculateReadingTime(content);
 
 // Process code blocks with clean approach
 const processedContent = content.replace(
   /```(\w+)?(?:\s+([^\n]+))?\n([\s\S]*?)```/g,
   (match, lang, possibleFilename, code) => {
-    const language = lang || 'text';
+    const language = lang || "text";
     const cleanCode = code.trim();
-    
+
     // Check if second part is a filename
     const isFilename = possibleFilename && /[./]/.test(possibleFilename);
     const filename = isFilename ? possibleFilename : undefined;
-    
-    const showHeader = language !== 'text' || filename;
+
+    const showHeader = language !== "text" || filename;
     const escapedCode = cleanCode
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-    
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
     return `
       <div class="code-block">
-        ${showHeader ? `
+        ${
+          showHeader
+            ? `
           <div class="code-header">
             <div class="code-info">
-              ${filename ? `<span class="filename">${filename}</span>` : ''}
-              ${language !== 'text' ? `<span class="language">${language}</span>` : ''}
+              ${filename ? `<span class="filename">${filename}</span>` : ""}
+              ${language !== "text" ? `<span class="language">${language}</span>` : ""}
             </div>
             <button class="copy-btn" data-code="${cleanCode}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -48,15 +50,17 @@ const processedContent = content.replace(
               </svg>
             </button>
           </div>
-        ` : ''}
+        `
+            : ""
+        }
         <pre><code class="language-${language}">${escapedCode}</code></pre>
       </div>
     `;
-  }
+  },
 );
 ---
 
-<BaseLayout 
+<BaseLayout
   pageTitle={frontmatter.title}
   description={frontmatter.description}
   image={frontmatter.image?.url}
@@ -67,31 +71,47 @@ const processedContent = content.replace(
     <div class="post-header">
       <h1 itemprop="headline">{frontmatter.title}</h1>
       <div class="post-meta">
-        <time datetime={frontmatter.pubDate.toString()} itemprop="datePublished">
-          {new Date(frontmatter.pubDate).toLocaleDateString('en-us', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
+        <time
+          datetime={frontmatter.pubDate.toString()}
+          itemprop="datePublished"
+        >
+          {
+            new Date(frontmatter.pubDate).toLocaleDateString("en-us", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          }
         </time>
-        {frontmatter.author && (
-          <span class="author">
-            by <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-              <span itemprop="name">{frontmatter.author}</span>
+        {
+          frontmatter.author && (
+            <span class="author">
+              by{" "}
+              <span
+                itemprop="author"
+                itemscope
+                itemtype="https://schema.org/Person"
+              >
+                <span itemprop="name">{frontmatter.author}</span>
+              </span>
             </span>
-          </span>
-        )}
-        <span class="reading-time">• {Math.ceil(content.trim().split(/\s+/).length / 200)} min read</span>
+          )
+        }
+        <span class="reading-time"
+          >• {Math.ceil(content.trim().split(/\s+/).length / 200)} min read</span
+        >
       </div>
-      {frontmatter.tags && (
-        <div class="post-tags" itemprop="keywords">
-          {frontmatter.tags.map((tag: string) => (
-            <a href={`/tags/${tag.toLowerCase()}`} class="tag" rel="tag">
-              {tag}
-            </a>
-          ))}
-        </div>
-      )}
+      {
+        frontmatter.tags && (
+          <div class="post-tags" itemprop="keywords">
+            {frontmatter.tags.map((tag: string) => (
+              <a href={`/tags/${tag.toLowerCase()}`} class="tag" rel="tag">
+                {tag}
+              </a>
+            ))}
+          </div>
+        )
+      }
     </div>
 
     <div class="post-content" itemprop="articleBody">
@@ -100,7 +120,10 @@ const processedContent = content.replace(
 
     <!-- Hidden structured data -->
     <meta itemprop="url" content={Astro.url.href} />
-    <meta itemprop="image" content={frontmatter.image?.url || '/og-default.png'} />
+    <meta
+      itemprop="image"
+      content={frontmatter.image?.url || "/og-default.png"}
+    />
     <meta itemprop="description" content={frontmatter.description} />
 
     <!-- Remark42 Comments -->
@@ -112,47 +135,47 @@ const processedContent = content.replace(
 </BaseLayout>
 
 <script>
-  import hljs from 'highlight.js/lib/core';
-  import 'highlight.js/styles/github.css'; // Light theme
-  import 'highlight.js/styles/github-dark.min.css'; // Dark theme
-  
+  import hljs from "highlight.js/lib/core";
+  import "highlight.js/styles/github.css"; // Light theme
+  import "highlight.js/styles/github-dark.min.css"; // Dark theme
+
   // Import languages
-  import javascript from 'highlight.js/lib/languages/javascript';
-  import typescript from 'highlight.js/lib/languages/typescript';
-  import python from 'highlight.js/lib/languages/python';
-  import bash from 'highlight.js/lib/languages/bash';
-  import json from 'highlight.js/lib/languages/json';
-  import yaml from 'highlight.js/lib/languages/yaml';
-  import css from 'highlight.js/lib/languages/css';
-  import xml from 'highlight.js/lib/languages/xml';
-  import sql from 'highlight.js/lib/languages/sql';
-  import ini from 'highlight.js/lib/languages/ini';
+  import javascript from "highlight.js/lib/languages/javascript";
+  import typescript from "highlight.js/lib/languages/typescript";
+  import python from "highlight.js/lib/languages/python";
+  import bash from "highlight.js/lib/languages/bash";
+  import json from "highlight.js/lib/languages/json";
+  import yaml from "highlight.js/lib/languages/yaml";
+  import css from "highlight.js/lib/languages/css";
+  import xml from "highlight.js/lib/languages/xml";
+  import sql from "highlight.js/lib/languages/sql";
+  import ini from "highlight.js/lib/languages/ini";
 
   // Register languages
-  hljs.registerLanguage('javascript', javascript);
-  hljs.registerLanguage('typescript', typescript);
-  hljs.registerLanguage('python', python);
-  hljs.registerLanguage('bash', bash);
-  hljs.registerLanguage('json', json);
-  hljs.registerLanguage('yaml', yaml);
-  hljs.registerLanguage('css', css);
-  hljs.registerLanguage('html', xml);
-  hljs.registerLanguage('xml', xml);
-  hljs.registerLanguage('sql', sql);
-  hljs.registerLanguage('ini', ini);
+  hljs.registerLanguage("javascript", javascript);
+  hljs.registerLanguage("typescript", typescript);
+  hljs.registerLanguage("python", python);
+  hljs.registerLanguage("bash", bash);
+  hljs.registerLanguage("json", json);
+  hljs.registerLanguage("yaml", yaml);
+  hljs.registerLanguage("css", css);
+  hljs.registerLanguage("html", xml);
+  hljs.registerLanguage("xml", xml);
+  hljs.registerLanguage("sql", sql);
+  hljs.registerLanguage("ini", ini);
 
   // Type declaration for REMARK42
   declare global {
     interface Window {
       REMARK42?: {
-        changeTheme: (theme: 'dark' | 'light') => void;
+        changeTheme: (theme: "dark" | "light") => void;
       };
       remark_config: {
         host: string;
         site_id: string;
         components: string[];
         max_shown_comments: number;
-        theme: 'dark' | 'light';
+        theme: "dark" | "light";
         url?: string;
         page_title?: string;
         locale?: string;
@@ -165,19 +188,19 @@ const processedContent = content.replace(
   }
 
   // Initialize highlighting and functionality
-  document.addEventListener('DOMContentLoaded', () => {
+  const initPost = () => {
     // Apply syntax highlighting
     hljs.highlightAll();
 
     // Copy functionality
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
+    document.querySelectorAll(".copy-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
         const code = (btn as HTMLElement).dataset.code;
         if (!code) return;
 
         try {
           await navigator.clipboard.writeText(code);
-          
+
           // Visual feedback
           const originalHTML = btn.innerHTML;
           btn.innerHTML = `
@@ -185,54 +208,63 @@ const processedContent = content.replace(
               <polyline points="20,6 9,17 4,12"></polyline>
             </svg>
           `;
-          (btn as HTMLElement).style.color = '#10b981';
-          
+          (btn as HTMLElement).style.color = "#10b981";
+
           setTimeout(() => {
             btn.innerHTML = originalHTML;
-            (btn as HTMLElement).style.color = '';
+            (btn as HTMLElement).style.color = "";
           }, 2000);
         } catch (err) {
-          console.error('Failed to copy:', err);
+          console.error("Failed to copy:", err);
         }
       });
     });
-  });
+  };
+
+  document.addEventListener("astro:page-load", initPost);
 
   // Remark42 initialization
   window.remark_config = {
-    host: 'https://comments.dionsyus.online',
-    site_id: 'karan-rajbhar-github-io',
-    components: ['embed'],
+    host: "https://comments.dionsyus.online",
+    site_id: "karan-rajbhar-github-io",
+    components: ["embed"],
     max_shown_comments: 10,
-    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light",
     url: window.location.origin + window.location.pathname,
     page_title: document.title,
-    locale: 'en',
+    locale: "en",
     show_email_subscription: false,
     show_rss_subscription: false,
     simple_view: false,
-    no_footer: false
+    no_footer: false,
   };
 
   // Load Remark42 script
-  const script = document.createElement('script');
-  script.src = window.remark_config.host + '/web/embed.js';
+  const script = document.createElement("script");
+  script.src = window.remark_config.host + "/web/embed.js";
   script.defer = true;
   (document.head || document.body).appendChild(script);
 
   // Watch for theme changes
-  document.addEventListener('DOMContentLoaded', () => {
-    const updateRemark42Theme = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      if (window.REMARK42) {
-        window.REMARK42.changeTheme(isDark ? 'dark' : 'light');
-      }
-    };
+  const updateRemark42Theme = () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    if (window.REMARK42) {
+      window.REMARK42.changeTheme(isDark ? "dark" : "light");
+    } else if (window.remark_config) {
+      window.remark_config.theme = isDark ? "dark" : "light";
+    }
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    // Initial theme setup
+    updateRemark42Theme();
 
     // Watch for theme changes using MutationObserver
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'class') {
+        if (mutation.attributeName === "class") {
           updateRemark42Theme();
         }
       });
@@ -240,11 +272,8 @@ const processedContent = content.replace(
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ["class"],
     });
-
-    // Initial theme setup
-    updateRemark42Theme();
   });
 </script>
 
@@ -277,14 +306,14 @@ const processedContent = content.replace(
   .post-comments {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-md);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
     margin-bottom: 0;
   }
 
   .post-comments h2 {
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-md);
-    color: var(--text-primary);
+    color: var(--text);
   }
 
   .post-tags {
@@ -301,14 +330,14 @@ const processedContent = content.replace(
     background: var(--bg-secondary);
     color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     font-size: var(--font-size-xs);
-    transition: all var(--transition-speed) ease;
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .tag:hover {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
+    background: var(--accent);
+    color: white;
   }
 
   /* Responsive adjustments */
@@ -325,7 +354,9 @@ const processedContent = content.replace(
     overflow: hidden;
     border: 1px solid #e5e7eb;
     background: #f9fafb;
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-family:
+      "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+      "Courier New", monospace;
   }
 
   .code-header {
@@ -454,7 +485,8 @@ const processedContent = content.replace(
     color: var(--text-primary);
   }
 
-  .post-content :global(ul), .post-content :global(ol) {
+  .post-content :global(ul),
+  .post-content :global(ol) {
     margin: var(--spacing-md) 0;
     padding-left: var(--spacing-xl);
   }

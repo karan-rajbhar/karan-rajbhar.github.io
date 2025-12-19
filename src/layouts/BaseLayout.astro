@@ -1,37 +1,39 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import SearchOverlay from '../components/SearchOverlay.astro';
-import SEO from '../components/SEO.astro';
-import SkipLinks from '../components/SkipLinks.astro';
-import FocusManager from '../components/FocusManager.astro';
-import AIWidget from '../components/AIWidget.astro';
-import '../styles/global.css';
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SearchOverlay from "../components/SearchOverlay.astro";
+import SEO from "../components/SEO.astro";
+import SkipLinks from "../components/SkipLinks.astro";
+import FocusManager from "../components/FocusManager.astro";
+import AIWidget from "../components/AIWidget.astro";
+import "../styles/global.css";
 
 interface Props {
   pageTitle: string;
   description?: string;
   image?: string;
   noindex?: boolean;
-  type?: 'website' | 'article';
+  type?: "website" | "article";
 }
 
-const { 
+const {
   pageTitle,
   description = "Karan Rajbhar's personal website and blog. Software developer sharing insights on web development, technology, and coding.",
   image,
   noindex = false,
-  type = 'website'
+  type = "website",
 } = Astro.props;
 ---
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/icon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    
-    <SEO 
+
+    <SEO
       title={pageTitle}
       description={description}
       image={image}
@@ -39,24 +41,37 @@ const {
       type={type}
     />
 
+    <ClientRouter />
+
     <script is:inline>
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+      const getTheme = () => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+
+      const setTheme = () => {
+        const theme = getTheme();
+        document.documentElement.setAttribute("data-theme", theme);
+
+        // Also keep .dark class for compatibility
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
         }
-        return 'light';
-      })();
 
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
+        window.localStorage.setItem("theme", theme);
+      };
 
-      window.localStorage.setItem('theme', theme);
+      setTheme();
+      document.addEventListener("astro:after-swap", setTheme);
     </script>
   </head>
   <body>
@@ -64,7 +79,7 @@ const {
     <FocusManager />
     <Header />
     <main id="main-content" class="main-content" tabindex="-1">
-        <slot />
+      <slot />
     </main>
     <Footer />
     <SearchOverlay />

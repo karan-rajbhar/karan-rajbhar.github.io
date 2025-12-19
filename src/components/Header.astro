@@ -15,13 +15,30 @@ const currentPath = pathname.slice(1); // remove the first "/"
 
     <div class="right-nav">
       <button class="search-trigger" aria-label="Search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="M21 21l-4.35-4.35"></path>
         </svg>
       </button>
-      <a href="/articles" class:list={["nav-link", { active: currentPath === "articles" }]}>Articles</a>
-      <a href="/about" class:list={["nav-link", { active: currentPath === "about" }]}>About</a>
+      <a
+        href="/articles"
+        class:list={["nav-link", { active: currentPath === "articles" }]}
+        >Articles</a
+      >
+      <a
+        href="/about"
+        class:list={["nav-link", { active: currentPath === "about" }]}>About</a
+      >
       <ThemeToggle />
     </div>
   </nav>
@@ -35,17 +52,16 @@ const currentPath = pathname.slice(1); // remove the first "/"
     right: 0;
     width: 100%;
     height: var(--header-height);
-    padding: var(--spacing-sm) var(--container-padding);
-    background: var(--bg);
-    color: var(--text);
-    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0 var(--container-padding);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all var(--transition-speed) var(--transition-ease);
     z-index: 100;
-    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
 
   nav {
@@ -65,9 +81,14 @@ const currentPath = pathname.slice(1); // remove the first "/"
   .logo {
     color: var(--text);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 700;
     font-size: var(--font-size-lg);
-    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: -0.03em;
+    transition: all var(--transition-speed) var(--transition-ease);
+  }
+
+  .logo:hover {
+    color: var(--accent);
   }
 
   .right-nav {
@@ -80,45 +101,48 @@ const currentPath = pathname.slice(1); // remove the first "/"
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: var(--spacing-xs);
     background: transparent;
     border: none;
-    color: var(--text-light);
+    color: var(--text-secondary);
     cursor: pointer;
-    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .search-trigger:hover {
     color: var(--accent);
+    background: var(--bg-secondary);
   }
 
   .nav-link {
-    color: var(--text-light);
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: var(--font-size-base);
-    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    transition: all var(--transition-speed) var(--transition-ease);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
   }
 
   .nav-link:hover,
   .nav-link.active {
     color: var(--accent);
+    background: var(--bg-secondary);
   }
 
   @media (max-width: 600px) {
     .right-nav {
-      gap: var(--spacing-sm);
+      gap: var(--spacing-xs);
     }
 
     .nav-link {
       font-size: var(--font-size-sm);
+      padding: var(--spacing-xs);
     }
 
     .logo {
       font-size: var(--font-size-base);
-    }
-
-    .search-trigger {
-      padding: 0.25rem;
     }
   }
 </style>

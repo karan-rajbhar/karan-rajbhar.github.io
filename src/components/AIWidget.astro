@@ -1,62 +1,71 @@
 ---
 // AIWidget.astro
-import styles from './AIWidget.module.css';
+import styles from "./AIWidget.module.css";
 
 const AI_SERVICES = [
   {
-    id: 'gpt',
-    name: 'ChatGPT',
+    id: "gpt",
+    name: "ChatGPT",
     description: "OpenAI's GPT-4",
-    shortName: 'GPT',
-    color: '#10a37f',
-    textColor: '#ffffff',
-    url: 'https://chat.openai.com'
+    shortName: "GPT",
+    color: "#10a37f",
+    textColor: "#ffffff",
+    url: "https://chat.openai.com",
   },
   {
-    id: 'claude',
-    name: 'Claude',
+    id: "claude",
+    name: "Claude",
     description: "Anthropic's AI",
-    shortName: 'CL',
-    color: '#6344df',
-    textColor: '#ffffff',
-    url: 'https://claude.ai'
-  }
+    shortName: "CL",
+    color: "#6344df",
+    textColor: "#ffffff",
+    url: "https://claude.ai",
+  },
 ];
 
 const AI_ACTIONS = [
   {
-    id: 'summarize',
-    title: 'Summarize',
-    description: 'Get a brief summary',
-    emoji: '📝',
-    prompt: 'Please provide a clear and concise summary of the following text. Focus on the main points and key takeaways. Keep the summary to 3-4 paragraphs maximum. Maintain the original tone and context while making it accessible to a general audience:'
+    id: "summarize",
+    title: "Summarize",
+    description: "Get a brief summary",
+    emoji: "📝",
+    prompt:
+      "Please provide a clear and concise summary of the following text. Focus on the main points and key takeaways. Keep the summary to 3-4 paragraphs maximum. Maintain the original tone and context while making it accessible to a general audience:",
   },
   {
-    id: 'explain',
-    title: 'Explain Simply',
+    id: "explain",
+    title: "Explain Simply",
     description: "Like I'm 8 years old",
-    emoji: '🎯',
-    prompt: "I want you to explain the following text in simple terms that an 8-year-old would understand. Use everyday examples, avoid technical jargon, and break down complex ideas into basic concepts. Make it engaging and fun while keeping the core message intact:"
+    emoji: "🎯",
+    prompt:
+      "I want you to explain the following text in simple terms that an 8-year-old would understand. Use everyday examples, avoid technical jargon, and break down complex ideas into basic concepts. Make it engaging and fun while keeping the core message intact:",
   },
   {
-    id: 'discuss',
-    title: 'Discuss',
-    description: 'Start a conversation',
-    emoji: '💭',
-    prompt: "Let's have an analytical discussion about this text. Please: 1) Summarize the main points, 2) Identify key themes or arguments, 3) Provide a balanced analysis of strengths and potential limitations, 4) Raise thought-provoking questions for further discussion. Here's the text:"
-  }
+    id: "discuss",
+    title: "Discuss",
+    description: "Start a conversation",
+    emoji: "💭",
+    prompt:
+      "Let's have an analytical discussion about this text. Please: 1) Summarize the main points, 2) Identify key themes or arguments, 3) Provide a balanced analysis of strengths and potential limitations, 4) Raise thought-provoking questions for further discussion. Here's the text:",
+  },
 ];
 ---
 
 <!-- Selection Widget -->
-<div class={styles.aiSelectionWidget} id="selectionWidget" style="display: none; position: fixed; z-index: 1000;">
+<div
+  class={styles.aiSelectionWidget}
+  id="selectionWidget"
+  style="display: none; position: fixed; z-index: 1000;"
+>
   <div class={styles.aiSelectionOptions}>
-    {AI_ACTIONS.map(action => (
-      <button class={styles.aiSelectionOption} data-action={action.id}>
-        <span class={styles.actionEmoji}>{action.emoji}</span>
-        <span>{action.title}</span>
-      </button>
-    ))}
+    {
+      AI_ACTIONS.map((action) => (
+        <button class={styles.aiSelectionOption} data-action={action.id}>
+          <span class={styles.actionEmoji}>{action.emoji}</span>
+          <span>{action.title}</span>
+        </button>
+      ))
+    }
   </div>
 </div>
 
@@ -76,16 +85,23 @@ const AI_ACTIONS = [
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M12 3l1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z"></path>
-          <path d="M5 17l1 2.5L8.5 21l-2.5 1L5 24l-1-2.5L1.5 21l2.5-1L5 17"></path>
-          <path d="M19 17l1 2.5L22.5 21l-2.5 1L19 24l-1-2.5L15.5 21l2.5-1L19 17"></path>
+          <path d="M12 3l1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z"
+          ></path>
+          <path d="M5 17l1 2.5L8.5 21l-2.5 1L5 24l-1-2.5L1.5 21l2.5-1L5 17"
+          ></path>
+          <path d="M19 17l1 2.5L22.5 21l-2.5 1L19 24l-1-2.5L15.5 21l2.5-1L19 17"
+          ></path>
         </svg>
       </div>
       <span class={styles.buttonText}>Ask AI</span>
     </div>
   </button>
 
-  <div class={styles.aiArticleOptions} id="articleOptions" style="display: none;">
+  <div
+    class={styles.aiArticleOptions}
+    id="articleOptions"
+    style="display: none;"
+  >
     <div class={styles.aiArticleHeader}>
       <span id="headerText">Choose an action</span>
       <button class={styles.aiArticleClose} id="closeArticleOptions">×</button>
@@ -93,19 +109,25 @@ const AI_ACTIONS = [
 
     <!-- Action Selection -->
     <div class={styles.actionSelection} id="actionSelection">
-      {AI_ACTIONS.map(action => (
-        <button class={styles.actionBtn} data-action={action.id}>
-          <span class={styles.actionEmoji}>{action.emoji}</span>
-          <div>
-            <div class={styles.actionTitle}>{action.title}</div>
-            <div class={styles.actionDesc}>{action.description}</div>
-          </div>
-        </button>
-      ))}
+      {
+        AI_ACTIONS.map((action) => (
+          <button class={styles.actionBtn} data-action={action.id}>
+            <span class={styles.actionEmoji}>{action.emoji}</span>
+            <div>
+              <div class={styles.actionTitle}>{action.title}</div>
+              <div class={styles.actionDesc}>{action.description}</div>
+            </div>
+          </button>
+        ))
+      }
     </div>
 
     <!-- Service Selection -->
-    <div class={styles.serviceSelection} id="serviceSelection" style="display: none;">
+    <div
+      class={styles.serviceSelection}
+      id="serviceSelection"
+      style="display: none;"
+    >
       <div class={styles.serviceHeader}>
         <button class={styles.backBtn} id="backToActions">
           <span class={styles.backBtnEmoji}>←</span>
@@ -113,75 +135,92 @@ const AI_ACTIONS = [
         <span>Choose AI Service</span>
       </div>
       <div class={styles.serviceButtons}>
-        {AI_SERVICES.map(service => (
-          <button 
-            class={styles.serviceBtn} 
-            data-service={service.id}
-            style={`--service-color: ${service.color}; --service-text-color: ${service.textColor};`}
-          >
-            <span class={styles.serviceAvatar}>{service.shortName}</span>
-            <div>
-              <div class={styles.serviceName}>{service.name}</div>
-              <div class={styles.serviceDesc}>{service.description}</div>
-            </div>
-          </button>
-        ))}
+        {
+          AI_SERVICES.map((service) => (
+            <button
+              class={styles.serviceBtn}
+              data-service={service.id}
+              style={`--service-color: ${service.color}; --service-text-color: ${service.textColor};`}
+            >
+              <span class={styles.serviceAvatar}>{service.shortName}</span>
+              <div>
+                <div class={styles.serviceName}>{service.name}</div>
+                <div class={styles.serviceDesc}>{service.description}</div>
+              </div>
+            </button>
+          ))
+        }
       </div>
     </div>
   </div>
 </div>
 
 <script define:vars={{ AI_SERVICES, AI_ACTIONS }}>
-  let selectedText = '';
-  let currentStep = 'actions';
+  let selectedText = "";
+  let currentStep = "actions";
   let selectedAction = null;
   let isArticlePage = false;
   let headerText = null;
 
   function showServiceSelection(fromSelection) {
-    const serviceSelection = document.getElementById('serviceSelection');
-    const actionSelection = document.getElementById('actionSelection');
-    headerText = document.getElementById('headerText');
-    
+    const serviceSelection = document.getElementById("serviceSelection");
+    const actionSelection = document.getElementById("actionSelection");
+    headerText = document.getElementById("headerText");
+
     if (!serviceSelection || !actionSelection || !headerText) return;
-    
-    currentStep = 'services';
-    actionSelection.style.display = 'none';
-    serviceSelection.style.display = 'block';
-    headerText.textContent = 'Choose AI Service';
+
+    currentStep = "services";
+    actionSelection.style.display = "none";
+    serviceSelection.style.display = "block";
+    headerText.textContent = "Choose AI Service";
   }
 
   function getArticleContent() {
-    const articleSelectors = ['.post-content', 'article', '.content', 'main', '.article-content'];
-    let articleContent = '';
-    let articleTitle = '';
+    const articleSelectors = [
+      ".post-content",
+      "article",
+      ".content",
+      "main",
+      ".article-content",
+    ];
+    let articleContent = "";
+    let articleTitle = "";
 
     // Get the article title
-    const titleElement = document.querySelector('h1');
+    const titleElement = document.querySelector("h1");
     if (titleElement) {
-      articleTitle = titleElement.textContent?.trim() || '';
+      articleTitle = titleElement.textContent?.trim() || "";
     }
 
     // Try to find article content with better content extraction
     for (const selector of articleSelectors) {
       const element = document.querySelector(selector);
       if (element) {
-                // Clone the element to manipulate it
+        // Clone the element to manipulate it
         const clone = element.cloneNode(true);
         // Remove unwanted elements that might contain noise
         const unwantedSelectors = [
-          'script', 'style', 'nav', 'header', 'footer',
-          '.comments', '.social-share', '.related-posts',
-          '.advertisement', '.sidebar', '.widget'
+          "script",
+          "style",
+          "nav",
+          "header",
+          "footer",
+          ".comments",
+          ".social-share",
+          ".related-posts",
+          ".advertisement",
+          ".sidebar",
+          ".widget",
         ];
-        unwantedSelectors.forEach(sel => {
-          clone.querySelectorAll(sel).forEach(el => el.remove());
+        unwantedSelectors.forEach((sel) => {
+          clone.querySelectorAll(sel).forEach((el) => el.remove());
         });
         // Get text content and clean it up
-        const textContent = clone.textContent
-          ?.replace(/\s+/g, ' ')  // Replace multiple spaces with single space
-          ?.replace(/\n+/g, '\n') // Replace multiple newlines with single newline
-          ?.trim() || '';        
+        const textContent =
+          clone.textContent
+            ?.replace(/\s+/g, " ") // Replace multiple spaces with single space
+            ?.replace(/\n+/g, "\n") // Replace multiple newlines with single newline
+            ?.trim() || "";
         if (textContent.length > 100) {
           articleContent = textContent;
           break;
@@ -194,7 +233,7 @@ const AI_ACTIONS = [
     }
 
     // Format the content nicely
-    let fullContent = '';
+    let fullContent = "";
     if (articleTitle) {
       fullContent += `${articleTitle}\n\n`;
     }
@@ -206,7 +245,7 @@ const AI_ACTIONS = [
   }
 
   function handleServiceSelect(serviceId) {
-    const service = AI_SERVICES.find(s => s.id === serviceId);
+    const service = AI_SERVICES.find((s) => s.id === serviceId);
     const action = selectedAction;
     if (!service || !action) return;
 
@@ -215,117 +254,127 @@ const AI_ACTIONS = [
     // Create a clean prompt with the content
     const cleanPrompt = `${action.prompt.trim()}\n\n${text}`.trim();
     // Both Claude and ChatGPT use the same URL parameter structure
-    const url = service.id === 'claude'
-      ? `${service.url}/new?q=${encodeURIComponent(cleanPrompt)}`
-      : `${service.url}/?q=${encodeURIComponent(cleanPrompt)}`;
-    window.open(url, '_blank');
+    const url =
+      service.id === "claude"
+        ? `${service.url}/new?q=${encodeURIComponent(cleanPrompt)}`
+        : `${service.url}/?q=${encodeURIComponent(cleanPrompt)}`;
+    window.open(url, "_blank");
 
     // Reset state
-    selectedText = '';
-    const selectionWidget = document.getElementById('selectionWidget');
-    const articleOptions = document.getElementById('articleOptions');
-    
-    if (selectionWidget) selectionWidget.style.display = 'none';
-    if (articleOptions) articleOptions.style.display = 'none';
+    selectedText = "";
+    const selectionWidget = document.getElementById("selectionWidget");
+    const articleOptions = document.getElementById("articleOptions");
+
+    if (selectionWidget) selectionWidget.style.display = "none";
+    if (articleOptions) articleOptions.style.display = "none";
   }
 
   function resetState() {
-    currentStep = 'actions';
+    currentStep = "actions";
     selectedAction = null;
-    const actionSelection = document.getElementById('actionSelection');
-    const serviceSelection = document.getElementById('serviceSelection');
-    headerText = document.getElementById('headerText');
-    
-    if (actionSelection) actionSelection.style.display = 'flex';
-    if (serviceSelection) serviceSelection.style.display = 'none';
-    if (headerText) headerText.textContent = 'Choose an action';
+    const actionSelection = document.getElementById("actionSelection");
+    const serviceSelection = document.getElementById("serviceSelection");
+    headerText = document.getElementById("headerText");
+
+    if (actionSelection) actionSelection.style.display = "flex";
+    if (serviceSelection) serviceSelection.style.display = "none";
+    if (headerText) headerText.textContent = "Choose an action";
   }
 
   // Initialize on load
   function init() {
-    const selectionWidget = document.getElementById('selectionWidget');
-    const articleWidget = document.getElementById('articleWidget');
-    const articleOptions = document.getElementById('articleOptions');
-    const actionSelection = document.getElementById('actionSelection');
-    const serviceSelection = document.getElementById('serviceSelection');
-    const backToActions = document.getElementById('backToActions');
-    const closeArticleOptions = document.getElementById('closeArticleOptions');
-    const articleTrigger = document.getElementById('articleTrigger');
+    const selectionWidget = document.getElementById("selectionWidget");
+    const articleWidget = document.getElementById("articleWidget");
+    const articleOptions = document.getElementById("articleOptions");
+    const actionSelection = document.getElementById("actionSelection");
+    const serviceSelection = document.getElementById("serviceSelection");
+    const backToActions = document.getElementById("backToActions");
+    const closeArticleOptions = document.getElementById("closeArticleOptions");
+    const articleTrigger = document.getElementById("articleTrigger");
 
-    if (!selectionWidget || !articleWidget || !articleOptions || !actionSelection || 
-        !serviceSelection || !backToActions || !closeArticleOptions || !articleTrigger) {
-      console.error('Required DOM elements not found');
+    if (
+      !selectionWidget ||
+      !articleWidget ||
+      !articleOptions ||
+      !actionSelection ||
+      !serviceSelection ||
+      !backToActions ||
+      !closeArticleOptions ||
+      !articleTrigger
+    ) {
+      console.error("Required DOM elements not found");
       return;
     }
 
     // Check if we're on an article page
-    isArticlePage = window.location.pathname.includes('/articles/') || 
-                    document.querySelector('.post-content') !== null;
-    
+    isArticlePage =
+      window.location.pathname.includes("/articles/") ||
+      document.querySelector(".post-content") !== null;
+
     if (isArticlePage) {
-      articleWidget.style.display = 'block';
+      articleWidget.style.display = "block";
     }
 
     // Handle text selection
-    document.addEventListener('mouseup', handleSelection);
-    document.addEventListener('keyup', handleSelection);
+    document.addEventListener("mouseup", handleSelection);
+    document.addEventListener("keyup", handleSelection);
 
     // Handle clicks outside
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       if (!selectionWidget.contains(e.target)) {
-        selectionWidget.style.display = 'none';
+        selectionWidget.style.display = "none";
       }
-      
+
       if (!articleWidget.contains(e.target)) {
-        articleOptions.style.display = 'none';
+        articleOptions.style.display = "none";
         resetState();
       }
     });
 
     // Article widget triggers
-    articleTrigger.addEventListener('click', () => {
-      articleOptions.style.display = 'block';
+    articleTrigger.addEventListener("click", () => {
+      articleOptions.style.display = "block";
     });
 
-    closeArticleOptions.addEventListener('click', () => {
-      articleOptions.style.display = 'none';
+    closeArticleOptions.addEventListener("click", () => {
+      articleOptions.style.display = "none";
       resetState();
     });
 
-    backToActions.addEventListener('click', () => {
-      currentStep = 'actions';
-      actionSelection.style.display = 'flex';
-      serviceSelection.style.display = 'none';
-      headerText = document.getElementById('headerText');
-      if (headerText) headerText.textContent = 'Choose an action';
+    backToActions.addEventListener("click", () => {
+      currentStep = "actions";
+      actionSelection.style.display = "flex";
+      serviceSelection.style.display = "none";
+      headerText = document.getElementById("headerText");
+      if (headerText) headerText.textContent = "Choose an action";
     });
 
     // Handle action selection
-    document.querySelectorAll('[data-action]').forEach(button => {
-      button.addEventListener('click', (e) => {
+    document.querySelectorAll("[data-action]").forEach((button) => {
+      button.addEventListener("click", (e) => {
         const target = e.currentTarget;
         const action = target.dataset.action;
         if (!action) return;
-        
-        selectedAction = AI_ACTIONS.find(a => a.id === action) || null;
-        
+
+        selectedAction = AI_ACTIONS.find((a) => a.id === action) || null;
+
         if (selectionWidget.contains(target)) {
-          currentStep = 'services';
-          selectionWidget.style.display = 'none';
+          currentStep = "services";
+          selectionWidget.style.display = "none";
           showServiceSelection(true);
         } else {
-          currentStep = 'services';
-          actionSelection.style.display = 'none';
-          serviceSelection.style.display = 'block';
-          headerText = document.getElementById('headerText');
-          if (headerText) headerText.textContent = 'Choose AI Service';
+          currentStep = "services";
+          actionSelection.style.display = "none";
+          serviceSelection.style.display = "block";
+          headerText = document.getElementById("headerText");
+          if (headerText) headerText.textContent = "Choose AI Service";
         }
       });
     });
 
     // Handle service selection
-    document.querySelectorAll('[data-service]').forEach(button => {
-      button.addEventListener('click', (e) => {
+    document.querySelectorAll("[data-service]").forEach((button) => {
+      button.addEventListener("click", (e) => {
         const target = e.currentTarget;
         const service = target.dataset.service;
         if (service) {
@@ -337,32 +386,33 @@ const AI_ACTIONS = [
 
   function handleSelection() {
     const selection = window.getSelection();
-    const text = selection?.toString().trim() || '';
-    
+    const text = selection?.toString().trim() || "";
+
     if (text.length > 10) {
       selectedText = text;
-      const selectionWidget = document.getElementById('selectionWidget');
+      const selectionWidget = document.getElementById("selectionWidget");
       if (!selectionWidget) return;
-      
+
       if (selection && selection.rangeCount > 0) {
         const range = selection.getRangeAt(0);
         const rect = range.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
+        const scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+
         // Position the widget above the selection
         const widgetTop = rect.top + scrollTop - 10;
-        const widgetLeft = rect.left + (rect.width / 2);
-        
+        const widgetLeft = rect.left + rect.width / 2;
+
         selectionWidget.style.top = `${widgetTop}px`;
         selectionWidget.style.left = `${widgetLeft}px`;
-        selectionWidget.style.transform = 'translate(-50%, -100%)';
-        selectionWidget.style.display = 'block';
+        selectionWidget.style.transform = "translate(-50%, -100%)";
+        selectionWidget.style.display = "block";
       }
     }
   }
 
-  // Initialize when the DOM is ready
-  document.addEventListener('DOMContentLoaded', init);
+  // Initialize when the page loads
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <style>
@@ -404,7 +454,8 @@ const AI_ACTIONS = [
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0;
       transform: scale(1);
     }
@@ -413,4 +464,5 @@ const AI_ACTIONS = [
       transform: scale(1.5);
     }
   }
-</style> 
+</style>
+

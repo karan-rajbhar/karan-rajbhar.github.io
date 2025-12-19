@@ -1,80 +1,148 @@
 ---
-import '@fontsource/jost'
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LatestArticle from '../components/LatestArticle.astro';
+import "@fontsource/jost";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LatestArticle from "../components/LatestArticle.astro";
 const pageTitle = "Karan Rajbhar - Software Developer & Technical Writer";
-const description = "Welcome to Karan Rajbhar's personal website. Explore articles on web development, programming, technology insights, and coding tutorials.";
+const description =
+  "Welcome to Karan Rajbhar's personal website. Explore articles on web development, programming, technology insights, and coding tutorials.";
 ---
-<BaseLayout 
-  pageTitle={pageTitle}
-  description={description}
-  type="website"
->
-  <article itemscope itemtype="https://schema.org/Person">
-    <h1>Hi, I'm <span itemprop="name">Karan</span></h1>
 
-    <div class="intro-content">
-      <p itemprop="description">
-        I'm a software developer who builds things on the internet. Currently working at 
-        <a href="https://www.treety.co/" target="_blank" class="treety-link" rel="noopener" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
-          <span itemprop="name">Treety</span>
-        </a>.
-      </p>
+<BaseLayout pageTitle={pageTitle} description={description} type="website">
+  <div class="hero-container">
+    <article itemscope itemtype="https://schema.org/Person" class="hero">
+      <h1 class="hero-title">
+        Hi, I'm <span itemprop="name" class="accent-text">Karan</span>
+      </h1>
 
-      <p>
-        Sometimes I share thoughts on 
-        <a href="https://www.x.com/karan_rajbhr" target="_blank" rel="noopener me" itemprop="sameAs">Twitter</a> 
-        and code on 
-        <a href="https://www.github.com/karan-rajbhar" target="_blank" rel="noopener me" itemprop="sameAs">GitHub</a>.
-      </p>
-    </div>
+      <div class="intro-content">
+        <p itemprop="description" class="lead">
+          I'm a software developer crafting elegant digital experiences.
+          Currently building at
+          <a
+            href="https://www.treety.co/"
+            target="_blank"
+            class="treety-link"
+            rel="noopener"
+            itemprop="worksFor"
+            itemscope
+            itemtype="https://schema.org/Organization"
+          >
+            <span itemprop="name">Treety</span>
+          </a>.
+        </p>
 
-    <!-- Hidden structured data -->
-    <meta itemprop="url" content="https://karan-rajbhar.github.io" />
-    <meta itemprop="jobTitle" content="Software Developer" />
+        <div class="social-links">
+          <a
+            href="https://www.x.com/karan_rajbhr"
+            target="_blank"
+            rel="noopener me"
+            itemprop="sameAs"
+            class="social-link"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.25 2.25h6.634l4.704 6.22z"
+              ></path>
+            </svg>
+            <span>Twitter</span>
+          </a>
+          <a
+            href="https://www.github.com/karan-rajbhar"
+            target="_blank"
+            rel="noopener me"
+            itemprop="sameAs"
+            class="social-link"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"
+              ></path>
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
 
-    <LatestArticle />
-  </article>
+      <LatestArticle />
+    </article>
+  </div>
 </BaseLayout>
 
 <style>
-  .intro-content {
-    max-width: 65ch;
+  .hero-container {
+    padding-top: var(--spacing-xl);
+  }
+
+  .hero {
+    animation: fadeIn 0.8s var(--transition-ease);
+  }
+
+  .hero-title {
+    font-size: clamp(var(--font-size-xxl), 8vw, var(--font-size-xxxl));
+    letter-spacing: -0.04em;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .accent-text {
+    background: linear-gradient(
+      to right,
+      var(--accent),
+      var(--accent-secondary)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .lead {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-base);
+    color: var(--text-secondary);
+    max-width: 45ch;
     margin-bottom: var(--spacing-lg);
   }
 
   .treety-link {
     color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline decoration-thickness 2px transparent;
+    text-underline-offset: 4px;
+    transition: all var(--transition-speed) var(--transition-ease);
+  }
+
+  .treety-link:hover {
+    text-decoration-color: var(--accent);
+  }
+
+  .social-links {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--text-secondary);
+    text-decoration: none;
     font-weight: 500;
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
-  .dark .treety-link {
-    color: var(--accent-dark);
+  .social-link:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
   }
-  
-.x{
-  color: #black;
-font-family: Jost*;
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: 180%;
-}
-img{
-  height: 18px;
-  margin-bottom: -3px ;
-}
 
-.dark img{
-  filter: invert(100%);
-}
-
-.github{
-  color: #BBC6CC;
-font-family: Jost*;
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: 180%;
-}
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>

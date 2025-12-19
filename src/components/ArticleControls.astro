@@ -9,16 +9,24 @@
         <div class="panel-section">
           <h3>Text Size</h3>
           <div class="size-controls">
-            <button class="size-btn" id="decrease-font" title="Decrease font size">
+            <button
+              class="size-btn"
+              id="decrease-font"
+              title="Decrease font size"
+            >
               <span>Aa</span>
             </button>
             <input type="range" id="font-size" min="1" max="9" value="4" />
-            <button class="size-btn" id="increase-font" title="Increase font size">
+            <button
+              class="size-btn"
+              id="increase-font"
+              title="Increase font size"
+            >
               <span>Aa</span>
             </button>
           </div>
         </div>
-        
+
         <div class="panel-section">
           <h3>Font Family</h3>
           <div class="font-options">
@@ -101,7 +109,15 @@
         <div class="voice-controls-inner">
           <button id="pause-read" title="Pause">⏸</button>
           <button id="stop-read" title="Stop">⏹</button>
-          <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1" title="Reading speed" />
+          <input
+            type="range"
+            id="voice-speed"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value="1"
+            title="Reading speed"
+          />
         </div>
       </div>
     </div>
@@ -111,21 +127,23 @@
 <style>
   .article-controls {
     position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--bg-color, #fff);
-    border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    padding: 0.5rem;
-    margin: -1rem -1rem 2rem -1rem;
-    transition: all 0.2s ease;
+    top: 72px; /* Below header */
+    z-index: 90;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .article-controls-inner {
-    max-width: var(--content-width, 680px);
+    max-width: var(--max-width);
     margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
   }
 
   .control-group {
@@ -135,18 +153,19 @@
   .control-btn {
     background: none;
     border: none;
-    padding: 0.5rem;
+    padding: var(--spacing-xs);
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-color, #333);
-    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .control-btn:hover {
-    background: var(--hover-bg, rgba(0, 0, 0, 0.05));
+    background: var(--bg-secondary);
+    color: var(--accent);
   }
 
   .control-btn .icon {
@@ -157,11 +176,13 @@
     position: absolute;
     top: 100%;
     left: 0;
-    background: var(--bg-color, #fff);
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-md);
     min-width: 240px;
     display: none;
     z-index: 1000;
@@ -176,10 +197,12 @@
   }
 
   .panel-section h3 {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin: 0 0 0.5rem 0;
-    color: var(--text-color, #333);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 var(--spacing-xs) 0;
+    color: var(--text-muted);
   }
 
   /* Font controls */
@@ -194,24 +217,26 @@
     border: none;
     padding: 0.25rem;
     cursor: pointer;
-    color: var(--text-color, #333);
+    color: var(--text);
   }
 
   input[type="range"] {
     flex: 1;
     height: 4px;
-    background: var(--border-color, rgba(0, 0, 0, 0.1));
+    background: var(--border);
     border-radius: 2px;
     appearance: none;
   }
 
   input[type="range"]::-webkit-slider-thumb {
     appearance: none;
-    width: 12px;
-    height: 12px;
-    background: var(--accent-color, #0060df);
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--bg);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
   }
 
   .font-options {
@@ -221,22 +246,23 @@
   }
 
   .font-btn {
-    background: none;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
-    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .font-btn.active {
-    background: var(--accent-color, #0060df);
+    background: var(--accent);
     color: white;
-    border-color: var(--accent-color, #0060df);
+    border-color: var(--accent);
   }
 
   /* Line height controls */
@@ -247,26 +273,29 @@
 
   .line-height-btn {
     flex: 1;
-    background: none;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .line-height-btn span {
     height: 2px;
     background: currentColor;
     border-radius: 1px;
+    width: 20px;
   }
 
   .line-height-btn.active {
-    background: var(--accent-color, #0060df);
+    background: var(--accent);
     color: white;
-    border-color: var(--accent-color, #0060df);
+    border-color: var(--accent);
   }
 
   /* Width controls */
@@ -277,13 +306,15 @@
 
   .width-btn {
     flex: 1;
-    background: none;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs);
     cursor: pointer;
     display: flex;
     justify-content: center;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .width-btn span {
@@ -293,14 +324,20 @@
   }
 
   .width-btn.active {
-    background: var(--accent-color, #0060df);
+    background: var(--accent);
     color: white;
-    border-color: var(--accent-color, #0060df);
+    border-color: var(--accent);
   }
 
-  .width-1 { width: 20px; }
-  .width-2 { width: 30px; }
-  .width-3 { width: 40px; }
+  .width-1 {
+    width: 14px;
+  }
+  .width-2 {
+    width: 20px;
+  }
+  .width-3 {
+    width: 28px;
+  }
 
   /* Theme controls */
   .theme-options {
@@ -310,36 +347,43 @@
   }
 
   .theme-btn {
-    background: none;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-xs);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
-    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed) var(--transition-ease);
   }
 
   .theme-btn.active {
-    background: var(--accent-color, #0060df);
+    background: var(--accent);
     color: white;
-    border-color: var(--accent-color, #0060df);
+    border-color: var(--accent);
   }
 
   .theme-preview {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
+    border: 1px solid var(--border);
   }
 
-  .theme-btn.light .theme-preview { background: #fff; }
-  .theme-btn.sepia .theme-preview { background: #f4ecd8; }
-  .theme-btn.dark .theme-preview { background: #2a2a2a; }
+  .theme-btn.light .theme-preview {
+    background: #fff;
+  }
+  .theme-btn.sepia .theme-preview {
+    background: #f4ecd8;
+  }
+  .theme-btn.dark .theme-preview {
+    background: #030712;
+  }
   .theme-btn.auto .theme-preview {
-    background: linear-gradient(to right, #fff 50%, #2a2a2a 50%);
+    background: linear-gradient(to right, #fff 50%, #030712 50%);
   }
 
   /* Voice controls */
@@ -347,11 +391,13 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--bg-color, #fff);
-    border: 1px solid var(--border-color, rgba(0, 0, 0, 0.1));
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xs);
     min-width: 200px;
     z-index: 1000;
   }
@@ -359,7 +405,7 @@
   .voice-controls-inner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-xs);
   }
 
   /* Responsive design */
@@ -375,30 +421,7 @@
     }
   }
 
-  /* Theme-specific styles */
-  :global([data-theme="light"]) {
-    --bg-color: #fff;
-    --text-color: #333;
-    --border-color: rgba(0, 0, 0, 0.1);
-    --hover-bg: rgba(0, 0, 0, 0.05);
-    --accent-color: #0060df;
-  }
-
-  :global([data-theme="dark"]) {
-    --bg-color: #2a2a2a;
-    --text-color: #eee;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --hover-bg: rgba(255, 255, 255, 0.05);
-    --accent-color: #0a84ff;
-  }
-
-  :global([data-theme="sepia"]) {
-    --bg-color: #f4ecd8;
-    --text-color: #5b4636;
-    --border-color: rgba(91, 70, 54, 0.1);
-    --hover-bg: rgba(91, 70, 54, 0.05);
-    --accent-color: #a6670e;
-  }
+  /* Use global variables instead of local overrides */
 </style>
 
 <script>
@@ -409,7 +432,7 @@
     private speaking = false;
 
     constructor() {
-      this.article = document.querySelector('article.post');
+      this.article = document.querySelector("article.post");
       this.speechSynthesis = window.speechSynthesis;
       this.setupEventListeners();
       this.loadPreferences();
@@ -417,108 +440,131 @@
 
     private setupEventListeners() {
       // Font options panel toggle
-      document.getElementById('font-options')?.addEventListener('click', () => {
-        const panel = document.getElementById('font-panel');
-        const themePanel = document.getElementById('theme-panel');
+      document.getElementById("font-options")?.addEventListener("click", () => {
+        const panel = document.getElementById("font-panel");
+        const themePanel = document.getElementById("theme-panel");
         if (panel) {
-          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-          if (themePanel) themePanel.style.display = 'none';
+          panel.style.display =
+            panel.style.display === "none" ? "block" : "none";
+          if (themePanel) themePanel.style.display = "none";
         }
       });
 
       // Theme options panel toggle
-      document.getElementById('theme-options')?.addEventListener('click', () => {
-        const panel = document.getElementById('theme-panel');
-        const fontPanel = document.getElementById('font-panel');
-        if (panel) {
-          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-          if (fontPanel) fontPanel.style.display = 'none';
-        }
-      });
+      document
+        .getElementById("theme-options")
+        ?.addEventListener("click", () => {
+          const panel = document.getElementById("theme-panel");
+          const fontPanel = document.getElementById("font-panel");
+          if (panel) {
+            panel.style.display =
+              panel.style.display === "none" ? "block" : "none";
+            if (fontPanel) fontPanel.style.display = "none";
+          }
+        });
 
       // Close panels when clicking outside
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         const target = e.target as HTMLElement;
-        if (!target.closest('.control-group')) {
-          const panels = document.querySelectorAll('.dropdown-panel');
-          panels.forEach(panel => (panel as HTMLElement).style.display = 'none');
+        if (!target.closest(".control-group")) {
+          const panels = document.querySelectorAll(".dropdown-panel");
+          panels.forEach(
+            (panel) => ((panel as HTMLElement).style.display = "none"),
+          );
         }
       });
 
       // Font size slider
-      const fontSizeSlider = document.getElementById('font-size') as HTMLInputElement;
+      const fontSizeSlider = document.getElementById(
+        "font-size",
+      ) as HTMLInputElement;
       if (fontSizeSlider) {
-        fontSizeSlider.addEventListener('input', () => {
-          const size = 14 + (Number(fontSizeSlider.value) * 2);
+        fontSizeSlider.addEventListener("input", () => {
+          const size = 14 + Number(fontSizeSlider.value) * 2;
           this.setFontSize(size);
         });
       }
 
       // Font family buttons
-      document.querySelectorAll('.font-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll(".font-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
           const font = (btn as HTMLElement).dataset.font;
           if (font) {
-            document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            document
+              .querySelectorAll(".font-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
             this.setFontFamily(font);
           }
         });
       });
 
       // Line height buttons
-      document.querySelectorAll('.line-height-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll(".line-height-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
           const height = (btn as HTMLElement).dataset.height;
           if (height) {
-            document.querySelectorAll('.line-height-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            document
+              .querySelectorAll(".line-height-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
             this.setLineHeight(Number(height));
           }
         });
       });
 
       // Width buttons
-      document.querySelectorAll('.width-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll(".width-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
           const width = (btn as HTMLElement).dataset.width;
           if (width) {
-            document.querySelectorAll('.width-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            document
+              .querySelectorAll(".width-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
             this.setContentWidth(width);
           }
         });
       });
 
       // Theme buttons
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
           const theme = (btn as HTMLElement).dataset.theme;
           if (theme) {
-            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            document
+              .querySelectorAll(".theme-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
             this.setTheme(theme);
           }
         });
       });
 
       // Text-to-speech controls
-      document.getElementById('read-aloud')?.addEventListener('click', () => {
-        const panel = document.getElementById('voice-panel');
+      document.getElementById("read-aloud")?.addEventListener("click", () => {
+        const panel = document.getElementById("voice-panel");
         if (panel) {
-          panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+          panel.style.display =
+            panel.style.display === "none" ? "block" : "none";
         }
         if (!this.speaking) {
           this.startReading();
         }
       });
 
-      document.getElementById('pause-read')?.addEventListener('click', () => this.pauseReading());
-      document.getElementById('stop-read')?.addEventListener('click', () => this.stopReading());
+      document
+        .getElementById("pause-read")
+        ?.addEventListener("click", () => this.pauseReading());
+      document
+        .getElementById("stop-read")
+        ?.addEventListener("click", () => this.stopReading());
 
-      const speedControl = document.getElementById('voice-speed') as HTMLInputElement;
+      const speedControl = document.getElementById(
+        "voice-speed",
+      ) as HTMLInputElement;
       if (speedControl) {
-        speedControl.addEventListener('input', () => {
+        speedControl.addEventListener("input", () => {
           if (this.utterance) {
             this.utterance.rate = Number(speedControl.value);
           }
@@ -528,45 +574,61 @@
 
     private setFontSize(size: number) {
       if (!this.article) return;
-      this.article.style.setProperty('--base-font-size', `${size}px`);
+      this.article.style.setProperty("--base-font-size", `${size}px`);
       this.savePreferences();
     }
 
     private setFontFamily(family: string) {
       if (!this.article) return;
-      this.article.style.setProperty('--font-family', family);
+      this.article.style.setProperty("--font-family", family);
       this.savePreferences();
     }
 
     private setLineHeight(height: number) {
       if (!this.article) return;
-      this.article.style.setProperty('--line-height', height.toString());
+      this.article.style.setProperty("--line-height", height.toString());
       this.savePreferences();
     }
 
     private setContentWidth(width: string) {
       if (!this.article) return;
       const widths = {
-        narrow: '45ch',
-        medium: '65ch',
-        wide: '85ch'
+        narrow: "45ch",
+        medium: "65ch",
+        wide: "85ch",
       };
-      this.article.style.setProperty('--content-width', widths[width as keyof typeof widths]);
+      this.article.style.setProperty(
+        "--content-width",
+        widths[width as keyof typeof widths],
+      );
       this.savePreferences();
     }
 
     private setTheme(theme: string) {
-      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === "auto") {
+        document.documentElement.removeAttribute("data-theme");
+        const isDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.classList.toggle("dark", isDark);
+        localStorage.removeItem("theme");
+      } else {
+        document.documentElement.setAttribute("data-theme", theme);
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
+      }
       this.savePreferences();
     }
 
     private startReading() {
       if (!this.article || this.speaking) return;
 
-      const text = this.article.textContent || '';
+      const text = this.article.textContent || "";
       this.utterance = new SpeechSynthesisUtterance(text);
-      
-      const speedControl = document.getElementById('voice-speed') as HTMLInputElement;
+
+      const speedControl = document.getElementById(
+        "voice-speed",
+      ) as HTMLInputElement;
       if (speedControl) {
         this.utterance.rate = Number(speedControl.value);
       }
@@ -597,66 +659,100 @@
       this.speechSynthesis.cancel();
       this.speaking = false;
       this.updateReadingControls(false);
-      const panel = document.getElementById('voice-panel');
-      if (panel) panel.style.display = 'none';
+      const panel = document.getElementById("voice-panel");
+      if (panel) panel.style.display = "none";
     }
 
     private updateReadingControls(isReading: boolean) {
-      const readBtn = document.getElementById('read-aloud');
+      const readBtn = document.getElementById("read-aloud");
       if (readBtn) {
-        readBtn.classList.toggle('active', isReading);
+        readBtn.classList.toggle("active", isReading);
       }
     }
 
     private savePreferences() {
       if (!this.article) return;
+      const theme =
+        document.documentElement.getAttribute("data-theme") || "auto";
       const prefs = {
-        fontSize: this.article.style.getPropertyValue('--base-font-size'),
-        fontFamily: this.article.style.getPropertyValue('--font-family'),
-        lineHeight: this.article.style.getPropertyValue('--line-height'),
-        contentWidth: this.article.style.getPropertyValue('--content-width'),
-        theme: document.documentElement.getAttribute('data-theme')
+        fontSize: this.article.style.getPropertyValue("--base-font-size"),
+        fontFamily: this.article.style.getPropertyValue("--font-family"),
+        lineHeight: this.article.style.getPropertyValue("--line-height"),
+        contentWidth: this.article.style.getPropertyValue("--content-width"),
+        theme: theme,
       };
-      localStorage.setItem('article-prefs', JSON.stringify(prefs));
+      localStorage.setItem("article-prefs", JSON.stringify(prefs));
     }
 
     private loadPreferences() {
       try {
-        const prefs = JSON.parse(localStorage.getItem('article-prefs') || '{}');
+        const prefs = JSON.parse(localStorage.getItem("article-prefs") || "{}");
+        const globalTheme = localStorage.getItem("theme");
+        const activeTheme = globalTheme || prefs.theme || "auto";
+
         if (this.article) {
-          if (prefs.fontSize) this.article.style.setProperty('--base-font-size', prefs.fontSize);
+          if (prefs.fontSize)
+            this.article.style.setProperty("--base-font-size", prefs.fontSize);
           if (prefs.fontFamily) {
-            this.article.style.setProperty('--font-family', prefs.fontFamily);
-            document.querySelector(`.font-btn[data-font="${prefs.fontFamily}"]`)?.classList.add('active');
+            this.article.style.setProperty("--font-family", prefs.fontFamily);
+            document
+              .querySelectorAll(".font-btn")
+              .forEach((b) => b.classList.remove("active"));
+            document
+              .querySelector(`.font-btn[data-font="${prefs.fontFamily}"]`)
+              ?.classList.add("active");
           }
           if (prefs.lineHeight) {
-            this.article.style.setProperty('--line-height', prefs.lineHeight);
-            document.querySelector(`.line-height-btn[data-height="${prefs.lineHeight}"]`)?.classList.add('active');
+            this.article.style.setProperty("--line-height", prefs.lineHeight);
+            document
+              .querySelectorAll(".line-height-btn")
+              .forEach((b) => b.classList.remove("active"));
+            document
+              .querySelector(
+                `.line-height-btn[data-height="${prefs.lineHeight}"]`,
+              )
+              ?.classList.add("active");
           }
           if (prefs.contentWidth) {
-            this.article.style.setProperty('--content-width', prefs.contentWidth);
+            this.article.style.setProperty(
+              "--content-width",
+              prefs.contentWidth,
+            );
             const width = Object.entries({
-              '45ch': 'narrow',
-              '65ch': 'medium',
-              '85ch': 'wide'
+              "45ch": "narrow",
+              "65ch": "medium",
+              "85ch": "wide",
             }).find(([value]) => value === prefs.contentWidth)?.[1];
             if (width) {
-              document.querySelector(`.width-btn[data-width="${width}"]`)?.classList.add('active');
+              document
+                .querySelectorAll(".width-btn")
+                .forEach((b) => b.classList.remove("active"));
+              document
+                .querySelector(`.width-btn[data-width="${width}"]`)
+                ?.classList.add("active");
             }
           }
         }
-        if (prefs.theme) {
-          this.setTheme(prefs.theme);
-          document.querySelector(`.theme-btn[data-theme="${prefs.theme}"]`)?.classList.add('active');
-        }
+
+        this.setTheme(activeTheme);
+        document
+          .querySelectorAll(".theme-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(
+            `.theme-btn[data-theme="${activeTheme === "dark" || activeTheme === "light" || activeTheme === "sepia" ? activeTheme : "auto"}"]`,
+          )
+          ?.classList.add("active");
       } catch (e) {
-        console.error('Failed to load article preferences:', e);
+        console.error("Failed to load article preferences:", e);
       }
     }
   }
 
-  // Initialize controls when the DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
-    new ArticleControls();
+  // Initialize controls when the page loads
+  document.addEventListener("astro:page-load", () => {
+    if (document.querySelector("article.post")) {
+      new ArticleControls();
+    }
   });
-</script> 
+</script>

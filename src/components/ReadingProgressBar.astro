@@ -37,70 +37,72 @@
 
 <script>
   class ReadingProgress {
-    private progressBar: HTMLElement | null;
-    private progressText: HTMLElement | null;
-    private container: HTMLElement | null;
+    private progressBar: HTMLElement | null = null;
+    private progressText: HTMLElement | null = null;
+    private container: HTMLElement | null = null;
     private isVisible: boolean = false;
 
     constructor() {
-      this.progressBar = document.getElementById('reading-progress-bar');
-      this.progressText = document.getElementById('reading-progress-text');
-      this.container = document.getElementById('reading-progress-container');
-      
       this.init();
     }
 
     private init(): void {
+      this.progressBar = document.getElementById("reading-progress-bar");
+      this.progressText = document.getElementById("reading-progress-text");
+      this.container = document.getElementById("reading-progress-container");
+
       if (!this.progressBar || !this.progressText || !this.container) return;
 
       this.updateProgress();
-      window.addEventListener('scroll', this.throttle(this.updateProgress.bind(this), 16));
-      window.addEventListener('resize', this.throttle(this.updateProgress.bind(this), 100));
+      window.addEventListener(
+        "scroll",
+        this.throttle(this.updateProgress.bind(this), 16),
+      );
+      window.addEventListener(
+        "resize",
+        this.throttle(this.updateProgress.bind(this), 100),
+      );
     }
 
     private updateProgress(): void {
       if (!this.progressBar || !this.progressText || !this.container) return;
 
-      // Get the main content area
-      const contentElement = document.querySelector('.post-content') as HTMLElement;
+      const contentElement = document.querySelector(
+        ".post-content",
+      ) as HTMLElement;
       if (!contentElement) return;
 
       const viewportHeight = window.innerHeight;
       const contentHeight = contentElement.scrollHeight;
       const contentTop = contentElement.offsetTop;
       const scrollTop = window.pageYOffset;
-      
-      // Check if content is too short to require scrolling
+
       const isContentShort = contentHeight <= viewportHeight * 1.5;
-      
+
       if (isContentShort) {
-        // For short content, don't show progress bar or show minimal progress
         if (this.isVisible) {
-          this.container.classList.remove('visible');
+          this.container.classList.remove("visible");
           this.isVisible = false;
         }
         return;
       }
-      
-      // Calculate scroll progress within the content area
-      const contentStart = contentTop - 100; // Start showing a bit before content
+
+      const contentStart = contentTop - 100;
       const contentEnd = contentTop + contentHeight - viewportHeight;
-      
-      // Show progress bar only when we're in the content area
+
       const shouldShow = scrollTop >= contentStart && contentEnd > contentStart;
-      
+
       if (shouldShow && !this.isVisible) {
-        this.container.classList.add('visible');
+        this.container.classList.add("visible");
         this.isVisible = true;
       } else if (!shouldShow && this.isVisible) {
-        this.container.classList.remove('visible');
+        this.container.classList.remove("visible");
         this.isVisible = false;
         return;
       }
 
       if (!this.isVisible) return;
 
-      // Calculate percentage read
       let progress = 0;
       if (scrollTop >= contentEnd) {
         progress = 100;
@@ -111,59 +113,53 @@
       }
 
       progress = Math.max(0, Math.min(100, progress));
-      
-      // Update the progress bar
       this.progressBar.style.width = `${progress}%`;
-      
-      // Update the text
+
       const progressPercent = Math.round(progress);
-      const remaining = 100 - progressPercent;
-      this.progressText.textContent = remaining > 0 ? `${remaining}% left` : 'Complete!';
+      this.progressText.textContent = `${progressPercent}%`;
     }
 
     private throttle(func: Function, delay: number): () => void {
       let timeoutId: ReturnType<typeof setTimeout>;
       let lastExecTime = 0;
-      
+
       return () => {
         const currentTime = Date.now();
-        
         if (currentTime - lastExecTime > delay) {
           func();
           lastExecTime = currentTime;
         } else {
           clearTimeout(timeoutId);
-          timeoutId = setTimeout(() => {
-            func();
-            lastExecTime = Date.now();
-          }, delay - (currentTime - lastExecTime));
+          timeoutId = setTimeout(
+            () => {
+              func();
+              lastExecTime = Date.now();
+            },
+            delay - (currentTime - lastExecTime),
+          );
         }
       };
     }
   }
 
-  // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("astro:page-load", () => {
     new ReadingProgress();
   });
 </script>
 
 <style>
-  /* Current Implementation: Top Bar */
   .reading-progress-container {
     position: fixed;
-    top: var(--header-height, 60px);
+    top: var(--header-height);
     left: 0;
     width: 100%;
-    height: 4px;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
+    height: 3px;
+    background: transparent;
+    z-index: 110;
     opacity: 0;
     transform: translateY(-100%);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
+    transition: all var(--transition-speed) var(--transition-ease);
+    pointer-events: none;
   }
 
   .reading-progress-container.visible {
@@ -174,120 +170,33 @@
   .reading-progress-bar {
     height: 100%;
     background: var(--accent);
-    border-radius: 0 2px 2px 0;
-    transition: width 0.1s ease-out;
+    transition: width 0.1s linear;
     min-width: 0;
-    box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 0 8px var(--accent);
   }
 
   .reading-progress-text {
     position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    background: var(--bg-secondary);
+    right: var(--spacing-sm);
+    top: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: var(--glass-bg);
     padding: 2px 8px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    backdrop-filter: blur(8px);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     white-space: nowrap;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
   }
 
-  /* Dark theme support - handled automatically by CSS variables */
-
-  /* Mobile optimizations */
   @media (max-width: 768px) {
     .reading-progress-container {
-      height: 3px;
-    }
-    
-    .reading-progress-text {
-      font-size: 11px;
-      padding: 1px 6px;
-      right: 8px;
+      height: 2px;
     }
   }
-
-  /* Alternative Implementation: Side Progress Bar (uncomment and change display to use) */
-  .reading-progress-side {
-    position: fixed;
-    left: 0;
-    top: var(--header-height, 60px);
-    bottom: 0;
-    width: 4px;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none; /* Change to 'block' to use this version */
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Alternative Implementation: Circular Progress (hidden by default) */
-  .reading-progress-circle {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 60px;
-    height: 60px;
-    background: var(--bg-secondary);
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    display: none; /* Change to 'flex' to use this version */
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    transform: scale(0.8);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(8px);
-  }
-
-  .reading-progress-circle.visible {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .progress-ring {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(-90deg);
-  }
-
-  .progress-ring-progress {
-    transition: stroke-dashoffset 0.1s ease-out;
-  }
-
-  .progress-text {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    text-align: center;
-  }
-
-  /* Reduce motion for users who prefer it */
-  @media (prefers-reduced-motion: reduce) {
-    .reading-progress-container,
-    .reading-progress-bar,
-    .reading-progress-circle {
-      transition: none;
-    }
-  }
-
-  /* High contrast mode */
-  @media (prefers-contrast: high) {
-    .reading-progress-bar {
-      background: var(--accent);
-      box-shadow: none;
-    }
-    
-    .reading-progress-text {
-      border-width: 2px;
-    }
-  }
-</style> 
+</style>

@@ -1,118 +1,143 @@
 :root {
-  /* Minimal spacing system */
+  /* Spacing system - Refined */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-  
-  --transition-speed: 0.25s;
-  --container-padding: 1.5rem;
-  --header-height: 60px;
-  --max-width: 720px;
+  --spacing-lg: 2.25rem;
+  --spacing-xl: 4rem;
 
-  /* Minimal typography */
-  --font-size-sm: 14px;
-  --font-size-base: 16px;
-  --font-size-lg: 20px;
-  --font-size-xl: 28px;
-  --font-size-xxl: 36px;
-  --line-height: 1.6;
-  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  
-  /* Minimal light theme */
+  --transition-speed: 0.3s;
+  --transition-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --container-padding: 2rem;
+  --header-height: 72px;
+  --max-width: 760px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Typography - Modern Geometric */
+  --font-sans: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1.0625rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.75rem;
+  --font-size-xxl: 2.5rem;
+  --font-size-xxxl: 3.5rem;
+
+  --line-height-tight: 1.2;
+  --line-height-base: 1.65;
+
+  /* Color Palette - "Dawn" (Soft & Clean) */
   --bg: #fafafa;
-  --bg-secondary: #ffffff;
-  --text: #0f0f0f;
-  --text-secondary: #404040;
-  --text-light: #525252;
-  --text-muted: #737373;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --border: #e4e4e7;
-  --code-bg: #f4f4f5;
+  --bg-secondary: rgba(244, 244, 245, 0.8);
+  --text: #171717;
+  --text-secondary: #525252;
+  --text-muted: #a3a3a3;
+  --accent: #4f46e5;
+  /* Indigo 600 */
+  --accent-secondary: #db2777;
+  /* Pink 600 */
+  --border: rgba(229, 231, 235, 0.8);
+  --glass-bg: rgba(250, 250, 250, 0.8);
+  --glass-border: rgba(229, 231, 235, 0.6);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --code-bg: #f5f5f5;
+}
 
-  /* Minimal dark theme */
-  --bg-dark: #0a0a0a;
-  --bg-secondary-dark: #171717;
-  --text-dark: #fafafa;
-  --text-secondary-dark: #d4d4d8;
-  --text-light-dark: #a1a1aa;
-  --text-muted-dark: #71717a;
-  --accent-dark: #3b82f6;
-  --accent-hover-dark: #2563eb;
-  --border-dark: #27272a;
-  --code-bg-dark: #171717;
+/* Dark Mode - "Midnight" (Elevation-based) */
+html.dark,
+html[data-theme="dark"] {
+  --bg: #030712;
+  --bg-secondary: rgba(17, 24, 39, 0.5);
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --accent: #818cf8;
+  --accent-secondary: #f472b6;
+  --border: rgba(31, 41, 55, 0.8);
+  --glass-bg: rgba(3, 7, 18, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --code-bg: #111827;
+}
+
+/* Sepia Mode - "Old Paper" */
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --bg-secondary: rgba(230, 221, 202, 0.5);
+  --text: #5b4636;
+  --text-secondary: #7c6656;
+  --text-muted: #9c8676;
+  --accent: #a6670e;
+  --accent-secondary: #8b4513;
+  --border: rgba(91, 70, 54, 0.15);
+  --glass-bg: rgba(244, 236, 216, 0.8);
+  --glass-border: rgba(91, 70, 54, 0.1);
+  --code-bg: #e8dfc8;
 }
 
 html {
   background: var(--bg);
   color: var(--text);
-  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--transition-speed) var(--transition-ease);
   font-size: var(--font-size-base);
-  line-height: var(--line-height);
+  line-height: var(--line-height-base);
   /* Prevent layout shift from scrollbar appearance */
   overflow-y: scroll;
   scrollbar-gutter: stable;
 }
 
-html.dark {
-  /* Override CSS variables for dark mode */
-  --bg: var(--bg-dark);
-  --bg-secondary: var(--bg-secondary-dark);
-  --text: var(--text-dark);
-  --text-secondary: var(--text-secondary-dark);
-  --text-light: var(--text-light-dark);
-  --text-muted: var(--text-muted-dark);
-  --accent: var(--accent-dark);
-  --accent-hover: var(--accent-hover-dark);
-  --border: var(--border-dark);
-  --code-bg: var(--code-bg-dark);
-}
+/* Dark mode is now handled by variables above */
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: var(--font-sans);
   margin: 0;
   padding: 0;
   max-width: 100%;
   overflow-x: hidden;
-  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Minimal typography */
-h1 {
-  font-size: var(--font-size-xxl);
-  font-weight: 600;
-  line-height: 1.3;
-  margin: 0 0 var(--spacing-md) 0;
+/* Typography - Premium */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sans);
   color: var(--text);
-  transition: color var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: var(--font-size-xxxl);
+  margin-top: 0;
 }
 
 h2 {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  line-height: 1.4;
-  margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-  color: var(--text);
-  transition: color var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: var(--font-size-xxl);
 }
 
 h3 {
-  font-size: var(--font-size-lg);
-  font-weight: 500;
-  line-height: 1.4;
-  margin: var(--spacing-md) 0 var(--spacing-xs) 0;
-  color: var(--text);
-  transition: color var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: var(--font-size-xl);
 }
 
 p {
   font-size: var(--font-size-base);
-  line-height: var(--line-height);
-  margin: 0 0 var(--spacing-sm) 0;
-  color: var(--text);
-  transition: color var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-secondary);
 }
 
 /* Minimal links */
@@ -130,22 +155,16 @@ a:hover {
 .main-content {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-  padding-bottom: var(--spacing-md);
+  padding: 0 var(--container-padding) var(--spacing-xl);
 }
 
 /* Responsive images with optimization */
 img {
   max-width: 100%;
   height: auto;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   margin: var(--spacing-sm) 0;
-  /* Default loading behavior for all images */
-  loading: lazy;
-  decoding: async;
-  /* Improve layout stability */
-  aspect-ratio: auto;
+  box-shadow: var(--shadow-md);
 }
 
 /* Override any inline width styles that might break responsive behavior */
@@ -154,42 +173,23 @@ img[style*="width"] {
   max-width: 100% !important;
 }
 
-/* Specific styling for content images */
+/* Glassmorphism Utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
 .main-content img {
   display: block;
-  margin: var(--spacing-md) auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  /* Add smooth transition for loading */
-  transition: opacity 0.3s ease;
-}
-
-/* Images while loading */
-.main-content img[loading="lazy"]:not([src]) {
-  opacity: 0;
-}
-
-.main-content img[loading="lazy"][src] {
-  opacity: 1;
-}
-
-/* For images that should be smaller (like memes or inline images) */
-.main-content img[src*="meme"] {
-  max-width: min(400px, 100%);
-  margin: var(--spacing-md) auto;
-}
-
-/* For larger content images like screenshots */
-.main-content img[src*="screenshot"],
-.main-content img[src*="comment"] {
-  max-width: 100%;
   margin: var(--spacing-lg) auto;
+  transition: transform 0.3s var(--transition-ease);
 }
 
-/* Critical/hero images (first image) should load eagerly */
-.main-content > :first-child img,
-.post-content > :first-child img {
-  loading: eager !important;
-  fetchpriority: high;
+.main-content img:hover {
+  transform: scale(1.01);
 }
 
 /* Minimal code styling */
@@ -267,8 +267,8 @@ footer {
   border-top: 1px solid var(--border);
   text-align: center;
   transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
+}
+
 .footer-text {
   font-size: var(--font-size-sm);
   color: var(--text-light);
@@ -280,18 +280,19 @@ footer {
   justify-content: center;
   gap: var(--spacing-sm);
   margin: var(--spacing-sm) 0;
-  }
+}
 
 /* Lists */
-ol, ul {
+ol,
+ul {
   padding-left: var(--spacing-md);
-    margin: var(--spacing-sm) 0;
-  }
+  margin: var(--spacing-sm) 0;
+}
 
 li {
   margin-bottom: 0.3em;
   color: var(--text);
-  }
+}
 
 /* Mobile responsive */
 @media (max-width: 600px) {
@@ -313,7 +314,7 @@ li {
     font-size: 12px;
     padding: 0.25em 0.5em;
   }
-  }
+}
 
 /* Utility classes */
 .treety-link {
@@ -360,4 +361,3 @@ html {
   scrollbar-width: thin;
   scrollbar-color: var(--border) var(--bg);
 }
-
