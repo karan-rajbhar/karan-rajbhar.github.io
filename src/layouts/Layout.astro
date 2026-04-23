@@ -2,7 +2,7 @@
 import Header from '../components/Header.astro';
 import SearchOverlay from '../components/SearchOverlay.astro';
 import SEO from '../components/SEO.astro';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -37,7 +37,7 @@ const {
       type={type}
     />
     
-    <ViewTransitions />
+    <ClientRouter />
 
     <script is:inline>
       const theme = (() => {

@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import ArticlesOverview from "./ArticleOverview.astro";
-import OptimizedImage from "./OptimizedImage.astro";
 const allArticles = await getCollection("articles");
 
 const recent = allArticles

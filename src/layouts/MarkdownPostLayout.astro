@@ -4,21 +4,13 @@ import ReadingProgressBar from "../components/ReadingProgressBar.astro";
 
 const { frontmatter } = Astro.props;
 
-// Calculate reading time (rough estimate: 200 words per minute)
-const calculateReadingTime = (content: string) => {
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / 200);
-  return `PT${minutes}M`; // ISO 8601 duration format for structured data
-};
-
 // Get the raw content for reading time calculation
 const content = await Astro.slots.render("default");
-const readingTime = calculateReadingTime(content);
 
 // Process code blocks with clean approach
 const processedContent = content.replace(
   /```(\w+)?(?:\s+([^\n]+))?\n([\s\S]*?)```/g,
-  (match, lang, possibleFilename, code) => {
+  (_match, lang, possibleFilename, code) => {
     const language = lang || "text";
     const cleanCode = code.trim();
 

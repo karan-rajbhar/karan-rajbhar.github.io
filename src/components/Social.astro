@@ -18,7 +18,7 @@ const icons = {
   target="_blank"
   class="social-link"
   aria-label={`${platform} Profile`}
-  set:html={icons[platform]}
+  set:html={icons[platform as keyof typeof icons]}
 />
 
 <style>

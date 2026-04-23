@@ -27,16 +27,12 @@ import "@pagefind/default-ui/css/ui.css";
         searchInstance.destroy();
       }
 
-      // Get current theme
-      const isDark = document.documentElement.classList.contains('dark');
-
       searchInstance = new PagefindUI({
         element: "#search",
         showImages: false,
         resetStyles: false,
         showEmptyFilters: false,
         debounceTimeoutMs: 300,
-        baseTheme: isDark ? "dark" : "light",
       });
 
       // Focus search input on page load

@@ -155,21 +155,19 @@ const AI_ACTIONS = [
   </div>
 </div>
 
-<script define:vars={{ AI_SERVICES, AI_ACTIONS }}>
+<script is:inline define:vars={{ AI_SERVICES, AI_ACTIONS }}>
   let selectedText = "";
-  let currentStep = "actions";
   let selectedAction = null;
   let isArticlePage = false;
   let headerText = null;
 
-  function showServiceSelection(fromSelection) {
+  function showServiceSelection() {
     const serviceSelection = document.getElementById("serviceSelection");
     const actionSelection = document.getElementById("actionSelection");
     headerText = document.getElementById("headerText");
 
     if (!serviceSelection || !actionSelection || !headerText) return;
 
-    currentStep = "services";
     actionSelection.style.display = "none";
     serviceSelection.style.display = "block";
     headerText.textContent = "Choose AI Service";
@@ -270,7 +268,6 @@ const AI_ACTIONS = [
   }
 
   function resetState() {
-    currentStep = "actions";
     selectedAction = null;
     const actionSelection = document.getElementById("actionSelection");
     const serviceSelection = document.getElementById("serviceSelection");
@@ -342,7 +339,6 @@ const AI_ACTIONS = [
     });
 
     backToActions.addEventListener("click", () => {
-      currentStep = "actions";
       actionSelection.style.display = "flex";
       serviceSelection.style.display = "none";
       headerText = document.getElementById("headerText");
@@ -359,11 +355,9 @@ const AI_ACTIONS = [
         selectedAction = AI_ACTIONS.find((a) => a.id === action) || null;
 
         if (selectionWidget.contains(target)) {
-          currentStep = "services";
           selectionWidget.style.display = "none";
-          showServiceSelection(true);
+          showServiceSelection();
         } else {
-          currentStep = "services";
           actionSelection.style.display = "none";
           serviceSelection.style.display = "block";
           headerText = document.getElementById("headerText");
