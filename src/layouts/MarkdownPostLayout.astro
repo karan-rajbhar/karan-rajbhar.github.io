@@ -118,10 +118,12 @@ const processedContent = content.replace(
     />
     <meta itemprop="description" content={frontmatter.description} />
 
-    <!-- Remark42 Comments -->
+    <!-- Giscus Comments -->
     <div class="post-comments">
       <h2>Comments</h2>
-      <div id="remark42"></div>
+      <div class="giscus-container">
+        <div class="giscus"></div>
+      </div>
     </div>
   </article>
 </BaseLayout>
@@ -155,29 +157,6 @@ const processedContent = content.replace(
   hljs.registerLanguage("xml", xml);
   hljs.registerLanguage("sql", sql);
   hljs.registerLanguage("ini", ini);
-
-  // Type declaration for REMARK42
-  declare global {
-    interface Window {
-      REMARK42?: {
-        changeTheme: (theme: "dark" | "light") => void;
-      };
-      remark_config: {
-        host: string;
-        site_id: string;
-        components: string[];
-        max_shown_comments: number;
-        theme: "dark" | "light";
-        url?: string;
-        page_title?: string;
-        locale?: string;
-        show_email_subscription?: boolean;
-        show_rss_subscription?: boolean;
-        simple_view?: boolean;
-        no_footer?: boolean;
-      };
-    }
-  }
 
   // Initialize highlighting and functionality
   const initPost = () => {
@@ -213,51 +192,67 @@ const processedContent = content.replace(
     });
   };
 
-  document.addEventListener("astro:page-load", initPost);
+  // Load Giscus Comments
+  const loadGiscus = () => {
+    const container = document.querySelector(".giscus");
+    if (!container) return;
 
-  // Remark42 initialization
-  window.remark_config = {
-    host: "https://comments.dionsyus.online",
-    site_id: "karan-rajbhar-github-io",
-    components: ["embed"],
-    max_shown_comments: 10,
-    theme: window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light",
-    url: window.location.origin + window.location.pathname,
-    page_title: document.title,
-    locale: "en",
-    show_email_subscription: false,
-    show_rss_subscription: false,
-    simple_view: false,
-    no_footer: false,
+    // Clear any previous iframe/content (handles Astro view transitions)
+    container.innerHTML = "";
+
+    const isDark = document.documentElement.classList.contains("dark");
+    const theme = isDark ? "dark" : "light";
+
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", "karan-rajbhar/karan-rajbhar.github.io");
+    script.setAttribute("data-repo-id", "R_kgDOJ7xJRA");
+    script.setAttribute("data-category", "General");
+    script.setAttribute("data-category-id", "DIC_kwDOJ7xJRM4DFjuS");
+    script.setAttribute("data-mapping", "pathname");
+    script.setAttribute("data-strict", "0");
+    script.setAttribute("data-reactions-enabled", "1");
+    script.setAttribute("data-emit-metadata", "0");
+    script.setAttribute("data-input-position", "top");
+    script.setAttribute("data-theme", theme);
+    script.setAttribute("data-lang", "en");
+    script.setAttribute("data-loading", "lazy");
+    script.setAttribute("crossorigin", "anonymous");
+    script.async = true;
+
+    container.appendChild(script);
   };
 
-  // Load Remark42 script
-  const script = document.createElement("script");
-  script.src = window.remark_config.host + "/web/embed.js";
-  script.defer = true;
-  (document.head || document.body).appendChild(script);
-
-  // Watch for theme changes
-  const updateRemark42Theme = () => {
+  // Dynamically update Giscus theme when site theme toggles
+  const updateGiscusTheme = () => {
     const isDark = document.documentElement.classList.contains("dark");
-    if (window.REMARK42) {
-      window.REMARK42.changeTheme(isDark ? "dark" : "light");
-    } else if (window.remark_config) {
-      window.remark_config.theme = isDark ? "dark" : "light";
-    }
+    const theme = isDark ? "dark" : "light";
+    const iframe = document.querySelector<HTMLIFrameElement>(
+      "iframe.giscus-frame"
+    );
+    if (!iframe || !iframe.contentWindow) return;
+
+    iframe.contentWindow.postMessage(
+      {
+        giscus: {
+          setConfig: {
+            theme: theme,
+          },
+        },
+      },
+      "https://giscus.app"
+    );
   };
 
   document.addEventListener("astro:page-load", () => {
-    // Initial theme setup
-    updateRemark42Theme();
+    initPost();
+    loadGiscus();
 
     // Watch for theme changes using MutationObserver
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === "class") {
-          updateRemark42Theme();
+          updateGiscusTheme();
         }
       });
     });
@@ -306,6 +301,11 @@ const processedContent = content.replace(
     font-size: var(--font-size-lg);
     margin-bottom: var(--spacing-md);
     color: var(--text);
+  }
+
+  .giscus-container {
+    min-height: 250px;
+    margin-top: var(--spacing-md);
   }
 
   .post-tags {
