@@ -6,11 +6,26 @@ image:
     url: "/images/post-4/thumbnail.png"
     alt: "Thumbnail"
 author: 'Karan Rajbhar'
-tags: ["Oracle Cloud", "Comments" ,"static Site" ,"nginx" , "isso" ,"remark42"]
+tags: ["Oracle Cloud", "Comments" ,"static Site" ,"nginx" , "isso" ,"remark42", "giscus"]
 slug: "adding-comments-to-static-site"
 ---
 
-> **Update (2025  May)**: Since writing this article, I've switched from Isso to Remark42 for its simpler Docker-based deployment and better maintainability. While the article below describes the Isso setup, I'm now using Remark42 which can be deployed using a simple docker-compose file:
+> **Update (2026 September) — The Move to Giscus (Serverless & Zero Maintenance)**: 
+> After running self-hosted comment systems (first Isso, then Remark42) on an Oracle Cloud VM for nearly three years, I've officially retired the VM and migrated to **[Giscus](https://giscus.app/)**.
+> 
+> **Why did we move away from self-hosting?**
+> 1. **Domain & SSL Fragility**: Self-hosting required maintaining a custom domain (`comments.dionsyus.online`) with SSL certificates. When that domain registration lapsed, DNS returned `NXDOMAIN`, and because GitHub Pages enforces HTTPS, browsers completely blocked the insecure HTTP fallback due to Mixed Content security rules.
+> 2. **Operational Overhead**: Running an entire cloud compute instance 24/7 with Docker, Nginx, firewall rules, and OS updates just to host a comment widget on a static personal blog proved to be complete overkill.
+> 3. **Why Giscus Won**:
+>    - **100% Serverless & Free**: Powered entirely by **GitHub Discussions** — zero servers, zero databases, and zero domain renewals required.
+>    - **Reliability**: Backed by GitHub's infrastructure, guaranteeing 100% uptime without server reboots or disk cleanup.
+>    - **Community-Friendly**: Visitors can sign in and comment using their GitHub accounts with full Markdown support, syntax highlighting, and reaction emojis (👍, ❤️, 🚀).
+>    - **Clean Separation**: Unlike Utterances which clutters repository Issues, Giscus cleanly uses the Discussions tab.
+>    - **Dynamic Dark Mode**: Real-time theme synchronization with the site's dark mode toggle via the `postMessage` API.
+>
+> With Giscus now in place, the Oracle Cloud instance has been terminated. The original setups (Remark42 and Isso) are documented below for historical reference!
+
+> **Update (2025 May)**: Prior to Giscus, I transitioned from Isso to Remark42 for its simpler Docker-based deployment:
 > ```yaml
 > version: "2"
 > services:
@@ -26,7 +41,7 @@ slug: "adding-comments-to-static-site"
 >     ports:
 >       - "8080:8080"
 > ```
->In frontend the integration is simple just add the script tag to the page and add the div id to the page where you want the comments to appear.
+>In frontend the integration was simple: add the script tag to the page and add the div id where comments should appear.
 >```javascript
 >  // Remark42 initialization
 >  window.remark_config = {
@@ -47,7 +62,7 @@ slug: "adding-comments-to-static-site"
 >
 >![Remark42 comment system screenshot](/images/post-4/remark42-comment.png)
 >
-> The switch to Remark42 has significantly simplified the maintenance while providing a better user experience. The original article continues below, documenting my initial journey with Isso.
+> The original article documenting the initial setup with Isso follows below.
 
 
 
@@ -492,5 +507,13 @@ You've done it! Your static site is now a lively hub for discussions, thanks to 
 Now, your site is more than static—it's buzzing with user engagement. Embracing self-hosted solutions like Isso ensures you have control and privacy.
 
 Cheers to fostering meaningful discussions on your site! Any questions or thoughts? Reach out anytime. Happy commenting!
+
+---
+
+## Epilogue (2026): The Final Form
+
+What began as an experiment deploying Isso on an Oracle Cloud compute instance, transitioned to Remark42 in Docker, has now found its permanent home in **[Giscus](https://giscus.app/)**. 
+
+While setting up and maintaining self-hosted infrastructure on Oracle Cloud was a great learning experience, comments on a personal static site are best served by tools that require **zero maintenance, zero cloud servers, and zero domain fees**. Giscus combined with GitHub Discussions gives us full control, great community interaction, and true peace of mind.
 
 
